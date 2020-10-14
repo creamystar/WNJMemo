@@ -1,0 +1,201 @@
+
+.body {
+  width: 100%;
+  height: 100vh;
+  background-color: lightgray;
+}
+.top {
+  width: 100%;
+  height: 95%;
+  overflow: auto;
+  position: absolute;
+
+}
+.left {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 300px);
+  height: 100%;
+  color: white;
+}
+
+.header {
+  width: calc(100% - 40px);
+  height: 25px;
+  margin: 40px 20px 0 20px;
+  border-bottom: 2px solid white;
+}
+
+.con {
+  background-color: green;
+  width: calc(100% - 40px);
+  height: calc(100% - 137px);
+  margin: 10px 0 0 20px;
+}
+
+.right {
+  display: inline-block;
+  width: 300px;
+  height: 100%;
+  float: right;
+  background-color: white;
+  box-shadow: 5px 5px 5px 5px gray;
+}
+
+.rightIcon {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: calc(100% - 50px);
+  z-index: 200;
+  vertical-align: top;
+  background-image: url('./image/menu-icon.png');
+  background-repeat: no-repeat;
+  background-size: 22px 25px;
+  background-position: 45% 55%;
+  display: none;
+  cursor: pointer;
+}
+.rightIcon:hover{
+  background-size: 25px 27px;
+}
+
+@media screen and (max-width: 600px) {
+  .right {
+      display: none;
+  }
+  .left {
+      width: 100%;
+  }
+  .rightIcon {
+      display: inline-block;
+  }
+}
+
+.searchs {
+  margin-top: 18px;
+  margin-left: 20px;
+  height: calc(50% - 18px);
+  width: calc(100% - 20px);
+}
+#searchTxt {
+  width: 80%;
+  height: 25px;
+  vertical-align: top;
+  border: 1px solid black;
+  outline: 0;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+.buttons {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+#writeBtn, #listSeqSaveBtn {
+  vertical-align: top;
+  cursor: pointer;
+  height: 30px;
+  width: 80px;
+  border-radius: .25rem;
+  background-color: rgba(255,255,255, 0);
+  border: 1.5px solid white;
+  outline: 0;
+  font-size: 9pt;
+  font-weight: 500;
+  color: white;
+  margin-right: 10px;
+}
+#writeBtn:hover, #listSeqSaveBtn:hover{
+  font-size: 10pt;
+  height: 30px;
+  width: 80px;
+}
+#searchBtn {
+  cursor: pointer;
+  height: 30px;
+  width: 33px;
+  font-size: 8.5pt;
+  font-weight: bold;
+  background-color: black;
+  background-image: url('./image/search-white.png');
+  background-repeat: no-repeat;
+  background-size: 23px 23px;
+  background-position: 45% 40%;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+  border: 0;
+  outline: 0;
+  color: white;
+  vertical-align: top;
+}
+#searchBtn:hover {
+  background-size: 27px 27px;
+}
+.searchRes {
+  background-color: yellowgreen;
+  height: calc(100% - 50px);
+  margin-top: 10px;
+  width: calc(100% - 20px);
+}
+.hashtagTitle{
+  height: 25px;
+  margin-left: 20px;
+  font-size: 10pt;
+  border-bottom: 1px solid gray;
+  color: gray;
+  margin-right: 20px;
+}
+.hashtags{
+  height: calc(50% - 55px);
+  margin-top: 5px;
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  overflow: auto;
+}
+.hashtags  div {
+  display: inline-block;
+  background-color: gray;
+  border-radius: .25rem;
+  font-size: 9pt;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 7px;
+  margin-right: 7px;
+}
+.hashtags > div:nth-child(1){
+  background-color: #bb3030;
+}
+.hashtags > div:nth-child(2){
+  background-color: #ec1c1c;
+}
+.hashtags > div:nth-child(3){
+  background-color: #ec651c;
+}
+.hashtags > div:nth-child(4){
+  background-color: #eca01c;
+}
+.hashtags > div:nth-child(5){
+  background-color: #ecbf1c;
+}
+
+
+.footer {
+  background-color: black;
+  height: 5%;
+  min-height: 20px;
+  width: 100%;
+  color: white;
+  font-size: 7pt;
+  display: table;
+  position: absolute;
+  top: 95%;
+}
+
+.footer > div {
+  display: table-cell;
+  vertical-align: middle;
+  text-indent: 20px;
+}
