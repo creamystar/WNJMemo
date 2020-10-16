@@ -3,7 +3,7 @@ import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
 import MemoCrud from './component/MemoCrud';
-
+import axios from "axios";
 import _ from "lodash";
 import RGL, { WidthProvider } from "react-grid-layout";
 import './component/gridStyle.css';
@@ -14,56 +14,94 @@ class BasicLayout extends React.PureComponent {
 
   static defaultProps = {
     className: "layout",
-    items: 11,
-    rowHeight: 30,
+    rowHeight: 100,
+    cols: 10,
+    // rowHeight: 30,
     onLayoutChange: function() {},
-    cols: 10
   };
 
   constructor(props) {
     super(props);
 
-    const layout = this.generateLayout();
-    this.state = { layout };
+    this.state = { 
+      items: [0,1,2,3,4].map(function(i, key, list) {
+        return {
+          i: i.toString(),
+          x: i * 2,
+          y: 0,
+          w: 2,
+          h: 2,
+        };
+      }),
+      newCounter: 0 
+    };
+    this.onAddItem = this.onAddItem.bind(this);
+    this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
-
-  generateDOM() {
-    return _.map(_.range(this.props.items), function(i) {
-      return (
-        <div key={i}>
-          <span className="text">{i}</span>
-        </div>
-      );
-    });
-  }
-
-  generateLayout() {
-    const p = this.props;
-    return _.map(new Array(p.items), function(item, i) {
-      const y = _.result(p, "y") || Math.ceil(Math.random() * 4) + 1;
-      return {
-        x: (i * 2) % 12,
-        y: Math.floor(i / 6) * y,
+  onAddItem() { 
+    // 메모 추가기능 수정시 같이 수정할 예정 -김누리
+    console.log("adding", "n" + this.state.newCounter);
+    this.setState({
+      // Add a new item. It must have a unique key!
+      items: this.state.items.concat({
+        i: "n" + this.state.newCounter,
+        x: (this.state.items.length * 2) % (this.state.cols || 10),
+        y: Infinity, // puts it at the bottom
         w: 2,
-        h: y,
-        i: i.toString()
-      };
+        h: 2
+      }),
+      // Increment the counter to ensure key is always unique.
+      newCounter: this.state.newCounter + 1
     });
   }
-
+  createElement(el) {
+    const removeStyle = {
+      position: "absolute",
+      right: "2px",
+      top: 0,
+      cursor: "pointer"
+    };
+    const i = el.i;
+    return (
+      <div key={i} data-grid={el}>
+        {<span className="text">{i}</span>}
+        <span
+          className="remove"
+          style={removeStyle}
+          onClick={this.onRemoveItem.bind(this, i)}
+        >
+          x
+        </span>
+      </div>
+    );
+  }
+  onBreakpointChange(breakpoint, cols) {
+    this.setState({
+      breakpoint: breakpoint,
+      cols: cols
+    });
+  }
   onLayoutChange(layout) {
     this.props.onLayoutChange(layout);
+  }
+  onRemoveItem(i) {
+    console.log("removing", i);
+    this.setState({ items: _.reject(this.state.items, { i: i }) });
   }
 
   render() {
     return (
-      <ReactGridLayout
-        layout={this.state.layout}
-        onLayoutChange={this.onLayoutChange}
-        {...this.props}
-      >
-        {this.generateDOM()}
-      </ReactGridLayout>
+      <div>
+        {/* 추가버튼 삭제 예정 */}
+        <button onClick={this.onAddItem}>Add Item</button> 
+        <ReactGridLayout
+          onBreakpointChange={this.onBreakpointChange}
+          onLayoutChange={this.onLayoutChange}
+          {...this.props}
+        >
+          {_.map(this.state.items, el => this.createElement(el))}
+        </ReactGridLayout>
+      </div>
     );
   }
 }
@@ -79,7 +117,8 @@ class App extends Component {
     super(props);
     this.state = {
       message: '여행',
-      leftTitle: '여행'
+      leftTitle: '여행',
+      bmessage: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.searchBtnClick = this.searchBtnClick.bind(this);
@@ -126,6 +165,22 @@ class App extends Component {
   selectChange(e){
     alert(e.target.value);
   }
+  // Axios 예제
+  componentDidMount() {
+    this.getApi();
+  }
+
+  getApi = () => {
+      axios.get("http://localhost:8080/select")
+          .then(res => {
+              console.log(res);
+              this.setState({
+                bmessage: res.data.message
+              })
+          })
+          .catch(res => console.log(res))
+  }
+  //--End Axios
 
   render() {
     return(

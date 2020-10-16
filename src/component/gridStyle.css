@@ -1,5 +1,5 @@
 .con > div > div {
-    background-color: rgb(255,255,255);
+    /* background-color: rgb(255,255,255); 김누리 수정 201016*/
     color: black;
     text-indent: 10px;
     font-size: 9.5pt;
@@ -15,6 +15,7 @@
     transition: height 200ms ease;
   }
   .react-grid-item {
+    background-color: white; /* 김누리 추가 201016 */
     transition: all 200ms ease;
     transition-property: left, top;
   }
