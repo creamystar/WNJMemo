@@ -3,13 +3,17 @@
   width: 100%;
   height: 100vh;
   background-color: lightgray;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .top {
   width: 100%;
   height: 95%;
   overflow: auto;
   position: absolute;
-
+  top: 0;
+  left: 0;
 }
 .left {
   display: inline-block;
@@ -23,14 +27,26 @@
   width: calc(100% - 40px);
   height: 25px;
   margin: 40px 20px 0 20px;
-  border-bottom: 2px solid white;
+  border-bottom: 1.4px solid white;
+  font-size: 10.5pt;
 }
 
 .con {
-  background-color: green;
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   height: calc(100% - 137px);
-  margin: 10px 0 0 20px;
+  margin: 10px 0 0 10px;
+  overflow: auto;
+}
+
+.con::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.4);
+}
+.con::-webkit-scrollbar-thumb{
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 6px;
 }
 
 .right {
@@ -47,7 +63,7 @@
   height: 40px;
   position: absolute;
   left: calc(100% - 50px);
-  z-index: 200;
+  z-index: 9;
   vertical-align: top;
   background-image: url('./image/menu-icon.png');
   background-repeat: no-repeat;
@@ -131,12 +147,7 @@
 #searchBtn:hover {
   background-size: 27px 27px;
 }
-.searchRes {
-  background-color: yellowgreen;
-  height: calc(100% - 50px);
-  margin-top: 10px;
-  width: calc(100% - 20px);
-}
+
 .hashtagTitle{
   height: 25px;
   margin-left: 20px;
@@ -145,50 +156,7 @@
   color: gray;
   margin-right: 20px;
 }
-.hashtags{
-  height: calc(50% - 55px);
-  margin-top: 5px;
-  width: calc(100% - 40px);
-  margin-left: 20px;
-  overflow: auto;
-}
-.hashtags::-webkit-scrollbar {
-  width: 8px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.4);
-}
-.hashtags::-webkit-scrollbar-thumb{
-  background-color: rgba(0,0,0,0.3);
-  border-radius: 6px;
-}
-.hashtags  div {
-  display: inline-block;
-  background-color: gray;
-  border-radius: .25rem;
-  font-size: 9pt;
-  color: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: 7px;
-  margin-right: 7px;
-}
-.hashtags > div:nth-child(1){
-  background-color: #bb3030;
-}
-.hashtags > div:nth-child(2){
-  background-color: #ec1c1c;
-}
-.hashtags > div:nth-child(3){
-  background-color: #ec651c;
-}
-.hashtags > div:nth-child(4){
-  background-color: #eca01c;
-}
-.hashtags > div:nth-child(5){
-  background-color: #ecbf1c;
-}
+
 
 
 .footer {
@@ -208,3 +176,4 @@
   vertical-align: middle;
   text-indent: 20px;
 }
+

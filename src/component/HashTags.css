@@ -1,0 +1,64 @@
+.hashtags{
+    height: calc(50% - 55px);
+    margin-top: 5px;
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    overflow: auto;
+  }
+  .hashtags::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.4);
+  }
+  .hashtags::-webkit-scrollbar-thumb{
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 6px;
+  }
+  .hashtags  div {
+    display: inline-block;
+    background-color: gray;
+    border-radius: .25rem;
+    font-size: 9pt;
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 7px;
+    margin-right: 7px;
+    cursor: pointer;
+  }
+  .hashtags  div:hover {
+    font-weight: bold;
+    background-color: #636363;
+  }
+  .hashtags > div:nth-child(1){
+    background-color: #bb3030;
+  }
+  .hashtags > div:nth-child(1):hover{
+    background-color: #832b2b;
+  }
+  .hashtags > div:nth-child(2){
+    background-color: #ec1c1c;
+  }
+  .hashtags > div:nth-child(2):hover{
+    background-color: #b32121;
+  }
+  .hashtags > div:nth-child(3){
+    background-color: #ec651c;
+  }
+  .hashtags > div:nth-child(3):hover{
+    background-color: #a85223;
+  }
+  .hashtags > div:nth-child(4){
+    background-color: #eca01c;
+  }
+  .hashtags > div:nth-child(4):hover{
+    background-color: #bd8524;
+  }
+  .hashtags > div:nth-child(5){
+    background-color: #ecbf1c;
+  }
+  .hashtags > div:nth-child(5):hover{
+    background-color: #bb991c;
+  }
