@@ -8,21 +8,6 @@ import _ from "lodash";
 import RGL, { WidthProvider } from "react-grid-layout";
 import './component/gridStyle.css';
 
-var resizeId = "";
-
-window.addEventListener('resize', function(){
-    clearTimeout(resizeId);
-    resizeId = setTimeout(doneResizing, 250);
-});
-
-function doneResizing(){
-  if(window.innerWidth === "600px"){
-    this.rightBarControl();
-  }
-    console.log('doneResizing Window Width: '+window.innerWidth);
-    //반응형 레이아웃 처리
-}
-
 const ReactGridLayout = WidthProvider(RGL);
 
 class BasicLayout extends React.PureComponent {
@@ -103,6 +88,8 @@ class App extends Component {
   writeBtnClick() {
     //메모 에디터 show 
     document.getElementById("memoCrudAll").style.display="block";
+    document.getElementById("wrap").style.display="block";
+    document.getElementById("editorSpace").style.display="block";
   }
   listSeqSaveBtnClick(){
     alert('배치저장');
@@ -136,9 +123,10 @@ class App extends Component {
       document.getElementById("rightIcon").value="1";
     }
   }
-  rightBarControl(){
-    document.getElementById("right").style = "display: inline-block; width: 300px; height: 100%; float: right;";
+  selectChange(e){
+    alert(e.target.value);
   }
+
   render() {
     return(
         <div className="body">
@@ -154,7 +142,10 @@ class App extends Component {
                     <input type="button" id="listSeqSaveBtn" onClick={this.listSeqSaveBtnClick} value="배치저장" />
                   </div>
                   <div className="rightselects">
-
+                    <select id="selects" onChange={this.selectChange}>
+                      <option value="최신순">최신순</option>
+                      <option value="사용자저장순">사용자저장순</option>
+                    </select>
                   </div>
                   <div className="con">
                     <BasicLayout/>

@@ -49,15 +49,6 @@
   border-radius: 6px;
 }
 
-.right {
-  display: inline-block;
-  width: 300px;
-  height: 100%;
-  float: right;
-  background-color: white;
-  box-shadow: 5px 5px 5px 5px gray;
-}
-
 .rightIcon {
   width: 40px;
   height: 40px;
@@ -75,10 +66,24 @@
 .rightIcon:hover{
   background-size: 25px 27px;
 }
-
+@media (min-width: 600px) {
+  .right {
+    display: inline-block;
+    width: 300px;
+    height: 100%;
+    float: right;
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+}
 @media screen and (max-width: 600px) {
   .right {
-      display: none;
+    display: none;
+    width: 300px;
+    height: 100%;
+    float: right;
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px gray;
   }
   .left {
       width: 100%;
@@ -106,7 +111,47 @@
 .buttons {
   margin-top: 10px;
   margin-left: 20px;
+  display: inline-block;
+  vertical-align: top;
 }
+.rightselects {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+  float: right;
+  margin-right: 20px;
+}
+#selects {
+  cursor: pointer;
+  height: 30px;
+  width: 110px;
+  border-radius: .25rem;
+  background-color: rgba(255,255,255, 0);
+  border: 1.5px solid white;
+  outline: 0;
+  font-size: 9pt;
+  font-weight: 500;
+  color: white;
+  
+}
+#selects:hover {
+  cursor: pointer;
+  height: 30px;
+  width: 110px;
+  border-radius: .25rem;
+  background-color: rgba(255,255,255, 0);
+  border: 1.5px solid white;
+  outline: 0;
+  font-size: 10pt;
+  font-weight: 500;
+  color: white;
+}
+#selects:focus {
+  background-color: lightgray;
+  outline: 0;
+  border: 1.5px solid white;
+}
+
 #writeBtn, #listSeqSaveBtn {
   vertical-align: top;
   cursor: pointer;
