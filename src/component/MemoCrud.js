@@ -13,16 +13,19 @@ class MemoCrud extends Component {
     exit(){
         document.getElementById("memoCrudAll").style.display="none";
     }
+    cancleClick(){
+        document.getElementById("memoCrudAll").style.display="none";
+    }
     
     render() {
         return (
             <div id="memoCrudAll">
-                <div className="wrap" onClick={this.exit}></div>
-                <div className="editorSpace">
+                <div className="wrap" id="wrap" onClick={this.exit}></div>
+                <div className="editorSpace" id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
-                        <input type="button" id="writeEditorBtn" value="완료"/>
-                        <input type="button" id="cancleEditorBtn" value="취소"/>
+                        <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick}/>
+                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick}/>
                     </div>
                     <CKEditor
                         editor={ ClassicEditor }
