@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RGL, { WidthProvider } from "react-grid-layout";
+import _ from "lodash";
 import axios from "axios";
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -64,6 +65,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         >
           x
         </span>
+        {el.mdate}
+        {el.mcon}
       </div>
     );
   }
@@ -88,7 +91,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   getMemo = () => {
     axios.get('http://localhost:8080/select')
     .then(res => {
-        const memo = res.data.map(function(i, key, list) {
+        const memo = res.data.map(function(i:any, key:any, list:any) {
             return {
               i: key.toString(),
               x: key * 2,
