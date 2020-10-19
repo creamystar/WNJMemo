@@ -1,38 +1,224 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.body {
+  width: 100%;
+  height: 100vh;
+  background-color: lightgray;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.top {
+  width: 100%;
+  height: 95%;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.left {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 300px);
+  height: 100%;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.header {
+  width: calc(100% - 40px);
+  height: 25px;
+  margin: 40px 20px 0 20px;
+  border-bottom: 1.4px solid white;
+  font-size: 10.5pt;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.con {
+  width: calc(100% - 30px);
+  height: calc(100% - 137px);
+  margin: 10px 0 0 10px;
+  overflow: auto;
+}
+
+.con::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.4);
+}
+.con::-webkit-scrollbar-thumb{
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 6px;
+}
+
+.rightIcon {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: calc(100% - 50px);
+  z-index: 9;
+  vertical-align: top;
+  background-image: url('./image/menu-icon.png');
+  background-repeat: no-repeat;
+  background-size: 22px 25px;
+  background-position: 45% 55%;
+  display: none;
+  cursor: pointer;
+}
+.rightIcon:hover{
+  background-size: 25px 27px;
+}
+@media (min-width: 600px) {
+  .right {
+    display: inline-block;
+    width: 300px;
+    height: 100%;
+    float: right;
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px gray;
   }
 }
+@media screen and (max-width: 600px) {
+  .right {
+    display: none;
+    width: 300px;
+    height: 100%;
+    float: right;
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px gray;
+  }
+  .left {
+      width: 100%;
+  }
+  .rightIcon {
+      display: inline-block;
+  }
+}
+
+.searchs {
+  margin-top: 18px;
+  margin-left: 20px;
+  height: calc(50% - 18px);
+  width: calc(100% - 20px);
+}
+#searchTxt {
+  width: 80%;
+  height: 25px;
+  vertical-align: top;
+  border: 1px solid black;
+  outline: 0;
+  border-top-left-radius: .25rem;
+  border-bottom-left-radius: .25rem;
+}
+.buttons {
+  margin-top: 10px;
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+.rightselects {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 10px;
+  float: right;
+  margin-right: 20px;
+}
+#selects { 
+  cursor: pointer;
+  height: 30px;
+  width: 110px;
+  border-radius: .25rem;
+  background-color: rgba(255,255,255, 0);
+  border: 1.5px solid white;
+  outline: 0;
+  font-size: 9pt;
+  font-weight: 500;
+  color: white;
+  
+}
+#selects:hover {
+  cursor: pointer;
+  height: 30px;
+  width: 110px;
+  border-radius: .25rem;
+  background-color: rgba(255,255,255, 0);
+  border: 1.5px solid white;
+  outline: 0;
+  font-size: 10pt;
+  font-weight: 500;
+  color: white;
+}
+#selects:focus {
+  background-color: lightgray;
+  outline: 0;
+  border: 1.5px solid white;
+}
+
+#writeBtn, #listSeqSaveBtn {
+  vertical-align: top;
+  cursor: pointer;
+  height: 30px;
+  width: 80px;
+  border-radius: .25rem;
+  background-color: rgba(255,255,255, 0);
+  border: 1.5px solid white;
+  outline: 0;
+  font-size: 9pt;
+  font-weight: 500;
+  color: white;
+  margin-right: 10px;
+}
+#writeBtn:hover, #listSeqSaveBtn:hover{
+  font-size: 10pt;
+  height: 30px;
+  width: 80px;
+}
+#searchBtn {
+  cursor: pointer;
+  height: 30px;
+  width: 33px;
+  font-size: 8.5pt;
+  font-weight: bold;
+  background-color: black;
+  background-image: url('./image/search-white.png');
+  background-repeat: no-repeat;
+  background-size: 23px 23px;
+  background-position: 45% 40%;
+  border-top-right-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+  border: 0;
+  outline: 0;
+  color: white;
+  vertical-align: top;
+}
+#searchBtn:hover {
+  background-size: 27px 27px;
+}
+
+.hashtagTitle{
+  height: 25px;
+  margin-left: 20px;
+  font-size: 10pt;
+  border-bottom: 1px solid gray;
+  color: gray;
+  margin-right: 20px;
+}
+
+
+
+.footer {
+  background-color: black;
+  height: 5%;
+  min-height: 20px;
+  width: 100%;
+  color: white;
+  font-size: 7pt;
+  display: table;
+  position: absolute;
+  top: 95%;
+}
+
+.footer > div {
+  display: table-cell;
+  vertical-align: middle;
+  text-indent: 20px;
+}
+
