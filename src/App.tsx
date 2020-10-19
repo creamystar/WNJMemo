@@ -112,14 +112,16 @@ class App extends Component {
   state = {
     message: '#여행',
     leftTitle: '#여행',
-    temp: '재희'
+    temp: '재희',
+    temp2: '재희2'
   }
   constructor(props:any) {
     super(props);
     this.state = {
       message: '#여행',
       leftTitle: '#여행',
-      temp: '재희'
+      temp: '재희',
+      temp2: '재희2' 
     }
     this.handleChange = this.handleChange.bind(this);
     this.searchBtnClick = this.searchBtnClick.bind(this);
