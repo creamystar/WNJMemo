@@ -23,7 +23,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       newCounter: 0 
     };
     this.onAddItem = this.onAddItem.bind(this);
-    this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
   onAddItem() { 
     // 메모 추가기능 수정시 같이 수정할 예정 -김누리
@@ -71,12 +70,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       </div>
     );
   }
-  onBreakpointChange(breakpoint:string, cols:number) {
-    this.setState({
-      breakpoint: breakpoint,
-      cols: cols
-    });
-  }
   onLayoutChange(layout:any) {
     this.props.onLayoutChange(layout);
   }
@@ -91,8 +84,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       const memo = res.data.map(function(i:any, key:any, list:any) {
           return {
             i: key.toString(),
-            x: key * 2,
-            y: 0,
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: (key * 2)%8!=0?(key * 2)%10:(key * 2),
+            y: (key*2)/2,
             w: 2,
             h: 2,
             mno: i.mno,
@@ -103,6 +97,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         this.setState({
           items: memo,
         });
+        console.log(this.state.items);
     })
   }
   //--End Axios
@@ -112,7 +107,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         {/* 추가버튼 삭제 예정 */}
         <button onClick={this.onAddItem}>Add Item</button> 
         <ReactGridLayout
-          //onBreakpointChange={this.onBreakpointChange}
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
