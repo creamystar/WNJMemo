@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import RGL, { WidthProvider } from "react-grid-layout";
-
+import axios from "axios";
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -32,8 +32,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     this.onAddItem = this.onAddItem.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
-
-
   onAddItem() { 
     // 메모 추가기능 수정시 같이 수정할 예정 -김누리
     console.log("adding", "n" + this.state.newCounter);
@@ -83,6 +81,39 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     this.setState({ items: _.reject(this.state.items, { i: i }) });
   }
 
+  // Axios 예제
+  componentDidMount() {
+    this.getMemo();
+  }
+  getMemo = () => {
+    axios.get('http://localhost:8080/select')
+    .then(res => {
+        const memo = res.data.map(function(i, key, list) {
+            return {
+              i: key.toString(),
+              x: key * 2,
+              y: 0,
+              w: 2,
+              h: 2,
+              mno: i.mno,
+              mcon: i.mcon,
+              mdate: i.mdate,
+            };
+          })
+      this.setState({
+        items: memo,
+        newCounter: 0 
+      });
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
+  }
+  //--End Axios
   render() {
     return (
       <div>
@@ -99,3 +130,5 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     );
   }
 }
+
+export default BasicLayout;
