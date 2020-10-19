@@ -40,8 +40,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
 
 
-  onAddItem() { 
-    // 메모 추가기능 수정시 같이 수정할 예정 -김누리
+  onAddItem() {   
+    // 메모 추가기능 수정시 같이 수정할 예정 -김누리.
     console.log("adding", "n" + this.state.newCounter);
     this.setState({
       // Add a new item. It must have a unique key!
@@ -112,12 +112,16 @@ class App extends Component {
   state = {
     message: '#여행',
     leftTitle: '#여행',
+    temp: '재희',
+    temp2: '재희2'
   }
   constructor(props:any) {
     super(props);
     this.state = {
       message: '#여행',
       leftTitle: '#여행',
+      temp: '재희',
+      temp2: '재희2' 
     }
     this.handleChange = this.handleChange.bind(this);
     this.searchBtnClick = this.searchBtnClick.bind(this);
