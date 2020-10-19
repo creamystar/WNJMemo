@@ -4,7 +4,6 @@ import './component/SearchRes.css';
 import './component/HashTags.css';
 import MemoCrud from './component/MemoCrud';
 import BasicLayout from './component/React-grid';
-import _ from "lodash";
 import './component/gridStyle.css';
 
 class App extends Component {
@@ -48,7 +47,10 @@ class App extends Component {
   searchBtnClick() {
     alert(this.state.message);
     if(this.state.message.indexOf("#")){
-     this.state.leftTitle = this.state.message 
+      this.setState({
+        leftTitle : this.state.message
+      });
+    //  this.state.leftTitle = this.state.message 
     } else {
 
     }
