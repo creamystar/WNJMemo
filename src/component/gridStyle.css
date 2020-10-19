@@ -18,7 +18,10 @@
     background-color: white; /* 김누리 추가 201016 */
     transition: all 200ms ease;
     transition-property: left, top;
+<<<<<<< HEAD
+=======
     box-shadow: 1px 1px 0 1px #a6a6a6;
+>>>>>>> be72d5ccbeb6f6516dfaee289a4bf39168d0281e
   }
   .react-grid-item img {
     pointer-events: pointer;
