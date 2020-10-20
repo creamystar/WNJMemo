@@ -222,3 +222,10 @@
   text-indent: 20px;
 }
 
+.memoHead{
+  display: block;
+}
+
+.memoCon{
+  display: block;
+}

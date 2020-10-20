@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 //import React, { Component } from 'react';
 import React from 'react';
 import RGL, { WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import axios from "axios";
+=======
+import React from 'react';
+import RGL, { WidthProvider } from "react-grid-layout";
+import _ from "lodash";
+import * as controller from './Controller';
+>>>>>>> 4aacdbdd7db676b2d604a123595ef7a59f02f938
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -20,19 +27,10 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     super(props);
 
     this.state = { 
-      items: [0,1,2,3,4].map(function(i, key, list) {
-        return {
-          i: i.toString(),
-          x: i * 2,
-          y: 0,
-          w: 2,
-          h: 2,
-        };
-      }),
+      items: '',
       newCounter: 0 
     };
     this.onAddItem = this.onAddItem.bind(this);
-    this.onBreakpointChange = this.onBreakpointChange.bind(this);
   }
   onAddItem() { 
     // 메모 추가기능 수정시 같이 수정할 예정 -김누리
@@ -49,13 +47,14 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1
     });
+
+    // controller.createMemo('Axios Testing...');
   }
   createElement(el:any) {
-    
     const i = el.i;
     return (
       <div key={i} data-grid={el}>
-        {<span className="text">{i}</span>}
+        {/* {<span className="text">{i}</span>} */}
         <span
           className="remove"
           style={{position: "absolute",
@@ -66,14 +65,18 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         >
           x
         </span>
+        <span className="memoHead">
+        {el.mno}
+        </span>
+        <span className="memoHead">
+        {el.mdate}
+        </span>
+        <span className="memoCon">
+        {el.mcon}
+        </span>
+        
       </div>
     );
-  }
-  onBreakpointChange(breakpoint:string, cols:number) {
-    this.setState({
-      breakpoint: breakpoint,
-      cols: cols
-    });
   }
   onLayoutChange(layout:any) {
     this.props.onLayoutChange(layout);
@@ -85,6 +88,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
 
   // Axios 예제
   componentDidMount() {
+<<<<<<< HEAD
     this.getMemo();
   }
   getMemo = () => {
@@ -106,14 +110,27 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         items: memo,
         newCounter: 0 
       });
+=======
+    controller.getMemo().then(res => {
+      const memo = res.data.map(function(i:any, key:any, list:any) {
+          return {
+            i: key.toString(),
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: (key * 2)%10,
+            y: 0,
+            w: 2,
+            h: 2,
+            mno: i.mno,
+            mcon: i.mcon,
+            mdate: i.mdate,
+          };
+        })
+        this.setState({
+          items: memo,
+        });
+        console.log(this.state.items);
+>>>>>>> 4aacdbdd7db676b2d604a123595ef7a59f02f938
     })
-    .catch(function (error) {
-      // handle error
-      console.log(error);
-    })
-    .then(function () {
-      // always executed
-    });
   }
   //--End Axios
   render() {
@@ -122,7 +139,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         {/* 추가버튼 삭제 예정 */}
         <button onClick={this.onAddItem}>Add Item</button> 
         <ReactGridLayout
-          //onBreakpointChange={this.onBreakpointChange}
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
