@@ -1,41 +1,55 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './MemoCrud.css';
-//@ts-ignore
-import CKEditor from '@ckeditor/ckeditor5-react';
-//@ts-ignore
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-/*
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
-import Heading from '@ckeditor/ckeditor5-heading/src/heading';
-*/
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-/*
-ClassicEditor.editorConfig = function(config:any) {
-    config.toolbarGroups = [{
-        name: 'document', groups: ['mode','document','tools']
-    }]
-}*/
-
-ClassicEditor.create( document.querySelector( '#editor' ), { 
-    //---------------------------------------------------------------- 
-    // 여기 툴바 부분의 옵션명을 넣어주면 원하는 설정을 할수 있습니다. 
-    toolbar: [ 'bold', 'italic', 'underline', 'strikethrough', 'numberedList', 'blockQuote' ], 
-    //---------------------------------------------------------------- 
-     } ) 
-    .catch( (error: any) => { console.log( error ); } );
+class Editor extends React.Component {
+    constructor (props:any) {
+        super(props)
+        this.state = { editorHtml: '' 
+        }
+        this.handleChange = this.handleChange.bind(this)
+    }
+      
+    handleChange (html:string) {
+        console.log(html);
+        this.setState({ editorHtml: html });
+    }
+    render () {
+        return (
+          <div>
+            <ReactQuill 
+              theme="snow"
+              onChange={this.handleChange}
+              //@ts-ignore
+              value={this.state.editorHtml}
+              //@ts-ignore
+              modules={Editor.modules}
+            //   placeholder={this.props.placeholder}
+             />
+           </div>
+        )
+    }
+}
+//@ts-ignore
+Editor.modules = {
+    toolbar: [
+        [{size: []}],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['clean']
+    ],
+    clipboard: {
+        // toggle to add extra line breaks when pasting HTML:
+        matchVisual: false,
+    }
+}
 
 class MemoCrud extends Component<any,any> {
     constructor(props:any) {
         super(props);
         this.state = {
-         
         }
       }
-
     set = {
         oneMemo: ''
     }
@@ -63,14 +77,7 @@ class MemoCrud extends Component<any,any> {
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick}/>
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick}/>
                     </div>
-                    <CKEditor
-                        onInit={ (editor:any) => console.log( 'Editor is ready to use!', editor ) }
-                        onChange={ ( event:any, editor:any ) => 
-                            console.log( { event, editor } ) }
-                        
-                    editor={ ClassicEditor }
-                    data="<p>Hello from CKEditor 5!</p>"
-                />
+                    <Editor/>
                 </div>
             </div>
         );
