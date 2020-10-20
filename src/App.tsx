@@ -4,130 +4,33 @@ import './component/SearchRes.css';
 import './component/HashTags.css';
 import MemoCrud from './component/MemoCrud';
 import axios from "axios";
-import _ from "lodash";
-import RGL, { WidthProvider } from "react-grid-layout";
 import './component/gridStyle.css';
-
-const ReactGridLayout = WidthProvider(RGL);
-
-class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, state 쓰겠다는 선언 (없으면 못씀)
-
-  static defaultProps = {
-    className: "layout",
-    rowHeight: 100,
-    cols: 10,
-    // rowHeight: 30,
-    onLayoutChange: function() {},
-  };
-
-  constructor(props:any) {
-    super(props);
-
-    this.state = { 
-      items: [0,1,2,3,4].map(function(i, key, list) {
-        return {
-          i: i.toString(),
-          x: i * 2,
-          y: 0,
-          w: 2,
-          h: 2,
-        };
-      }),
-      newCounter: 0 
-    };
-    this.onAddItem = this.onAddItem.bind(this);
-    this.onBreakpointChange = this.onBreakpointChange.bind(this);
-  }
-
-
-  onAddItem() {   
-    // 메모 추가기능 수정시 같이 수정할 예정 -김누리.
-    console.log("adding", "n" + this.state.newCounter);
-    this.setState({
-      // Add a new item. It must have a unique key!
-      items: this.state.items.concat({
-        i: "n" + this.state.newCounter,
-        x: (this.state.items.length * 2) % (this.state.cols || 10),
-        y: Infinity, // puts it at the bottom
-        w: 2,
-        h: 2
-      }),
-      // Increment the counter to ensure key is always unique.
-      newCounter: this.state.newCounter + 1
-    });
-  }
-  createElement(el:any) {
-    
-    const i = el.i;
-    return (
-      <div key={i} data-grid={el}>
-        {<span className="text">{i}</span>}
-        <span
-          className="remove"
-          style={{position: "absolute",
-          right: "2px",
-          top: 0,
-          cursor: "pointer"}}
-          onClick={this.onRemoveItem.bind(this, i)}
-        >
-          x
-        </span>
-      </div>
-    );
-  }
-  onBreakpointChange(breakpoint:string, cols:number) {
-    this.setState({
-      breakpoint: breakpoint,
-      cols: cols
-    });
-  }
-  onLayoutChange(layout:any) {
-    this.props.onLayoutChange(layout);
-  }
-  onRemoveItem(i:number) {
-    console.log("removing", i);
-    this.setState({ items: _.reject(this.state.items, { i: i }) });
-  }
-
-  render() {
-    return (
-      <div>
-        {/* 추가버튼 삭제 예정 */}
-        <button onClick={this.onAddItem}>Add Item</button> 
-        <ReactGridLayout
-          //onBreakpointChange={this.onBreakpointChange}
-          onLayoutChange={this.onLayoutChange}
-          {...this.props}
-        >
-          {_.map(this.state.items, el => this.createElement(el))}
-        </ReactGridLayout>
-      </div>
-    );
-  }
-}
-
+import BasicLayout from './component/React-grid'
 
 class App extends Component {
   
   state = {
     message: '#여행',
     leftTitle: '#여행',
-    temp: '재희',
-    temp2: '재희2'
   }
   constructor(props:any) {
     super(props);
     this.state = {
       message: '#여행',
       leftTitle: '#여행',
-      temp: '재희',
-      temp2: '재희2' 
     }
     this.handleChange = this.handleChange.bind(this);
     this.searchBtnClick = this.searchBtnClick.bind(this);
     this.hashtagsClick = this.hashtagsClick.bind(this);
-
   }
+ 
+  
+  // Axios 예제
+  componentDidMount() {
+    this.getApi();
+  }
+  
+
   writeBtnClick() {
     //메모 에디터 show 
     //@ts-ignore
@@ -164,29 +67,29 @@ class App extends Component {
   } 
 
   rightIconClick(e:any){
-    if(e.target.value === "1"){
-      //@ts-ignore
+    if(e.target.key === "1"){
+      //@ts-ignore      
       document.getElementById("right").style = "display: block; position:absolute; left: calc(100% - 300px); top: 0; z-index: 9;"; 
       //@ts-ignore
       document.getElementById("rightIcon").style= "left: calc(100% - 340px);"
       //@ts-ignore
-      document.getElementById("rightIcon").value="2";
+      document.getElementById("rightIcon").key="2";
     } else {
       //@ts-ignore
       document.getElementById("right").style.display="none";
       //@ts-ignore
       document.getElementById("rightIcon").style= "left: calc(100% - 50px);"
       //@ts-ignore
-      document.getElementById("rightIcon").value="1";
+      document.getElementById("rightIcon").key="1";
     }
   }
+  
+
+
   selectChange(e:any){
     alert(e.target.value);
   }
-  // Axios 예제
-  componentDidMount() {
-    this.getApi();
-  }
+  
 
   getApi = () => {
       axios.get("http://localhost:8080/select")
@@ -203,9 +106,8 @@ class App extends Component {
   render() {
     return(
         <div className="body">
-          
           <MemoCrud/>
-          <div className="rightIcon" id="rightIcon" onClick={this.rightIconClick} key={"1"}></div>
+          <div className="rightIcon" id="rightIcon" onClick={this.rightIconClick} key="1"></div>
               <div className="top">
               <div className="left" id="left">
                   <div className="header">

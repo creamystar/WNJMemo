@@ -13,13 +13,20 @@ import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 */
 
-
+/*
 ClassicEditor.editorConfig = function(config:any) {
     config.toolbarGroups = [{
         name: 'document', groups: ['mode','document','tools']
     }]
-}
+}*/
 
+ClassicEditor.create( document.querySelector( '#editor' ), { 
+    //---------------------------------------------------------------- 
+    // 여기 툴바 부분의 옵션명을 넣어주면 원하는 설정을 할수 있습니다. 
+    toolbar: [ 'bold', 'italic', 'underline', 'strikethrough', 'numberedList', 'blockQuote' ], 
+    //---------------------------------------------------------------- 
+     } ) 
+    .catch( (error: any) => { console.log( error ); } );
 
 class MemoCrud extends Component<any,any> {
     constructor(props:any) {
@@ -60,10 +67,7 @@ class MemoCrud extends Component<any,any> {
                         onInit={ (editor:any) => console.log( 'Editor is ready to use!', editor ) }
                         onChange={ ( event:any, editor:any ) => 
                             console.log( { event, editor } ) }
-                        config={ {
-                            /*plugins: [ Essentials, Paragraph, Bold, Italic, Heading ],*/
-                            toolbar: [ 'bold', 'italic', '|', 'undo', 'redo', ]
-                    } }
+                        
                     editor={ ClassicEditor }
                     data="<p>Hello from CKEditor 5!</p>"
                 />
