@@ -3,14 +3,8 @@ import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
 import MemoCrud from './component/MemoCrud';
-<<<<<<< HEAD
-import axios from "axios";
-import './component/gridStyle.css';
-import BasicLayout from './component/React-grid'
-=======
 import BasicLayout from './component/React-grid';
 import './component/gridStyle.css';
->>>>>>> 4aacdbdd7db676b2d604a123595ef7a59f02f938
 
 class App extends Component {
   
@@ -28,13 +22,6 @@ class App extends Component {
     this.searchBtnClick = this.searchBtnClick.bind(this);
     this.hashtagsClick = this.hashtagsClick.bind(this);
   }
- 
-  
-  // Axios 예제
-  componentDidMount() {
-    this.getApi();
-  }
-  
 
   writeBtnClick() {
     //메모 에디터 show 
@@ -97,22 +84,6 @@ class App extends Component {
   selectChange(e:any){
     alert(e.target.value);
   }
-<<<<<<< HEAD
-  
-
-  getApi = () => {
-      axios.get("http://localhost:8080/select")
-          .then(res => {
-              console.log(res);
-              this.setState({
-                bmessage: res.data.message
-              })
-          })
-          .catch(res => console.log(res))
-  }
-  //--End Axios
-=======
->>>>>>> 4aacdbdd7db676b2d604a123595ef7a59f02f938
 
   render() {
     return(
