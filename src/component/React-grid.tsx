@@ -85,8 +85,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
           return {
             i: key.toString(),
             //메모 한줄 갯수 바꿀시 수정 필요
-            x: (key * 2)%8!=0?(key * 2)%10:(key * 2),
-            y: (key*2)/2,
+            x: (key * 2)%10,
+            y: 0,
             w: 2,
             h: 2,
             mno: i.mno,
