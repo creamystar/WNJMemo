@@ -85,7 +85,7 @@ class App extends Component<any,any> {
                     </div>
                     <div className="rightselects">
                       <select id="selects" onChange={this.selectChange}>
-                        <option value="최신순">최신순</option>
+                        <option value="최신순">최신순순</option>
                         <option value="사용자저장순">사용자저장순</option>
                       </select>
                     </div>

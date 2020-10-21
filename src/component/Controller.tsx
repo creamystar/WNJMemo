@@ -10,6 +10,5 @@ export function createMemo(mcon:string){
 }
 
 export function getHashtag(){
-    return axios.post('http://localhost:8080/insert');
-
+    return axios.get('http://localhost:8080/htag/select');
 }

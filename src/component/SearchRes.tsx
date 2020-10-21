@@ -43,7 +43,7 @@ class SearchRes extends Component<any,any> {
     componentDidMount() {
         controller.getHashtag().then(res => {
             //this.state.gashtags ==> res.data
-            const hashtagdb = this.state.hashtags.map(function(i:any){
+            const hashtagdb = res.data.map(function(i:any){
                 return i.hname;
             })
             this.setState({

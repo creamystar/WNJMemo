@@ -19,16 +19,16 @@ class HashTags extends Component<any,any> {
     }
 
     createElement(el:any){
-        const i=el;
+        const i=el.i;
         return(
-            <div onClick={() => {this.hashtagsClick({i})}}>{i}</div>
+            <div onClick={() => {this.hashtagsClick({el})}}>{el}</div>
         );
     }
 
     componentDidMount() {
         controller.getHashtag().then(res => {
             //this.state.gashtags ==> res.data
-            const hashtagdb = this.state.hashtags.map(function(i:any){
+            const hashtagdb = res.data.map(function(i:any){
                 return i.hname;
             })
             this.setState({
