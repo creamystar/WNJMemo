@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
+import './component/gridStyle.css';
 import MemoCrud from './component/MemoCrud';
 import BasicLayout from './component/React-grid';
-import './component/gridStyle.css';
 import SearchRes from './component/SearchRes';
 import HashTags from './component/HashTags';
 

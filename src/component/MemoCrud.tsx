@@ -8,13 +8,16 @@ class Editor extends React.Component<any,any> {
         super(props)
         this.state = { 
             editorHtml: '' ,
-            tagOn: 0,
+            tagOn: '',
+            tagFlag: false,
         }
         //@ts-ignore
         this.quillRef = null;      // Quill instance
         //@ts-ignore
         this.reactQuillRef = null;
         this.handleChange = this.handleChange.bind(this)
+        this.chkHashtag = this.chkHashtag.bind(this)
+        this.trackKey = this.trackKey.bind(this)
     }
     componentDidMount() {
         this.attachQuillRefs()
@@ -28,25 +31,43 @@ class Editor extends React.Component<any,any> {
         //@ts-ignore
         this.quillRef = this.reactQuillRef.getEditor();
       }
-    // 해시태그 변환 수정중... 김누리1021
     handleChange (html:string) {
-        //@ts-ignore
-        let quill = this.quillRef;
-        quill.onKeyDown()
-
-
-        if(quill.getText().match(' #')||quill.getText().match('#')){
-            console.log(quill.getSelection());
-            // quill.on('text-change', function (delta:any, old:any, source:any) {
-            // if (quill.getLength() > limit) {
-            // quill.deleteText(limit, quill.getLength());
-            // console.log("limit");
-            // }
-            // });
-        }
         console.log(html);
 
         this.setState({ editorHtml: html });
+    }
+     // 해시태그 변환 수정중... 김누리1021
+    chkHashtag(event:any) {
+        //@ts-ignore
+        let quill = this.quillRef;
+        const index = quill.getSelection().index
+        // console.log("현재키: "+event.key);
+        if(event.key==="#"){//#인식
+            const lastKey = quill.getText().charCodeAt(index-1); //#앞의 글자
+            if(index===0||lastKey===32||lastKey===10){// 앞의 글자가 enter,space, 없을 경우
+                this.setState({//tag 모드ON, 인덱스 저장
+                    tagFlag:true,
+                    tagOn: index-1<0?0:index,
+                })
+            }
+        }
+        if((event.key===" "||event.key==="Enter")&&this.state.tagFlag===true){//태그 만들기
+            this.setState({//tag모드 초기화
+                tagFlag: false,
+                tagOn: '',
+            })
+        }
+    }
+    trackKey(event:any) {
+        //@ts-ignore
+        let quill = this.quillRef;
+        const index = quill.getSelection().index
+        if(this.state.tagOn===index&&event.key==="Backspace"){//tag모드 중 #삭제의 경우
+            this.setState({//tag모드 초기화
+                tagFlag: false,
+                tagOn:'',
+            })
+        }
     }
     render () {
         return (
@@ -60,6 +81,8 @@ class Editor extends React.Component<any,any> {
               value={this.state.editorHtml}
               //@ts-ignore
               modules={Editor.modules}
+              onKeyDown={this.chkHashtag}
+              onKeyUp={this.trackKey}
             //   placeholder={this.props.placeholder}
              />
            </div>
