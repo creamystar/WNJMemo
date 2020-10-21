@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
+import './component/gridStyle.css';
 import MemoCrud from './component/MemoCrud';
 import BasicLayout from './component/React-grid';
-import './component/gridStyle.css';
 import SearchRes from './component/SearchRes';
 import HashTags from './component/HashTags';
 
-class App extends Component<any, any> {
+class App extends Component<any,any> {
 
   state = {
     temp: ['발리', '리액트', '회식', '요거트', '건강'],
     leftTitle: '#여행',
-  }
-
+  }    
+  
 
   constructor(props: any) {
     super(props);
@@ -23,7 +23,7 @@ class App extends Component<any, any> {
   }
 
 
-  writeBtnClick() {
+  writeBtnClick(){
     //메모 에디터 show 
     //@ts-ignore
     document.getElementById("memoCrudAll").style.display = "block";
