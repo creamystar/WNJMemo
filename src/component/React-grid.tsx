@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-//import React, { Component } from 'react';
-import React from 'react';
-import RGL, { WidthProvider } from "react-grid-layout";
-import _ from "lodash";
-import axios from "axios";
-=======
 import React from 'react';
 import RGL, { WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
->>>>>>> 4aacdbdd7db676b2d604a123595ef7a59f02f938
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -88,29 +80,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
 
   // Axios 예제
   componentDidMount() {
-<<<<<<< HEAD
-    this.getMemo();
-  }
-  getMemo = () => {
-    axios.get('http://localhost:8080/select')
-    .then(res => {
-        const memo = res.data.map(function(i:any, key:any, list:any) {
-            return {
-              i: key.toString(),
-              x: key * 2,
-              y: 0,
-              w: 2,
-              h: 2,
-              mno: i.mno,
-              mcon: i.mcon,
-              mdate: i.mdate,
-            };
-          })
-      this.setState({
-        items: memo,
-        newCounter: 0 
-      });
-=======
     controller.getMemo().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
           return {
@@ -129,7 +98,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
           items: memo,
         });
         console.log(this.state.items);
->>>>>>> 4aacdbdd7db676b2d604a123595ef7a59f02f938
     })
   }
   //--End Axios
