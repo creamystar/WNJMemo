@@ -1,44 +1,49 @@
 import React, { Component } from 'react';
+import _ from "lodash";
+import * as controller from './Controller';
 
 class HashTags extends Component<any,any> {
+
+    constructor(props:any){
+        super(props);
+        this.state = {
+            hashtagName: "",
+            hashtags: ['논태그','리액트','반복문','바나나우유','텀블러'],
+            hashtagList: []
+        }
+    }
 
     hashtagsClick = (e:any) => {
         //@ts-ignore
         this.props.setLeftTxt(e)
     }
 
+    createElement(el:any){
+        const i=el;
+        return(
+            <div onClick={() => {this.hashtagsClick({i})}}>{i}</div>
+        );
+    }
+
+    componentDidMount() {
+        controller.getHashtag().then(res => {
+            //this.state.gashtags ==> res.data
+            const hashtagdb = this.state.hashtags.map(function(i:any){
+                return i.hname;
+            })
+            this.setState({
+                hashtagName: hashtagdb,
+            });
+            console.log(this.state.hashtagName);
+        })
+    }
+
+
+
     render() {
         return (
             <div className="hashtags">
-                <div onClick={() => this.hashtagsClick("논태그")}>논태그</div>
-                <div onClick={() => this.hashtagsClick("리액트")}>리액트</div>
-                <div onClick={() => this.hashtagsClick("개발")}>개발</div>
-                <div onClick={() => this.hashtagsClick("인터넷쇼핑")}>인터넷쇼핑</div>
-                <div onClick={() => this.hashtagsClick("요리")}>요리</div>
-                <div onClick={() => this.hashtagsClick("교육")}>교육</div>
-                <div onClick={() => this.hashtagsClick("텀블러")}>텀블러</div>
-                <div onClick={() => this.hashtagsClick("패션")}>패션</div>
-                <div onClick={() => this.hashtagsClick("건강")}>건강</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
-                <div onClick={() => this.hashtagsClick("기타코드")}>기타코드</div>
+                {_.map(this.state.hashtagName,el => this.createElement(el))}
             </div>
         );
     }

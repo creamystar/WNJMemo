@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
+import _ from "lodash";
+import * as controller from './Controller';
 
 class SearchRes extends Component<any,any> {
 
-    state = {
-        text: '#여행',
-        hashtagsId: ''
+
+
+    constructor(props:any){
+        super(props);
+        this.state = {
+            hashtagName: "",
+            hashtags: ['논태그','리액트','반복문','바나나우유','텀블러'],
+            hashtagList: [],
+            text: '#여행',
+            hashtagsId: ''
+        }
     }
+
     sendCompanyName = (e:any) => {
         this.setState = {
             //@ts-ignore
@@ -22,6 +33,25 @@ class SearchRes extends Component<any,any> {
         this.props.setLeftTxt({text});
     }
 
+    createElement(el:any){
+        const i=el;
+        return(
+            <div onClick={() => {this.hashtagsClick({i})}}>{i}</div>
+        );
+    }
+
+    componentDidMount() {
+        controller.getHashtag().then(res => {
+            //this.state.gashtags ==> res.data
+            const hashtagdb = this.state.hashtags.map(function(i:any){
+                return i.hname;
+            })
+            this.setState({
+                hashtagName: hashtagdb,
+            });
+            console.log(this.state.hashtagName);
+        })
+    }
     
     
     render() {
@@ -32,39 +62,7 @@ class SearchRes extends Component<any,any> {
                     <input type="button" id="searchBtn" onClick={this.sendSearchTxt} />
                 </div>
                 <div className="searchRes">
-                    <div onClick={() => {this.hashtagsClick("여행")}}>여행</div>
-                    <div onClick={() => {this.hashtagsClick("발리")}}>발리</div>
-                    <div onClick={() => {this.hashtagsClick("호주")}}>호주</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>
-                    <div onClick={() => {this.hashtagsClick("벨기에")}}>벨기에</div>                  
+                    {_.map(this.state.hashtagName,el => this.createElement(el))}                
                 </div>
             </div>
         );

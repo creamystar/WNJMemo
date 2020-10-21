@@ -8,3 +8,8 @@ export function createMemo(mcon:string){
     return axios.post('http://localhost:8080/insert',{mcon: mcon});
 
 }
+
+export function getHashtag(){
+    return axios.post('http://localhost:8080/insert');
+
+}
