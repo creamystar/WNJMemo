@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
+import './component/gridStyle.css';
 import MemoCrud from './component/MemoCrud';
 import BasicLayout from './component/React-grid';
-import './component/gridStyle.css';
-<<<<<<< HEAD
 import SearchRes from './component/SearchRes';
 import HashTags from './component/HashTags';
-import { template } from 'lodash';
 
 class App extends Component<any,any> {
-=======
->>>>>>> 0c029b0258c6aa2f8f62befc71454c19382f63a6
 
   state = {
     temp: ['발리','리액트','회식','요거트','건강'],
     leftTitle: '#여행',
-<<<<<<< HEAD
   }    
   
 
@@ -29,21 +24,6 @@ class App extends Component<any,any> {
 
 
   writeBtnClick(){
-=======
-  }
-  constructor(props:any) {
-    super(props);
-    this.state = {
-      message: '#여행',
-      leftTitle: '#여행',
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.searchBtnClick = this.searchBtnClick.bind(this);
-    this.hashtagsClick = this.hashtagsClick.bind(this);
-  }
- 
-  writeBtnClick() {
->>>>>>> 0c029b0258c6aa2f8f62befc71454c19382f63a6
     //메모 에디터 show 
     //@ts-ignore
     document.getElementById("memoCrudAll").style.display="block";
