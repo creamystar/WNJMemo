@@ -3,16 +3,49 @@ import './MemoCrud.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-class Editor extends React.Component {
+class Editor extends React.Component<any,any> {
     constructor (props:any) {
         super(props)
-        this.state = { editorHtml: '' 
+        this.state = { 
+            editorHtml: '' ,
+            tagOn: 0,
         }
+        //@ts-ignore
+        this.quillRef = null;      // Quill instance
+        //@ts-ignore
+        this.reactQuillRef = null;
         this.handleChange = this.handleChange.bind(this)
     }
-      
+    componentDidMount() {
+        this.attachQuillRefs()
+      }
+      componentDidUpdate() {
+        this.attachQuillRefs()
+      }
+      attachQuillRefs = () => {
+        //@ts-ignore
+        if (typeof this.reactQuillRef.getEditor !== 'function') return;
+        //@ts-ignore
+        this.quillRef = this.reactQuillRef.getEditor();
+      }
+    // 해시태그 변환 수정중... 김누리1021
     handleChange (html:string) {
+        //@ts-ignore
+        let quill = this.quillRef;
+        quill.onKeyDown()
+
+
+        if(quill.getText().match(' #')||quill.getText().match('#')){
+            console.log(quill.getSelection());
+            // quill.on('text-change', function (delta:any, old:any, source:any) {
+            // if (quill.getLength() > limit) {
+            // quill.deleteText(limit, quill.getLength());
+            // console.log("limit");
+            // }
+            // });
+        }
         console.log(html);
+
         this.setState({ editorHtml: html });
     }
     render () {
@@ -20,6 +53,8 @@ class Editor extends React.Component {
           <div>
             <ReactQuill 
               theme="snow"
+              //@ts-ignore
+              ref={(el) => { this.reactQuillRef = el }}
               onChange={this.handleChange}
               //@ts-ignore
               value={this.state.editorHtml}
@@ -36,6 +71,7 @@ Editor.modules = {
     toolbar: [
         [{size: []}],
         ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
         ['clean']
     ],
     clipboard: {
