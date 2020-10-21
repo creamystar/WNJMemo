@@ -36,7 +36,7 @@ class SearchRes extends Component<any,any> {
     createElement(el:any){
         const i=el;
         return(
-            <div onClick={() => {this.hashtagsClick({i})}}>{i}</div>
+            <div key={i} onClick={() => {this.hashtagsClick({i})}}>{i}</div>
         );
     }
 
