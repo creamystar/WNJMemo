@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './MemoCrud.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-class Editor extends React.Component<any,any> {
-    constructor (props:any) {
+class Editor extends React.Component<any, any> {
+    constructor(props: any) {
         super(props)
         this.state = { 
             editorHtml: '' ,
@@ -22,11 +22,11 @@ class Editor extends React.Component<any,any> {
     }
     componentDidMount() {
         this.attachQuillRefs()
-      }
-      componentDidUpdate() {
+    }
+    componentDidUpdate() {
         this.attachQuillRefs()
-      }
-      attachQuillRefs = () => {
+    }
+    attachQuillRefs = () => {
         //@ts-ignore
         if (typeof this.reactQuillRef.getEditor !== 'function') return;
         //@ts-ignore
@@ -35,10 +35,10 @@ class Editor extends React.Component<any,any> {
     handleChange (html:string) {
         console.log(html);
 
-        this.setState({ editorHtml: html });
+        this.setState({ editorHtml: html }); //이게 없으면 날아감*
     }
      // 해시태그 변환 수정중... 김누리1021
-    chkHashtag(event:any) {
+     chkHashtag(event:any) {
         //@ts-ignore
         let quill = this.quillRef;
         const index = quill.getSelection().index
@@ -96,7 +96,7 @@ class Editor extends React.Component<any,any> {
 //@ts-ignore
 Editor.modules = {
     toolbar: [
-        [{size: []}],
+        [{ size: [] }],
         ['bold', 'italic', 'underline', 'strike'],
         [{ 'color': [] }, { 'background': [] }],
         ['clean']
@@ -107,29 +107,38 @@ Editor.modules = {
     }
 }
 
-class MemoCrud extends Component<any,any> {
-    constructor(props:any) {
+//clean에 다른 함수 주기 ? 
+var toolbarOptions = {
+    handlers: {
+        'clean': function(value:any){
+            alert(value);
+        }
+    }
+}
+
+class MemoCrud extends Component<any, any> {
+    constructor(props: any) {
         super(props);
         this.state = {
         }
-      }
+    }
     set = {
         oneMemo: ''
     }
-    exit(){
+    exit() {
         //@ts-ignore
-        document.getElementById("memoCrudAll").style.display="none";
+        document.getElementById("memoCrudAll").style.display = "none";
     }
-    cancleClick(){
+    cancleClick() {
         //@ts-ignore
-        document.getElementById("memoCrudAll").style.display="none";
+        document.getElementById("memoCrudAll").style.display = "none";
     }
-    wirteClick(){
+    wirteClick() {
         alert("");
         //alert(CKEditor.getDate());
-        
+
     }
-    
+
     render() {
         return (
             <div id="memoCrudAll">
@@ -137,10 +146,10 @@ class MemoCrud extends Component<any,any> {
                 <div className="editorSpace" id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
-                        <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick}/>
-                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick}/>
+                        <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
+                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick} />
                     </div>
-                    <Editor/>
+                    <Editor />
                 </div>
             </div>
         );

@@ -44,23 +44,17 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
   createElement(el:any) {
     const i = el.i;
-    return (
+    return ( 
       <div key={i} data-grid={el}>
         {/* {<span className="text">{i}</span>} */}
-        <span
-          className="remove"
-          style={{position: "absolute",
-          right: "2px",
-          top: 0,
-          cursor: "pointer"}}
-          onClick={this.onRemoveItem.bind(this, i)}
-        >
-          x
+        <span className="update" onClick={this.onUpdateItem.bind(this, i)}>
+        </span>
+        <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>
         </span>
         <span className="memoHead">
         {el.mno}
         </span>
-        <span className="memoHead">
+        <span className="memodate">
         {el.mdate}
         </span>
         <span className="memoCon">
@@ -76,6 +70,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   onRemoveItem(i:number) {
     console.log("removing", i);
     this.setState({ items: _.reject(this.state.items, { i: i }) });
+  }
+  onUpdateItem(i:number) {
+    console.log("updating", i);
   }
 
   // Axios 예제

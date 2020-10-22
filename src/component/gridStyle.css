@@ -126,4 +126,38 @@
     bottom: 0;
     transform: rotate(45deg);
   }
+  .remove {
+    margin-top: 2px;
+    background-image: url('../image/memo-delete.png');
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    background-position: 50% 50%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 2px;
+    top: 0;
+    cursor: pointer;
+  }
+  .update {
+    margin-top: 2px;
+    background-image: url('../image/memo-update.png');
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    background-position: 50% 50%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 15px;
+    top: 0;
+    cursor: pointer;
+  }
+  .memodate {
+    font-size: 7.5pt;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .memoCon {
+    margin-right: 10px;
+  }
   
