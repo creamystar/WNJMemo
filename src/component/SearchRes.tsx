@@ -4,39 +4,37 @@ import * as controller from './Controller';
 
 class SearchRes extends Component<any,any> {
 
-
-
     constructor(props:any){
         super(props);
         this.state = {
             hashtagName: "",
-            hashtags: ['논태그','리액트','반복문','바나나우유','텀블러'],
             hashtagList: [],
             text: '#여행',
             hashtagsId: ''
         }
     }
 
-    sendCompanyName = (e:any) => {
-        this.setState = {
+    handleChange = (e:any) => {
+        console.log(e.target.value)
+        this.setState({
             //@ts-ignore
-            text: e.target.value
-        }
+            text: e.target.value 
+        })
     }
     hashtagsClick = (e:any) => {
         //@ts-ignore
-        this.props.setLeftTxt(e)
+        this.props.setLeftTxt(e);
     }
 
-    sendSearchTxt(){
+    sendSearchTxt = (e:any) => {
         //@ts-ignore
-        this.props.setLeftTxt({text});
+        this.props.setLeftTxt(e);
     }
 
     createElement(el:any){
         const i=el;
         return(
-            <div key={i} onClick={() => {this.hashtagsClick({i})}}>{i}</div>
+            <div key={i} onClick={() => {this.hashtagsClick(el)}}>{el}</div>
         );
     }
 
@@ -58,8 +56,8 @@ class SearchRes extends Component<any,any> {
         return (
             <div className="searchs">
             <div>
-                    <input type="text" id="searchTxt" value={this.state.text} onChange={this.sendCompanyName}/>
-                    <input type="button" id="searchBtn" onClick={this.sendSearchTxt} />
+                    <input type="text" id="searchTxt" value={this.state.text} onChange={this.handleChange}/>
+                    <input type="button" id="searchBtn" onClick={() => this.sendSearchTxt(this.state.text)} />
                 </div>
                 <div className="searchRes">
                     {_.map(this.state.hashtagName,el => this.createElement(el))}                
