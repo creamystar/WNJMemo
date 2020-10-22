@@ -9,7 +9,7 @@ class SearchRes extends Component<any,any> {
         this.state = {
             hashtagName: "",
             hashtagList: [],
-            text: '#여행',
+            text: '',
             hashtagsId: ''
         }
     }
@@ -29,6 +29,9 @@ class SearchRes extends Component<any,any> {
     sendSearchTxt = (e:any) => {
         //@ts-ignore
         this.props.setLeftTxt(e);
+        this.setState({
+            text: ''
+        });
     }
 
     createElement(el:any){

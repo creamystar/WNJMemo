@@ -14,7 +14,6 @@ class App extends Component<any,any> {
     temp: ['발리', '리액트', '회식', '요거트', '건강'],
     leftTitle: '#여행',
     rightIconNumber: 1,
-    searchWordUpdate: ''
   }    
   constructor(props: any) {
     super(props);
@@ -36,12 +35,13 @@ class App extends Component<any,any> {
   }
 
   setLeftTxt = (e: any) => {
-    alert(e);
     this.setState({
       leftTitle: e,
       searchWordUpdate: e
     });
-    console.log("app.tsx word: " + this.state.searchWordUpdate);
+    alert(e);
+    console.log("this.state.word");
+    console.log(this.state);
   }
 
   //반응형 아이콘 클릭 
@@ -83,7 +83,7 @@ class App extends Component<any,any> {
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">
-          <SearchRes2 setLeftTxt={this.setLeftTxt} searchWordUpdate={this.state.searchWordUpdate}/>
+          <SearchRes2 setLeftTxt={this.setLeftTxt} />
           <div className="hashtagTitle"># 해시태그 </div>
           <HashTags setLeftTxt={this.setLeftTxt} />
         </div>
@@ -109,7 +109,7 @@ class App extends Component<any,any> {
             </div>
           </div>
           <div className="right" id="right">
-            <SearchRes setLeftTxt={this.setLeftTxt} searchWordUpdate={this.state.searchWordUpdate}/>
+            <SearchRes setLeftTxt={this.setLeftTxt}/>
             <div className="hashtagTitle"># 해시태그 </div>
             <HashTags setLeftTxt={this.setLeftTxt} />
           </div>
