@@ -9,20 +9,14 @@ import SearchRes from './component/SearchRes';
 import HashTags from './component/HashTags';
 
 class App extends Component<any,any> {
-
   state = {
     temp: ['발리', '리액트', '회식', '요거트', '건강'],
     leftTitle: '#여행',
   }    
-  
-
   constructor(props: any) {
     super(props);
-
     this.setLeftTxt = this.setLeftTxt.bind(this)
   }
-
-
   writeBtnClick(){
     //메모 에디터 show 
     //@ts-ignore
@@ -45,7 +39,9 @@ class App extends Component<any,any> {
   }
 
   //반응형 아이콘 클릭 
+
   rightIconClick(e: any) {
+
     if (e.target.key === "1") {
       //@ts-ignore      
       document.getElementById("right").style = "display: block; position:absolute; left: calc(100% - 300px); top: 0; z-index: 9;";

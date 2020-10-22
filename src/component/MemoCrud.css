@@ -3,6 +3,7 @@
     height: 100%;
     display: none;
 }
+
 .wrap {
     width: 100%;
     height: 100%;
@@ -66,3 +67,25 @@
     height: 25px;
     width: 50px;
 }
+
+.quill  {
+    height: 350px;
+}
+
+/* quill 세로 510 이하면 height: 200px로  
+quill, editorSpace도 세로 768 이하면 width: 400px로 */
+
+
+.ql-editor::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.4);
+  }
+  .ql-editor::-webkit-scrollbar-thumb{
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 6px;
+  }
+
+
+
+

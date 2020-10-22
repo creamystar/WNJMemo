@@ -18,6 +18,7 @@ class HashTags extends Component<any,any> {
         this.props.setLeftTxt(e)
     }
 
+
     createElement(el:any){
         const i=el.i;
         return(

@@ -34,10 +34,10 @@ class Editor extends React.Component<any, any> {
     handleChange (html:string) {
         console.log(html);
 
-        // this.setState({ editorHtml: html });
+        this.setState({ editorHtml: html }); //이게 없으면 날아감*
     }
      // 해시태그 변환 수정중... 김누리1021
-    chkHashtag(event:any) {
+     chkHashtag(event:any) {
         //@ts-ignore
         let quill = this.quillRef;
         const index = quill.getSelection().index
@@ -56,6 +56,7 @@ class Editor extends React.Component<any, any> {
                 tagFlag: false,
                 tagOn: '',
             })
+            console.log(this.state);
         }
     }
     trackKey(event:any) {
