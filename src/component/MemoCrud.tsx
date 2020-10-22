@@ -10,6 +10,7 @@ class Editor extends React.Component<any,any> {
             editorHtml: '' ,
             tagOn: '',
             tagFlag: false,
+            tag:[],
         }
         //@ts-ignore
         this.quillRef = null;      // Quill instance
@@ -52,10 +53,13 @@ class Editor extends React.Component<any,any> {
             }
         }
         if((event.key===" "||event.key==="Enter")&&this.state.tagFlag===true){//태그 만들기
+            const tag = quill.getText().substring(this.state.tagOn,quill.getSelection().index);
             this.setState({//tag모드 초기화
                 tagFlag: false,
                 tagOn: '',
+                tag: this.state.tag.concat(tag),
             })
+            console.log(this.state);
         }
     }
     trackKey(event:any) {
