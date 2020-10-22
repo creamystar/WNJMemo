@@ -72,8 +72,23 @@
     height: 350px;
 }
 
-/* quill 세로 510 이하면 height: 200px로  
-quill, editorSpace도 세로 768 이하면 width: 400px로 */
+/* quill 가로 768 이하면 height: 300px로  
+quill, editorSpace도 가로 768 이하면 width: 300px로 */
+
+
+  @media screen and (max-width: 768px) {
+    .quill {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .editorSpace {
+    width: 300px;
+    left: calc(50% - 150px);
+
+    }
+    
+   }
 
 
 .ql-editor::-webkit-scrollbar {
