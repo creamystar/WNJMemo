@@ -6,17 +6,21 @@ import './component/gridStyle.css';
 import MemoCrud from './component/MemoCrud';
 import BasicLayout from './component/React-grid';
 import SearchRes from './component/SearchRes';
+import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
 
 class App extends Component<any,any> {
   state = {
     temp: ['발리', '리액트', '회식', '요거트', '건강'],
     leftTitle: '#여행',
+    rightIconNumber: 1,
+    searchWordUpdate: ''
   }    
   constructor(props: any) {
     super(props);
     this.setLeftTxt = this.setLeftTxt.bind(this)
   }
+
   writeBtnClick(){
     //메모 에디터 show 
     //@ts-ignore
@@ -34,28 +38,36 @@ class App extends Component<any,any> {
   setLeftTxt = (e: any) => {
     alert(e);
     this.setState({
-      leftTitle: "#" + e
+      leftTitle: e,
+      searchWordUpdate: e
     });
+    console.log("app.tsx word: " + this.state.searchWordUpdate);
   }
 
   //반응형 아이콘 클릭 
 
   rightIconClick(e: any) {
 
-    if (e.target.key === "1") {
+    if (e === 1) {
       //@ts-ignore      
-      document.getElementById("right").style = "display: block; position:absolute; left: calc(100% - 300px); top: 0; z-index: 9;";
+      document.getElementById("smallWindowRightWrap").style = "display: block; position:absolute; left: 0; top: 0;";
+      //@ts-ignore      
+      document.getElementById("smallWindowRight").style = "display: block; position:absolute; left: calc(100% - 300px); top: 0;";
       //@ts-ignore
       document.getElementById("rightIcon").style = "left: calc(100% - 340px);"
-      //@ts-ignore
-      document.getElementById("rightIcon").key = "2";
+      this.setState({
+        rightIconNumber: 2 
+      })
     } else {
       //@ts-ignore
-      document.getElementById("right").style.display = "none";
+      document.getElementById("smallWindowRightWrap").style.display = "none";
+      //@ts-ignore
+      document.getElementById("smallWindowRight").style.display = "none";
       //@ts-ignore
       document.getElementById("rightIcon").style = "left: calc(100% - 50px);"
-      //@ts-ignore
-      document.getElementById("rightIcon").key = "1";
+      this.setState({
+        rightIconNumber: 1
+      })
     }
   }
 
@@ -68,7 +80,15 @@ class App extends Component<any,any> {
     return (
       <div className="body">
         <MemoCrud />
-        <div className="rightIcon" id="rightIcon" onClick={this.rightIconClick} key="1"></div>
+        <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
+        <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
+        <div className="smallWindowRight" id="smallWindowRight">
+          <SearchRes2 setLeftTxt={this.setLeftTxt} searchWordUpdate={this.state.searchWordUpdate}/>
+          <div className="hashtagTitle"># 해시태그 </div>
+          <HashTags setLeftTxt={this.setLeftTxt} />
+        </div>
+        
+
         <div className="top">
           <div className="left" id="left">
             <div className="header">
@@ -89,7 +109,7 @@ class App extends Component<any,any> {
             </div>
           </div>
           <div className="right" id="right">
-            <SearchRes setLeftTxt={this.setLeftTxt} />
+            <SearchRes setLeftTxt={this.setLeftTxt} searchWordUpdate={this.state.searchWordUpdate}/>
             <div className="hashtagTitle"># 해시태그 </div>
             <HashTags setLeftTxt={this.setLeftTxt} />
           </div>

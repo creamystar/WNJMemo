@@ -143,12 +143,23 @@ class MemoCrud extends Component<any, any> {
         oneMemo: ''
     }
     exit() {
-        //@ts-ignore
-        document.getElementById("memoCrudAll").style.display = "none";
+        // eslint-disable-next-line no-restricted-globals
+        if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
+            //@ts-ignore
+            document.getElementById("memoCrudAll").style.display = "none";
+        }else {
+            return ;
+        }
     }
     cancleClick() {
-        //@ts-ignore
-        document.getElementById("memoCrudAll").style.display = "none";
+        // eslint-disable-next-line no-restricted-globals
+        if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
+            //@ts-ignore
+            document.getElementById("memoCrudAll").style.display = "none";
+        }else {
+            return ;
+        }
+        
     }
     wirteClick() {
         alert("");

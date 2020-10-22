@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from "lodash";
 import * as controller from './Controller';
 
-class SearchRes extends Component<any,any> {
+class SearchRes2 extends Component<any,any> {
 
     constructor(props:any){
         super(props);
@@ -67,4 +67,4 @@ class SearchRes extends Component<any,any> {
     }
 }
 
-export default SearchRes;
+export default SearchRes2;

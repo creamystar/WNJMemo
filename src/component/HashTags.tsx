@@ -22,7 +22,7 @@ class HashTags extends Component<any,any> {
     createElement(el:any){
         const i=el;
         return(
-            <div key={i} onClick={() => {this.hashtagsClick({el})}}>{el}</div>
+            <div key={i} onClick={() => {this.hashtagsClick(el)}}>{el}</div>
         );
     }
 
