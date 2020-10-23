@@ -11,7 +11,6 @@ import HashTags from './component/HashTags';
 
 class App extends Component<any,any> {
   state = {
-    temp: ['발리', '리액트', '회식', '요거트', '건강'],
     leftTitle: '#여행',
     rightIconNumber: 1,
   }    
@@ -32,6 +31,8 @@ class App extends Component<any,any> {
 
   listSeqSaveBtnClick() {
     alert('배치저장');
+    //React-grid.tsx 에서 배치 함수값 가져오기 
+
   }
 
   setLeftTxt = (e: any) => {
@@ -40,8 +41,6 @@ class App extends Component<any,any> {
       searchWordUpdate: e
     });
     alert(e);
-    console.log("this.state.word");
-    console.log(this.state);
   }
 
   //반응형 아이콘 클릭 
@@ -73,8 +72,17 @@ class App extends Component<any,any> {
 
 
   selectChange(e: any) {
-    alert(e.target.value);
+    if(e.target.value === "최신순"){
+      alert("이건 최신순");
+      //@ts-ignore
+      document.getElementById("writeBtn").style.display = "inline-block";
+    } else if(e.target.value === "사용자저장순") {
+      alert("이건 사용자저장순");
+      //@ts-ignore
+      document.getElementById("writeBtn").style.display = "none";
+    }
   }
+
 
   render() {
     return (

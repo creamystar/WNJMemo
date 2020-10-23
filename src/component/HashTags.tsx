@@ -35,7 +35,7 @@ class HashTags extends Component<any,any> {
             this.setState({
                 hashtagName: hashtagdb,
             });
-            console.log(this.state.hashtagName);
+            //console.log(this.state.hashtagName);
         })
     }
 
@@ -44,7 +44,7 @@ class HashTags extends Component<any,any> {
     render() {
         return (
             <div className="hashtags">
-                {_.map(this.state.hashtagName,el => this.createElement(el))}
+                {_.map(this.state.hashtagName,hname => this.createElement(hname))}
             </div>
         );
     }
