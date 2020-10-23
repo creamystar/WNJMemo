@@ -10,13 +10,23 @@ import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
 
 class App extends Component<any,any> {
-  state = {
-    leftTitle: '#여행',
-    rightIconNumber: 1,
-  }    
   constructor(props: any) {
     super(props);
-    this.setLeftTxt = this.setLeftTxt.bind(this)
+    this.state ={
+      leftTitle: '#여행',
+      rightIconNumber: 1,
+      memo:'',
+    }
+    this.updateMemo = this.updateMemo.bind(this);
+    this.setLeftTxt = this.setLeftTxt.bind(this);
+    this.writeBtnClick = this.writeBtnClick.bind(this);
+  }
+  updateMemo(memoInfo:any){
+    console.log(memoInfo);
+    this.setState({
+      memo: memoInfo,
+    })
+    this.writeBtnClick()
   }
 
   writeBtnClick(){
@@ -87,7 +97,7 @@ class App extends Component<any,any> {
   render() {
     return (
       <div className="body">
-        <MemoCrud />
+        <MemoCrud memo={this.state.memo}/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">
@@ -113,7 +123,7 @@ class App extends Component<any,any> {
               </select>
             </div>
             <div className="con">
-              <BasicLayout />
+              <BasicLayout updateTarget={this.updateMemo}/>
             </div>
           </div>
           <div className="right" id="right">

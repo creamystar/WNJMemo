@@ -2,6 +2,7 @@ import React from 'react';
 import RGL, { WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
+import MemoCrud from './MemoCrud';
 
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -52,7 +53,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     return ( 
       <div key={i} data-grid={el}>
         {/* {<span className="text">{i}</span>} */}
-        <span className="update" onClick={this.onUpdateItem.bind(this, i)}>
+        <span className="update" onClick={()=> this.props.updateTarget(el)}>
         </span>
         <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>
         </span>

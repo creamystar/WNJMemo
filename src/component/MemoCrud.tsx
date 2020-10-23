@@ -30,6 +30,10 @@ class Editor extends React.Component<any, any> {
         let quill = this.quillRef;
         if (prevState.editorHtml.length !== this.state.editorHtml.length) {
             this.props.getMemo(this.state.editorHtml,quill.getText())
+          }else if(prevProps.memo.mno !== this.props.memo.mno){
+            this.setState({
+                editorHtml: this.props.memo.mcon,
+            })
           }
         this.attachQuillRefs()
     }
@@ -147,7 +151,7 @@ class MemoCrud extends Component<any, any> {
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick} />
                     </div>
-                    <Editor getMemo={this.getMemo}/>
+                    <Editor getMemo={this.getMemo} memo={this.props.memo}/>
                 </div>
             </div>
         );
