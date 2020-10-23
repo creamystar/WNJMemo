@@ -95,7 +95,7 @@ class App extends Component<any,any> {
           <div className="hashtagTitle"># 해시태그 </div>
           <HashTags setLeftTxt={this.setLeftTxt} />
         </div>
-        
+        {/* {(this.state.block)? () : ()} */}
 
         <div className="top">
           <div className="left" id="left">
