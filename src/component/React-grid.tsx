@@ -89,11 +89,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
      console.log(this.state.layout);
       }
 }
-
-  // Axios 예제
   componentDidMount() {
 
-    controller.getMemo().then(res => {
+    controller.getMemoList().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
           return {
             i: key.toString(),
@@ -105,6 +103,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
             mno: i.mno,
             mcon: i.mcon,
             mdate: i.mdate,
+            hashtag: i.mhList,
           };
         })
          this.setState({
@@ -123,6 +122,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         //저장 순에서 모양 바꾸고 저장하면 - 그대로 저장순 
 
         //사용법 같은거.. 클릭해서 볼 수 있게 How to Use 같은거 우측 상단 빈공간에 넣어주기 
+    }).catch((e:any) => {
+      console.log(e);
+      alert("서버와의 통신이 원활하지 않습니다.");
     })
   }
   //--End Axios
