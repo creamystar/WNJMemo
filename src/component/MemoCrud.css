@@ -13,13 +13,13 @@
     display: none;
 }
 .editorSpace {
-    height: 90%;
+    height: 460px;
     width: 700px;
+    position: absolute;
+    top: calc(50% - 250px);
+    left: calc(50% - 370px);
     background-color: rgb(255,255,255);
     z-index: 11;
-    position: absolute;
-    top: 5%;
-    left: calc(50% - 350px);
     padding-left: 15px;
     padding-right: 15px;
     display: none;
@@ -84,7 +84,8 @@ quill, editorSpace도 가로 768 이하면 width: 300px로 */
     
     .editorSpace {
     width: 300px;
-    left: calc(50% - 150px);
+    height: 440px;
+    left: calc(50% - 170px);
 
     }
     

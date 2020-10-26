@@ -36,6 +36,9 @@ class HashTags extends Component<any,any> {
                 hashtagName: hashtagdb,
             });
             //console.log(this.state.hashtagName);
+        }).catch((e:any) => {
+            console.log(e);
+            alert("서버와의 통신이 원활하지 않습니다.");
         })
     }
 

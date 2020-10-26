@@ -1,5 +1,5 @@
 import React from 'react';
-import RGL, { WidthProvider } from "react-grid-layout";
+import RGL, { Layout, WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
 
@@ -70,8 +70,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
 
   onLayoutChange(layout:any) {
-    this.setState({ layout: layout });
+    debugger;
     console.log("on layoutchange find key? "+layout);
+    // eslint-disable-next-line no-redeclare
   }
   
   onRemoveItem(i:number) {
