@@ -3,7 +3,6 @@ import RGL, { Layout, WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
 
-
 const ReactGridLayout = WidthProvider(RGL);
 
 class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, state 쓰겠다는 선언 (없으면 못씀)
@@ -52,7 +51,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     return ( 
       <div key={i} data-grid={el}>
         {/* {<span className="text">{i}</span>} */}
-        <span className="update" onClick={this.onUpdateItem.bind(this, i)}>
+        <span className="update" onClick={()=> this.props.updateTarget(el)}>
         </span>
         <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>
         </span>
@@ -90,7 +89,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       }
 }
   componentDidMount() {
-
     controller.getMemoList().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
           return {

@@ -1,7 +1,6 @@
 .con > div > div {
-    /* background-color: rgb(255,255,255); 김누리 수정 201016*/
     color: black;
-    text-indent: 10px;
+    /* text-indent: 10px; */
     font-size: 9.5pt;
   }
 .react-grid-item  > span:first-child{
@@ -164,5 +163,6 @@
   .memoCon {
     padding-top: 5px;
     padding-right: 10px;
+    padding-left: 10px;
   }
   
