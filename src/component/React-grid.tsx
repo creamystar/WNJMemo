@@ -2,8 +2,6 @@ import React from 'react';
 import RGL, { WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
-import MemoCrud from './MemoCrud';
-
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -90,7 +88,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       }
 }
   componentDidMount() {
-
     controller.getMemoList().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
           return {

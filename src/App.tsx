@@ -20,6 +20,13 @@ class App extends Component<any,any> {
     this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
+    this.setMemo = this.setMemo.bind(this);
+  }
+  setMemo(memoInfo:any){
+    this.setState({
+      memo:memoInfo,
+    })
+    console.log(memoInfo);
   }
   updateMemo(memoInfo:any){
     console.log(memoInfo);
@@ -28,7 +35,6 @@ class App extends Component<any,any> {
     })
     this.writeBtnClick()
   }
-
   writeBtnClick(){
     //메모 에디터 show 
     //@ts-ignore
@@ -97,7 +103,7 @@ class App extends Component<any,any> {
   render() {
     return (
       <div className="body">
-        <MemoCrud memo={this.state.memo}/>
+        <MemoCrud memo={this.state.memo} setMemo={this.setMemo}/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">

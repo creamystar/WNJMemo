@@ -101,6 +101,8 @@ class MemoCrud extends Component<any, any> {
         }
         this.getMemo = this.getMemo.bind(this);
         this.seperateTag = this.seperateTag.bind(this);
+        this.exit = this.exit.bind(this);
+        this.cancleClick = this.cancleClick.bind(this);
     }
     set = {
         oneMemo: ''
@@ -110,6 +112,7 @@ class MemoCrud extends Component<any, any> {
         if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
             //@ts-ignore
             document.getElementById("memoCrudAll").style.display = "none";
+            this.props.setMemo({mno:'',mcon:''});
         }else {
             return ;
         }
@@ -119,6 +122,7 @@ class MemoCrud extends Component<any, any> {
         if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
             //@ts-ignore
             document.getElementById("memoCrudAll").style.display = "none";
+            this.props.setMemo({mno:'',mcon:''});
         }else {
             return ;
         }
@@ -127,7 +131,7 @@ class MemoCrud extends Component<any, any> {
     wirteClick() {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성을 완료하시겠습니까?")){
-            const tag = this.seperateTag(this.state.rawcon);
+            // const tag = this.seperateTag(this.state.rawcon);
         }
     }
     getMemo(memo:any,rawcon:any){
@@ -135,7 +139,6 @@ class MemoCrud extends Component<any, any> {
             mcon: memo,
             rawcon: rawcon,
         })
-        console.log(this.state);
     }
     seperateTag(rawcon:string){
         
@@ -148,7 +151,7 @@ class MemoCrud extends Component<any, any> {
                 <div className="editorSpace" id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
-                        <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
+                        <input type="button" id="writeEditorBtn" value="완료" onClick={()=>this.wirteClick} />
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick} />
                     </div>
                     <Editor getMemo={this.getMemo} memo={this.props.memo}/>
