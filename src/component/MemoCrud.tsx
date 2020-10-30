@@ -3,6 +3,7 @@ import './MemoCrud.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import * as controller from './Controller';
+import store from '../redux/store';
 
 class Editor extends React.Component<any, any> {
     constructor(props: any) {
@@ -84,34 +85,24 @@ class MemoCrud extends Component<any, any> {
         this.state = {
             mcon:'',
             rawcon:'',
+            modal: store.getState().modal,
         }
+        store.subscribe(function(){
+            //@ts-ignore
+            this.setState({modal:store.getState().modal});
+        }.bind(this));
         this.getMemo = this.getMemo.bind(this);
         this.wirteClick = this.wirteClick.bind(this);
         this.seperateTag = this.seperateTag.bind(this);
         this.exit = this.exit.bind(this);
-        this.cancelClick = this.cancelClick.bind(this);
     }
     exit() {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
-            //@ts-ignore
-            document.getElementById("memoCrudAll").style.display = "none";
-            this.props.setMemo({mno:'',mcon:''});
+            store.dispatch({type:'CHANGE_MODAL', payload:false});
         }else {
             return ;
         }
-    }
-    cancelClick() {
-        // eslint-disable-next-line no-restricted-globals
-        if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
-            //@ts-ignore
-            // document.getElementById("memoCrudAll").style.display = "none";
-            this.props.setModalClose(false);
-            this.props.setMemo({mno:'',mcon:''});
-        }else {
-            return ;
-        }
-        
     }
     wirteClick() {
         // eslint-disable-next-line no-restricted-globals
@@ -120,8 +111,7 @@ class MemoCrud extends Component<any, any> {
             controller.createMemo(this.state.mcon,tag)
             .then((res:any)=>{
                 alert("메모작성 완료!");
-                this.props.setModalClose(false);
-                this.props.setMemo({mno:'',mcon:''});
+                store.dispatch({type:'CHANGE_MODAL', payload:false});
             })
             .catch((e:any) => {
                 console.log(e);
@@ -148,14 +138,14 @@ class MemoCrud extends Component<any, any> {
     render() {
         return (
             <>
-            {(this.props.modalClose)?
+            {(this.state.modal)?
             <div id="memoCrudAll">
                 <div className="wrap" id="wrap" onClick={this.exit}></div>
                 <div className="editorSpace" id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
-                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancelClick} />
+                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.exit}/>
                     </div>
                     <Editor getMemo={this.getMemo} memo={this.props.memo}/>
                 </div>

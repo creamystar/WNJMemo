@@ -1,11 +1,9 @@
 import React from 'react';
 import RGL, {WidthProvider} from "react-grid-layout";
 import _ from "lodash";
-import * as controller from './Controller';
+import store from '../redux/store';
 
 const ReactGridLayout = WidthProvider(RGL);
-
-
 
 class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, state 쓰겠다는 선언 (없으면 못씀)
   static defaultProps = {
@@ -29,35 +27,15 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       newCounter: 0,
       layout: []
     };
-    this.onAddItem = this.onAddItem.bind(this);
+    store.subscribe(function(){
+      //@ts-ignore
+      this.setState({items:store.getState().items});
+  }.bind(this));
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
-
-
-
-  onAddItem() { 
-    // 메모 추가기능 수정시 같이 수정할 예정 -김누리
-    console.log("adding", "n" + this.state.newCounter);
-    this.setState({
-      // Add a new item. It must have a unique key!
-      items: this.state.items.concat({
-        i: "n" + this.state.newCounter,
-        x: (this.state.items.length * 2) % (this.state.cols || 10),
-        y: Infinity, // puts it at the bottom
-        w: 2,
-        h: 2
-      }),
-      // Increment the counter to ensure key is always unique.
-      newCounter: this.state.newCounter + 1
-    });
-
-    // controller.createMemo('Axios Testing...');
-  }
-
   createElement(el:any) {
     const i = el.i;
     console.log("memo x/y/w/h/mno: "+el.x+"/"+el.y+"/"+el.w+"/"+el.h+"/"+el.mno);
-
     return ( 
       <div key={i} data-grid={el}>
         {/* {<span className="text">{i}</span>} */}
@@ -76,8 +54,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       </div>
     );
   }
-
-  
   //grid 변할때마다 배치저장위해 memo에 담아놓기 
   onLayoutChange(layout:any) {
     //여기서 디버그를 하면 layout에 w h x y i 가 있음을 알 수 있다. 
@@ -121,50 +97,13 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     console.log("removing", i);
     this.setState({ items: _.reject(this.state.items, { i: i }) });
   }
-  onUpdateItem(i:number) {
-    console.log("updating", i);
-    //수정화면 떠야함 (추가화면 복붙)
-  }
   componentDidUpdate(prevProps:any, prevState:any) {
     if (prevState.layout.length !== this.state.layout.length) {//이전과 현재 state 비교, 바뀌면 실행
      console.log("componentDidUpdate: "+this.state.layout);
+    }
   }
-
-    
-}
   componentDidMount() {
     console.log("componentDidMount 시작");
-    controller.getMemoList().then(res => {
-      const memo = res.data.map(function(i:any, key:any, list:any) {
-        let chcon;
-        console.log(i.mhList);
-        if(i.mhList.length!==0){
-          i.mhList.map(function(tag:any, key:any){
-            chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
-            console.log(chcon);
-          })
-        }else{
-          chcon = i.mcon;
-        }
-          return {
-            i: key.toString(),
-            //메모 한줄 갯수 바꿀시 수정 필요
-            x: (key * 2)%10,
-            y: 0,
-            w: 2,
-            h: 2,
-            mno: i.mno,
-            chcon: chcon,
-            mdate: i.mdate,
-            hashtag: i.mhList,
-            mcon: i.mcon,
-          };
-          
-        })
-         this.setState({
-           items: memo, //items에 memo를 다 넣어놨고 
-         });
-        console.log("getmemo from controller: "+this.state.items[0].w); //2 
         //items에는 각 키 i 기준으로 다 들어있다는 것... 
         //이거가지고 바꿔보면..? 
 
@@ -177,17 +116,10 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         //저장 순에서 모양 바꾸고 저장하면 - 그대로 저장순 
 
         //사용법 같은거.. 클릭해서 볼 수 있게 How to Use 같은거 우측 상단 빈공간에 넣어주기 
-    }).catch((e:any) => {
-      console.log(e);
-      alert("서버와의 통신이 원활하지 않습니다.");
-    })
   }
-  //--End Axios
   render() {
     return (
       <div>
-        {/* 추가버튼 삭제 예정 */}
-        <button onClick={this.onAddItem}>Add Item</button>
         <ReactGridLayout
           layout={this.state.layout} 
           onLayoutChange={this.onLayoutChange}

@@ -8,8 +8,8 @@ import BasicLayout from './component/React-grid';
 import SearchRes from './component/SearchRes';
 import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
+import store from './redux/store';
 import * as controller from './component/Controller';
-
 
 class App extends Component<any,any> {
   constructor(props: any) {
@@ -19,19 +19,44 @@ class App extends Component<any,any> {
       rightIconNumber: 1,
       memo:'',
       selectedValue: '최신순',
-      modalClose: false,
     }
     this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
-    this.setMemo = this.setMemo.bind(this);
     this.setModalClose = this.setModalClose.bind(this);
   }
-  setMemo(memoInfo:any){
-    this.setState({
-      memo:memoInfo,
+  componentDidMount(){
+    controller.getMemoList().then(res => {
+      const memoList = res.data.map(function(i:any, key:any, list:any) {
+        let chcon;
+        console.log(i.mhList);
+        if(i.mhList.length!==0){
+          i.mhList.map(function(tag:any, key:any){
+            chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+            console.log(chcon);
+          })
+        }else{
+          chcon = i.mcon;
+        }
+        return {
+          i: key.toString(),
+          //메모 한줄 갯수 바꿀시 수정 필요
+          x: (key * 2)%10,
+          y: 0,
+          w: 2,
+          h: 2,
+          mno: i.mno,
+          chcon: chcon,
+          mdate: i.mdate,
+          hashtag: i.mhList,
+          mcon: i.mcon,
+        };
+      })
+      store.dispatch({type:'CHANGE_ITEMS', payload:memoList});
+    }).catch((e:any) => {
+      console.log(e);
+      alert("서버와의 통신이 원활하지 않습니다.");
     })
-    console.log(memoInfo);
   }
   setModalClose(flag:boolean){
     this.setState({
@@ -45,15 +70,8 @@ class App extends Component<any,any> {
       memo: memoInfo,
     })
   }
-  writeBtnClick(){
-    //메모 에디터 show 
-    // //@ts-ignore
-    // document.getElementById("memoCrudAll").style.display = "block";
-    // //@ts-ignore
-    // document.getElementById("wrap").style.display = "block";
-    // //@ts-ignore
-    // document.getElementById("editorSpace").style.display = "block";
-    this.setModalClose(true);
+  writeBtnClick(){//메모 작성창
+    store.dispatch({type:'CHANGE_MODAL', payload:true});
   }
   listSeqSaveBtnClick() {
     alert("최신순에서 모양을 저장하면 저장순으로 보여집니다. \n다시 최신순으로 보고싶으면 셀렉트박스에서 최신순을 선택해주세요.");
@@ -74,9 +92,7 @@ class App extends Component<any,any> {
     });
     alert(e);
   }
-
   //반응형 아이콘 클릭 
-
   rightIconClick(e: any) {
 
     if (e === 1) {
@@ -101,8 +117,6 @@ class App extends Component<any,any> {
       })
     }
   }
-
-
   selectChange(e: any) {
     if(e.target.value === "최신순"){
       alert("이건 최신순");
@@ -114,13 +128,10 @@ class App extends Component<any,any> {
       document.getElementById("writeBtn").style.display = "none";
     }
   }
-
-
   render() {
     return (
       <div className="body">
-        <MemoCrud memo={this.state.memo} setMemo={this.setMemo} 
-        modalClose ={this.state.modalClose} setModalClose={this.setModalClose}/>
+        <MemoCrud memo={this.state.memo}/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">
