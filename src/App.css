@@ -114,7 +114,7 @@
   height: calc(50% - 18px);
   width: calc(100% - 20px);
 }
-#searchTxt {
+#searchTxt, #searchTxt2 {
   width: 80%;
   height: 25px;
   vertical-align: top;

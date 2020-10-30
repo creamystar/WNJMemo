@@ -16,6 +16,7 @@ class App extends Component<any,any> {
       leftTitle: '#여행',
       rightIconNumber: 1,
       memo:'',
+      selectedValue: '최신순',
     }
     this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
@@ -46,15 +47,21 @@ class App extends Component<any,any> {
   }
 
   listSeqSaveBtnClick() {
-    alert('배치저장');
-    //React-grid.tsx 에서 배치 함수값 가져오기 
+    alert("최신순에서 모양을 저장하면 저장순으로 보여집니다. \n다시 최신순으로 보고싶으면 셀렉트박스에서 최신순을 선택해주세요.");
+    //React-grid.tsx 에서 배치 함수값 가져오기 (items)
+    //그리고 백으로 넘기기 
+    //셀렉박스 배치저장으로 바꾸고 
+    this.setState({
+      selectedValue: '배치저장순',
+    })
+    //배치저장 순으로 메모 가져오기 
 
   }
 
   setLeftTxt = (e: any) => {
     this.setState({
       leftTitle: e,
-      searchWordUpdate: e
+      searchWordUpdate: e      
     });
     alert(e);
   }
@@ -123,7 +130,7 @@ class App extends Component<any,any> {
               <input type="button" id="listSeqSaveBtn" onClick={this.listSeqSaveBtnClick} value="배치저장" />
             </div>
             <div className="rightselects">
-              <select id="selects" onChange={this.selectChange}>
+              <select id="selects" value={this.state.selectedValue} onChange={this.selectChange}>
                 <option value="최신순">최신순</option>
                 <option value="사용자저장순">사용자저장순</option>
               </select>

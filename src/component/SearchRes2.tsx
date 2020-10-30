@@ -59,7 +59,7 @@ class SearchRes2 extends Component<any,any> {
         return (
             <div className="searchs">
             <div>
-                    <input type="text" id="searchTxt" value={this.state.text} onChange={this.handleChange}/>
+                    <input type="text" id="searchTxt2" value={this.state.text} onChange={this.handleChange}/>
                     <input type="button" id="searchBtn" onClick={() => this.sendSearchTxt(this.state.text)} />
                 </div>
                 <div className="searchRes">
