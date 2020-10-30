@@ -1,8 +1,7 @@
-import React, { memo } from 'react';
-import RGL, { Layout, WidthProvider } from "react-grid-layout";
+import React from 'react';
+import RGL, {WidthProvider} from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
-import { isTemplateSpan } from 'typescript';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -81,7 +80,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   
   //grid 변할때마다 배치저장위해 memo에 담아놓기 
   onLayoutChange(layout:any) {
-    //debugger;
     //여기서 디버그를 하면 layout에 w h x y i 가 있음을 알 수 있다. 
     // this.setState({
     //   items: layout.map((i:any, key:any) => {
@@ -98,7 +96,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     console.log("layout/items 확인");
     console.log(layout);
     console.log(this.state.items);
-    debugger;
 
     //layout에서 달라진 xywh를 items로 
     // const item = this.state.items.map(
@@ -131,7 +128,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   componentDidUpdate(prevProps:any, prevState:any) {
     if (prevState.layout.length !== this.state.layout.length) {//이전과 현재 state 비교, 바뀌면 실행
      console.log("componentDidUpdate: "+this.state.layout);
-      }
+  }
 
     
 }
@@ -140,10 +137,14 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     controller.getMemoList().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
         let chcon;
-        if(i.mhList!=null){
+        console.log(i.mhList);
+        if(i.mhList.length!==0){
           i.mhList.map(function(tag:any, key:any){
             chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+            console.log(chcon);
           })
+        }else{
+          chcon = i.mcon;
         }
           return {
             i: key.toString(),

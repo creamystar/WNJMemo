@@ -8,6 +8,8 @@ import BasicLayout from './component/React-grid';
 import SearchRes from './component/SearchRes';
 import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
+import * as controller from './component/Controller';
+
 
 class App extends Component<any,any> {
   constructor(props: any) {
@@ -17,11 +19,13 @@ class App extends Component<any,any> {
       rightIconNumber: 1,
       memo:'',
       selectedValue: '최신순',
+      modalClose: false,
     }
     this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
     this.setMemo = this.setMemo.bind(this);
+    this.setModalClose = this.setModalClose.bind(this);
   }
   setMemo(memoInfo:any){
     this.setState({
@@ -29,23 +33,28 @@ class App extends Component<any,any> {
     })
     console.log(memoInfo);
   }
+  setModalClose(flag:boolean){
+    this.setState({
+      modalClose:flag,
+    })
+  }
   updateMemo(memoInfo:any){
     console.log(memoInfo);
+    this.writeBtnClick()
     this.setState({
       memo: memoInfo,
     })
-    this.writeBtnClick()
   }
   writeBtnClick(){
     //메모 에디터 show 
-    //@ts-ignore
-    document.getElementById("memoCrudAll").style.display = "block";
-    //@ts-ignore
-    document.getElementById("wrap").style.display = "block";
-    //@ts-ignore
-    document.getElementById("editorSpace").style.display = "block";
+    // //@ts-ignore
+    // document.getElementById("memoCrudAll").style.display = "block";
+    // //@ts-ignore
+    // document.getElementById("wrap").style.display = "block";
+    // //@ts-ignore
+    // document.getElementById("editorSpace").style.display = "block";
+    this.setModalClose(true);
   }
-
   listSeqSaveBtnClick() {
     alert("최신순에서 모양을 저장하면 저장순으로 보여집니다. \n다시 최신순으로 보고싶으면 셀렉트박스에서 최신순을 선택해주세요.");
     //React-grid.tsx 에서 배치 함수값 가져오기 (items)
@@ -110,7 +119,8 @@ class App extends Component<any,any> {
   render() {
     return (
       <div className="body">
-        <MemoCrud memo={this.state.memo} setMemo={this.setMemo}/>
+        <MemoCrud memo={this.state.memo} setMemo={this.setMemo} 
+        modalClose ={this.state.modalClose} setModalClose={this.setModalClose}/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">

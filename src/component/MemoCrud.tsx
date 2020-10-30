@@ -26,6 +26,7 @@ class Editor extends React.Component<any, any> {
         if (prevState.editorHtml.length !== this.state.editorHtml.length) {
             this.props.getMemo(this.state.editorHtml,quill.getText())
           }else if(prevProps.memo.mno !== this.props.memo.mno){
+              console.log(prevProps+" "+this.props)
             this.setState({
                 editorHtml: this.props.memo.mcon,
             })
@@ -88,10 +89,7 @@ class MemoCrud extends Component<any, any> {
         this.wirteClick = this.wirteClick.bind(this);
         this.seperateTag = this.seperateTag.bind(this);
         this.exit = this.exit.bind(this);
-        this.cancleClick = this.cancleClick.bind(this);
-    }
-    set = {
-        oneMemo: ''
+        this.cancelClick = this.cancelClick.bind(this);
     }
     exit() {
         // eslint-disable-next-line no-restricted-globals
@@ -103,11 +101,12 @@ class MemoCrud extends Component<any, any> {
             return ;
         }
     }
-    cancleClick() {
+    cancelClick() {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
             //@ts-ignore
-            document.getElementById("memoCrudAll").style.display = "none";
+            // document.getElementById("memoCrudAll").style.display = "none";
+            this.props.setModalClose(false);
             this.props.setMemo({mno:'',mcon:''});
         }else {
             return ;
@@ -118,7 +117,13 @@ class MemoCrud extends Component<any, any> {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
-            controller.createMemo(this.state.mcon,tag).catch((e:any) => {
+            controller.createMemo(this.state.mcon,tag)
+            .then((res:any)=>{
+                alert("메모작성 완료!");
+                this.props.setModalClose(false);
+                this.props.setMemo({mno:'',mcon:''});
+            })
+            .catch((e:any) => {
                 console.log(e);
                 alert("메모작성 오류!");
               })
@@ -130,6 +135,7 @@ class MemoCrud extends Component<any, any> {
             rawcon: rawcon,
         })
     }
+    //태그 분리
     seperateTag(rawcon:string){
         const reg = /(^#| #)[0-9a-zA-Z가-힣_]{1,20}\s/gm; //20자 제한
         let rs, temp;
@@ -141,17 +147,23 @@ class MemoCrud extends Component<any, any> {
     }
     render() {
         return (
+            <>
+            {(this.props.modalClose)?
             <div id="memoCrudAll">
                 <div className="wrap" id="wrap" onClick={this.exit}></div>
                 <div className="editorSpace" id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
-                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick} />
+                        <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancelClick} />
                     </div>
                     <Editor getMemo={this.getMemo} memo={this.props.memo}/>
                 </div>
             </div>
+            :
+            <></>
+            }
+            </>
         );
     }
 }
