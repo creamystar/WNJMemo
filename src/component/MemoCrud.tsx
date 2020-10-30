@@ -2,24 +2,19 @@ import React, { Component } from 'react';
 import './MemoCrud.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import * as controller from './Controller';
 
 class Editor extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
         this.state = { 
             editorHtml: '' ,
-            tagOn: '',
-            tagFlag: false,
-            tag:[],
-            contents:'',
         }
         //@ts-ignore
         this.quillRef = null;      // Quill instance
         //@ts-ignore
         this.reactQuillRef = null;
         this.handleChange = this.handleChange.bind(this)
-        this.chkHashtag = this.chkHashtag.bind(this)
-        this.trackKey = this.trackKey.bind(this)
     }
     componentDidMount() {
         this.attachQuillRefs()
@@ -50,13 +45,6 @@ class Editor extends React.Component<any, any> {
             editorHtml: html,
          }); //이게 없으면 날아감*
     }
-     // 해시태그 변환 수정중... 김누리1021
-     chkHashtag(event:any) {
-       
-    }
-    trackKey(event:any) {
-       
-    }
     render () {
         return (
           <div>
@@ -69,8 +57,6 @@ class Editor extends React.Component<any, any> {
               value={this.state.editorHtml}
               //@ts-ignore
               modules={Editor.modules}
-              onKeyDown={this.chkHashtag}
-              onKeyUp={this.trackKey}
             //   placeholder={this.props.placeholder}
              />
            </div>
@@ -97,9 +83,9 @@ class MemoCrud extends Component<any, any> {
         this.state = {
             mcon:'',
             rawcon:'',
-            tags:[],
         }
         this.getMemo = this.getMemo.bind(this);
+        this.wirteClick = this.wirteClick.bind(this);
         this.seperateTag = this.seperateTag.bind(this);
         this.exit = this.exit.bind(this);
         this.cancleClick = this.cancleClick.bind(this);
@@ -131,7 +117,11 @@ class MemoCrud extends Component<any, any> {
     wirteClick() {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성을 완료하시겠습니까?")){
-            // const tag = this.seperateTag(this.state.rawcon);
+            const tag = this.seperateTag(this.state.rawcon);
+            controller.createMemo(this.state.mcon,tag).catch((e:any) => {
+                console.log(e);
+                alert("메모작성 오류!");
+              })
         }
     }
     getMemo(memo:any,rawcon:any){
@@ -141,8 +131,13 @@ class MemoCrud extends Component<any, any> {
         })
     }
     seperateTag(rawcon:string){
-        
-        return
+        const reg = /(^#| #)[0-9a-zA-Z가-힣_]{1,20}\s/gm; //20자 제한
+        let rs, temp;
+        temp = rawcon.match(reg);
+        rs = temp?.map((temp,i)=> (
+            rs = temp.trim()
+        ));
+        return rs;
     }
     render() {
         return (
@@ -151,7 +146,7 @@ class MemoCrud extends Component<any, any> {
                 <div className="editorSpace" id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
-                        <input type="button" id="writeEditorBtn" value="완료" onClick={()=>this.wirteClick} />
+                        <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.cancleClick} />
                     </div>
                     <Editor getMemo={this.getMemo} memo={this.props.memo}/>
