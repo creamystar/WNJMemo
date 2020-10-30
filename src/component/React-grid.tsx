@@ -9,7 +9,6 @@ const ReactGridLayout = WidthProvider(RGL);
 
 
 class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, state 쓰겠다는 선언 (없으면 못씀)
-
   static defaultProps = {
     className: "layout",
     rowHeight: 100,
@@ -24,7 +23,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       w: 0
     }
   };
-
   constructor(props:any) {
     super(props);
     this.state = { 
@@ -74,8 +72,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         <span className="memodate">
         {el.mdate}
         </span>
-        <span className="memoCon">
-        {el.mcon}
+        <span className="memoCon" dangerouslySetInnerHTML={{__html: el.chcon}}>
         </span>
       </div>
     );
@@ -131,7 +128,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     console.log("updating", i);
     //수정화면 떠야함 (추가화면 복붙)
   }
-
   componentDidUpdate(prevProps:any, prevState:any) {
     if (prevState.layout.length !== this.state.layout.length) {//이전과 현재 state 비교, 바뀌면 실행
      console.log("componentDidUpdate: "+this.state.layout);
@@ -143,6 +139,12 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     console.log("componentDidMount 시작");
     controller.getMemoList().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
+        let chcon;
+        if(i.mhList!=null){
+          i.mhList.map(function(tag:any, key:any){
+            chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+          })
+        }
           return {
             i: key.toString(),
             //메모 한줄 갯수 바꿀시 수정 필요
@@ -151,9 +153,10 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
             w: 2,
             h: 2,
             mno: i.mno,
-            mcon: i.mcon,
+            chcon: chcon,
             mdate: i.mdate,
             hashtag: i.mhList,
+            mcon: i.mcon,
           };
           
         })
