@@ -24,7 +24,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     super(props);
     this.state = { 
       items: '', //메모 배열들이 저장되어 있음 
-      newCounter: 0,
       layout: []
     };
     store.subscribe(function(){
@@ -32,14 +31,19 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       this.setState({items:store.getState().items});
   }.bind(this));
     this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.updateMemo = this.updateMemo.bind(this);
+  }
+  updateMemo(e:any){
+    store.dispatch({type:'CHANGE_MODAL', payload: true});
+    store.dispatch({type:'CHANGE_MEMO', payload:e});
   }
   createElement(el:any) {
     const i = el.i;
-    console.log("memo x/y/w/h/mno: "+el.x+"/"+el.y+"/"+el.w+"/"+el.h+"/"+el.mno);
+    // console.log("memo x/y/w/h/mno: "+el.x+"/"+el.y+"/"+el.w+"/"+el.h+"/"+el.mno);
     return ( 
       <div key={i} data-grid={el}>
         {/* {<span className="text">{i}</span>} */}
-        <span className="update" onClick={()=> this.props.updateTarget(el)}>
+        <span className="update" onClick={()=> this.updateMemo(el)}>
         </span>
         <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>
         </span>
@@ -69,9 +73,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     //     };
     //   })
     // });
-    console.log("layout/items 확인");
-    console.log(layout);
-    console.log(this.state.items);
+    // console.log("layout/items 확인");
+    // console.log(layout);
+    // console.log(this.state.items);
 
     //layout에서 달라진 xywh를 items로 
     // const item = this.state.items.map(
@@ -94,16 +98,16 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   // }
   
   onRemoveItem(i:number) {
-    console.log("removing", i);
+    // console.log("removing", i);
     this.setState({ items: _.reject(this.state.items, { i: i }) });
   }
   componentDidUpdate(prevProps:any, prevState:any) {
     if (prevState.layout.length !== this.state.layout.length) {//이전과 현재 state 비교, 바뀌면 실행
-     console.log("componentDidUpdate: "+this.state.layout);
+    //  console.log("componentDidUpdate: "+this.state.layout);
     }
   }
   componentDidMount() {
-    console.log("componentDidMount 시작");
+    // console.log("componentDidMount 시작");
         //items에는 각 키 i 기준으로 다 들어있다는 것... 
         //이거가지고 바꿔보면..? 
 

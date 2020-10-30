@@ -19,7 +19,6 @@ class Editor extends React.Component<any, any> {
     }
     componentDidMount() {
         this.attachQuillRefs()
-
     }
     componentDidUpdate(prevProps:any, prevState:any) {
         //@ts-ignore
@@ -27,7 +26,6 @@ class Editor extends React.Component<any, any> {
         if (prevState.editorHtml.length !== this.state.editorHtml.length) {
             this.props.getMemo(this.state.editorHtml,quill.getText())
           }else if(prevProps.memo.mno !== this.props.memo.mno){
-              console.log(prevProps+" "+this.props)
             this.setState({
                 editorHtml: this.props.memo.mcon,
             })
@@ -85,11 +83,15 @@ class MemoCrud extends Component<any, any> {
         this.state = {
             mcon:'',
             rawcon:'',
-            modal: store.getState().modal,
+            modal: '',
+            memo: '',
         }
         store.subscribe(function(){
             //@ts-ignore
-            this.setState({modal:store.getState().modal});
+            this.setState({
+                modal:store.getState().modal,
+                memo:store.getState().memo,
+            });
         }.bind(this));
         this.getMemo = this.getMemo.bind(this);
         this.wirteClick = this.wirteClick.bind(this);
@@ -114,7 +116,6 @@ class MemoCrud extends Component<any, any> {
                 store.dispatch({type:'CHANGE_MODAL', payload:false});
             })
             .catch((e:any) => {
-                console.log(e);
                 alert("메모작성 오류!");
               })
         }
@@ -137,23 +138,17 @@ class MemoCrud extends Component<any, any> {
     }
     render() {
         return (
-            <>
-            {(this.state.modal)?
-            <div id="memoCrudAll">
-                <div className="wrap" id="wrap" onClick={this.exit}></div>
-                <div className="editorSpace" id="editorSpace">
+            <div id="memoCrudAll" style={{display:this.state.modal?"block":"none"}}>
+                <div className="wrap" style={{display:this.state.modal?"block":"none"}} id="wrap" onClick={this.exit}></div>
+                <div className="editorSpace" style={{display:this.state.modal?"block":"none"}} id="editorSpace">
                     <h2 id="memoCreate">Memo Editor</h2>
                     <div id="memoBtn">
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.exit}/>
                     </div>
-                    <Editor getMemo={this.getMemo} memo={this.props.memo}/>
+                    <Editor getMemo={this.getMemo} memo={this.state.memo}/>
                 </div>
             </div>
-            :
-            <></>
-            }
-            </>
         );
     }
 }

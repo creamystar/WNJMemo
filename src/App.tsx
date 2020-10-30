@@ -17,23 +17,19 @@ class App extends Component<any,any> {
     this.state ={
       leftTitle: '#여행',
       rightIconNumber: 1,
-      memo:'',
       selectedValue: '최신순',
     }
-    this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
-    this.setModalClose = this.setModalClose.bind(this);
   }
   componentDidMount(){
+    //메모리스트 가져오기
     controller.getMemoList().then(res => {
       const memoList = res.data.map(function(i:any, key:any, list:any) {
         let chcon;
-        console.log(i.mhList);
         if(i.mhList.length!==0){
           i.mhList.map(function(tag:any, key:any){
             chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
-            console.log(chcon);
           })
         }else{
           chcon = i.mcon;
@@ -54,20 +50,7 @@ class App extends Component<any,any> {
       })
       store.dispatch({type:'CHANGE_ITEMS', payload:memoList});
     }).catch((e:any) => {
-      console.log(e);
       alert("서버와의 통신이 원활하지 않습니다.");
-    })
-  }
-  setModalClose(flag:boolean){
-    this.setState({
-      modalClose:flag,
-    })
-  }
-  updateMemo(memoInfo:any){
-    console.log(memoInfo);
-    this.writeBtnClick()
-    this.setState({
-      memo: memoInfo,
     })
   }
   writeBtnClick(){//메모 작성창
@@ -131,7 +114,7 @@ class App extends Component<any,any> {
   render() {
     return (
       <div className="body">
-        <MemoCrud memo={this.state.memo}/>
+        <MemoCrud/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">
@@ -157,7 +140,7 @@ class App extends Component<any,any> {
               </select>
             </div>
             <div className="con">
-              <BasicLayout updateTarget={this.updateMemo}/>
+              <BasicLayout/>
             </div>
           </div>
           <div className="right" id="right">
