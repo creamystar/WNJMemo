@@ -1,0 +1,8 @@
+#howtouse {
+    position: absolute;
+    top: 5%;
+    left: 68%;
+    display: inline-block;
+    cursor: pointer;
+    z-index: 5;
+}

@@ -3,6 +3,7 @@ import RGL, { Layout, WidthProvider } from "react-grid-layout";
 import _ from "lodash";
 import * as controller from './Controller';
 import { isTemplateSpan } from 'typescript';
+import { data } from 'jquery';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -98,7 +99,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     console.log("layout/items 확인");
     console.log(layout);
     console.log(this.state.items);
-    debugger;
+    //debugger;
 
     //layout에서 달라진 xywh를 items로 
     // const item = this.state.items.map(
@@ -107,18 +108,20 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     //     ? {...item, ...data
     //   )
     // )
+    // layout.map(() => {
+    //   this.state.items.map(() => {
+    //     if(this.state.items.i === layout.i){
+    //       this.setState({
+    //         items: {...data, layout}
+    //       })
+    //     }
+    //   })
+    // })
 
+    //바뀐 items 확인 
+    console.log("바뀐 items")
+    console.log(this.state.items)
   }
-
-  // fromLayoutToMemo(layout:any){
-  //   layout.map((arrange,i) => {
-  //     return (
-  //       this.setState({
-  //         items: layout 
-  //       })
-  //     )
-  //   })
-  // }
   
   onRemoveItem(i:number) {
     console.log("removing", i);
@@ -141,6 +144,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       const memo = res.data.map(function(i:any, key:any, list:any) {
         let chcon;
         if(i.mhList!=null){
+          // eslint-disable-next-line array-callback-return
           i.mhList.map(function(tag:any, key:any){
             chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
           })
@@ -163,7 +167,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
          this.setState({
            items: memo, //items에 memo를 다 넣어놨고 
          });
-        console.log("getmemo from controller: "+this.state.items[0].w); //2 
         //items에는 각 키 i 기준으로 다 들어있다는 것... 
         //이거가지고 바꿔보면..? 
 

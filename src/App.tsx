@@ -8,6 +8,7 @@ import BasicLayout from './component/React-grid';
 import SearchRes from './component/SearchRes';
 import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
+import Routes from "./component/Routes";
 
 class App extends Component<any,any> {
   constructor(props: any) {
@@ -110,13 +111,16 @@ class App extends Component<any,any> {
   render() {
     return (
       <div className="body">
+        <Routes />
         <MemoCrud memo={this.state.memo} setMemo={this.setMemo}/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">
           <SearchRes2 setLeftTxt={this.setLeftTxt} />
           <div className="hashtagTitle"># 해시태그 </div>
+          
           <HashTags setLeftTxt={this.setLeftTxt} />
+          
         </div>
         {/* {(this.state.block)? () : ()} */}
 
