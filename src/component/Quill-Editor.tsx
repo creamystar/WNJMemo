@@ -26,14 +26,11 @@ class Editor extends React.Component<any, any> {
         if (prevState.editorHtml.length !== this.state.editorHtml.length) {
             this.props.getMemo(this.state.editorHtml,quill.getText())
         }
-        if(this.props.memo!==''){
-            if(prevProps.memo.mno!==this.props.memo.mno){
-                this.setState({
-                    editorHtml:this.props.memo.mcon
-                })
-            }
+        if(prevProps.memo !== this.props.memo){
+            this.setState({
+                editorHtml:this.props.memo===''?'':this.props.memo.mcon
+            })
         }
-        
         this.attachQuillRefs()
     }
     attachQuillRefs = () => {
