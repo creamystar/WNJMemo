@@ -1,7 +1,6 @@
 import React from 'react';
 import RGL, {WidthProvider} from "react-grid-layout";
 import _ from "lodash";
-import store from '../redux/store';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -26,16 +25,12 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       items: '', //메모 배열들이 저장되어 있음 
       layout: []
     };
-    store.subscribe(function(){
-      //@ts-ignore
-      this.setState({items:store.getState().items});
-  }.bind(this));
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.updateMemo = this.updateMemo.bind(this);
   }
   updateMemo(e:any){
-    store.dispatch({type:'CHANGE_MODAL', payload: true});
-    store.dispatch({type:'CHANGE_MEMO', payload:e});
+    this.props.setModalVal(true);
+    this.props.setMemo(e);
   }
   createElement(el:any) {
     const i = el.i;
@@ -102,9 +97,9 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     this.setState({ items: _.reject(this.state.items, { i: i }) });
   }
   componentDidUpdate(prevProps:any, prevState:any) {
-    if (prevState.layout.length !== this.state.layout.length) {//이전과 현재 state 비교, 바뀌면 실행
-    //  console.log("componentDidUpdate: "+this.state.layout);
-    }
+    this.setState({
+      items: this.props.memoList,
+    })
   }
   componentDidMount() {
     // console.log("componentDidMount 시작");

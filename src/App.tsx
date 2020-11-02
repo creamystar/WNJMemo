@@ -3,12 +3,11 @@ import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
 import './component/gridStyle.css';
-import MemoCrud from './component/MemoCrud';
-import BasicLayout from './component/React-grid';
+import MemoCrud from './containers/MemocrudContainer';
+import BasicLayout from './containers/React-gridContainer';
 import SearchRes from './component/SearchRes';
 import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
-import store from './redux/store';
 import * as controller from './component/Controller';
 
 class App extends Component<any,any> {
@@ -48,13 +47,14 @@ class App extends Component<any,any> {
           mcon: i.mcon,
         };
       })
-      store.dispatch({type:'CHANGE_ITEMS', payload:memoList});
+      this.props.setMemoList(memoList);
     }).catch((e:any) => {
+      console.log(e);
       alert("서버와의 통신이 원활하지 않습니다.");
     })
   }
   writeBtnClick(){//메모 작성창
-    store.dispatch({type:'CHANGE_MODAL', payload:true});
+    this.props.setModalVal(true);
   }
   listSeqSaveBtnClick() {
     alert("최신순에서 모양을 저장하면 저장순으로 보여집니다. \n다시 최신순으로 보고싶으면 셀렉트박스에서 최신순을 선택해주세요.");

@@ -1,81 +1,8 @@
 import React, { Component } from 'react';
-import './MemoCrud.css';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import * as controller from './Controller';
-import store from '../redux/store';
-
-class Editor extends React.Component<any, any> {
-    constructor(props: any) {
-        super(props)
-        this.state = { 
-            editorHtml: '' ,
-        }
-        //@ts-ignore
-        this.quillRef = null;      // Quill instance
-        //@ts-ignore
-        this.reactQuillRef = null;
-        this.handleChange = this.handleChange.bind(this)
-    }
-    componentDidMount() {
-        this.attachQuillRefs()
-    }
-    componentDidUpdate(prevProps:any, prevState:any) {
-        //@ts-ignore
-        let quill = this.quillRef;
-        if (prevState.editorHtml.length !== this.state.editorHtml.length) {
-            this.props.getMemo(this.state.editorHtml,quill.getText())
-          }else if(prevProps.memo.mno !== this.props.memo.mno){
-            this.setState({
-                editorHtml: this.props.memo.mcon,
-            })
-          }
-        this.attachQuillRefs()
-    }
-    attachQuillRefs = () => {
-        //@ts-ignore
-        if (typeof this.reactQuillRef.getEditor !== 'function') return;
-        //@ts-ignore
-        this.quillRef = this.reactQuillRef.getEditor();
-      }
-    handleChange (html:string) {
-        console.log(html);
-
-        this.setState({ 
-            editorHtml: html,
-         }); //이게 없으면 날아감*
-    }
-    render () {
-        return (
-          <div>
-            <ReactQuill 
-              theme="snow"
-              //@ts-ignore
-              ref={(el) => { this.reactQuillRef = el }}
-              onChange={this.handleChange}
-              //@ts-ignore
-              value={this.state.editorHtml}
-              //@ts-ignore
-              modules={Editor.modules}
-            //   placeholder={this.props.placeholder}
-             />
-           </div>
-        )
-    }
-}
-//@ts-ignore
-Editor.modules = {
-    toolbar: [
-        [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ 'color': [] }, { 'background': [] }],
-        ['clean']
-    ],
-    clipboard: {
-        // toggle to add extra line breaks when pasting HTML:
-        matchVisual: false,
-    }
-}
+import Editor from '../containers/Quill-EditorContainer';
+import './MemoCrud.css';
+import 'react-quill/dist/quill.snow.css';
 
 class MemoCrud extends Component<any, any> {
     constructor(props: any) {
@@ -83,25 +10,31 @@ class MemoCrud extends Component<any, any> {
         this.state = {
             mcon:'',
             rawcon:'',
-            modal: '',
-            memo: '',
+            modal: false,
+            // memo: '',
         }
-        store.subscribe(function(){
-            //@ts-ignore
-            this.setState({
-                modal:store.getState().modal,
-                memo:store.getState().memo,
-            });
-        }.bind(this));
         this.getMemo = this.getMemo.bind(this);
         this.wirteClick = this.wirteClick.bind(this);
         this.seperateTag = this.seperateTag.bind(this);
         this.exit = this.exit.bind(this);
     }
+    componentDidUpdate(prevProps:any, prevState:any) {
+        if(prevProps.modal != this.props.modal){
+            this.setState({
+                modal: this.props.modal,
+              })
+            //   if(this.props.memo!=''){
+            //       this.setState({
+            //           memo: this.props.memo
+            //       })
+            //   }
+        }
+      }
     exit() {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
-            store.dispatch({type:'CHANGE_MODAL', payload:false});
+            this.props.setModalVal(false);
+            this.props.setMemo('');
         }else {
             return ;
         }
@@ -113,7 +46,8 @@ class MemoCrud extends Component<any, any> {
             controller.createMemo(this.state.mcon,tag)
             .then((res:any)=>{
                 alert("메모작성 완료!");
-                store.dispatch({type:'CHANGE_MODAL', payload:false});
+            this.props.setModalVal(false);
+            this.props.setMemo('');
             })
             .catch((e:any) => {
                 alert("메모작성 오류!");
@@ -146,7 +80,7 @@ class MemoCrud extends Component<any, any> {
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.exit}/>
                     </div>
-                    <Editor getMemo={this.getMemo} memo={this.state.memo}/>
+                    <Editor getMemo={this.getMemo} /* memo={this.state.memo} *//>
                 </div>
             </div>
         );
