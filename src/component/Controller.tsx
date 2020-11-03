@@ -15,7 +15,7 @@ export function createMemo(mcon:string,tags:any){
 
 }
 export function updateMemo(mno:number,mcon:string,tags:any){
-    return axios.post(url+'updateMemo/'+mno,{ mcon:mcon, tags:tags});
+    return axios.put(url+'updateMemo/'+mno,{ mcon:mcon, tags:tags});
 
 }
 export function getHashtag(){
