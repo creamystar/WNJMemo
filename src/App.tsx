@@ -3,7 +3,6 @@ import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
 import './component/React-grid.css';
-import './component/gridStyle.css';
 import MemoCrud from './containers/MemocrudContainer';
 import BasicLayout from './containers/React-gridContainer';
 import SearchRes from './component/SearchRes';
