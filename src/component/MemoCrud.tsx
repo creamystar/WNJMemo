@@ -11,7 +11,6 @@ class MemoCrud extends Component<any, any> {
             mcon:'',
             rawcon:'',
             modal: false,
-            // memo: '',
         }
         this.getMemo = this.getMemo.bind(this);
         this.wirteClick = this.wirteClick.bind(this);
@@ -19,15 +18,10 @@ class MemoCrud extends Component<any, any> {
         this.exit = this.exit.bind(this);
     }
     componentDidUpdate(prevProps:any, prevState:any) {
-        if(prevProps.modal != this.props.modal){
+        if(prevProps.modal !== this.props.modal){
             this.setState({
                 modal: this.props.modal,
               })
-            //   if(this.props.memo!=''){
-            //       this.setState({
-            //           memo: this.props.memo
-            //       })
-            //   }
         }
       }
     exit() {
@@ -43,6 +37,7 @@ class MemoCrud extends Component<any, any> {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
+            console.log(tag);
             controller.createMemo(this.state.mcon,tag)
             .then((res:any)=>{
                 alert("메모작성 완료!");
@@ -62,7 +57,7 @@ class MemoCrud extends Component<any, any> {
     }
     //태그 분리
     seperateTag(rawcon:string){
-        const reg = /(^#| #)[0-9a-zA-Z가-힣_]{1,20}\s/gm; //20자 제한
+        const reg = /(^#| #)[0-9a-zA-Z가-힣_]{1,20}/gm; //20자 제한
         let rs, temp;
         temp = rawcon.match(reg);
         rs = temp?.map((temp,i)=> (

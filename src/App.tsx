@@ -25,10 +25,11 @@ class App extends Component<any,any> {
     //메모리스트 가져오기
     controller.getMemoList().then(res => {
       const memoList = res.data.map(function(i:any, key:any, list:any) {
-        let chcon;
+        let chcon='';
         if(i.mhList.length!==0){
           i.mhList.map(function(tag:any, key:any){
-            chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+            if(key===0) chcon=i.mcon;
+            chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
           })
         }else{
           chcon = i.mcon;
