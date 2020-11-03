@@ -3,14 +3,14 @@ import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
 import './component/React-grid.css';
-import MemoCrud from './component/MemoCrud';
-import BasicLayout from './component/React-grid';
+import './component/gridStyle.css';
+import MemoCrud from './containers/MemocrudContainer';
+import BasicLayout from './containers/React-gridContainer';
 import SearchRes from './component/SearchRes';
 import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
-import Routes from "./component/Routes";
 import * as controller from './component/Controller';
-import { ThemeConsumer } from 'styled-components';
+import Routes from "./component/Routes";
 
 class App extends Component<any,any> {
   constructor(props: any) {
@@ -18,43 +18,53 @@ class App extends Component<any,any> {
     this.state ={
       leftTitle: '#여행',
       rightIconNumber: 1,
-      memo:'',
       selectedValue: '최신순',
       items: [],
       seqInfo: [],
       seqNo: [],
       mode: 1 
     }
-    this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
-    this.setMemo = this.setMemo.bind(this);
     this.saveItems = this.saveItems.bind(this);
     this.seqSaveBtnClick = this.seqSaveBtnClick.bind(this);
   }
-  setMemo(memoInfo:any){
-    this.setState({
-      memo:memoInfo,
+  componentDidMount(){
+    //메모리스트 가져오기
+    controller.getMemoList().then(res => {
+      const memoList = res.data.map(function(i:any, key:any, list:any) {
+        let chcon='';
+        if(i.mhList.length!==0){
+          i.mhList.map(function(tag:any, key:any){
+            if(key===0) chcon=i.mcon;
+            chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+          })
+        }else{
+          chcon = i.mcon;
+        }
+        return {
+          i: key.toString(),
+          //메모 한줄 갯수 바꿀시 수정 필요
+          x: (key * 2)%10,
+          y: 0,
+          w: 2,
+          h: 2,
+          mno: i.mno,
+          chcon: chcon,
+          mdate: i.mdate,
+          hashtag: i.mhList,
+          mcon: i.mcon,
+        };
+      })
+      this.props.setMemoList(memoList);
+    }).catch((e:any) => {
+      console.log(e);
+      alert("서버와의 통신이 원활하지 않습니다.");
     })
-    console.log(memoInfo);
   }
-  updateMemo(memoInfo:any){
-    console.log(memoInfo);
-    this.setState({
-      memo: memoInfo,
-    })
-    this.writeBtnClick()
+  writeBtnClick(){//메모 작성창
+    this.props.setModalVal(true);
   }
-  writeBtnClick(){
-    //메모 에디터 show 
-    //@ts-ignore
-    document.getElementById("memoCrudAll").style.display = "block";
-    //@ts-ignore
-    document.getElementById("wrap").style.display = "block";
-    //@ts-ignore
-    document.getElementById("editorSpace").style.display = "block";
-  }
-
 
 
   setLeftTxt = (e: any) => {
@@ -64,9 +74,7 @@ class App extends Component<any,any> {
     });
     alert(e);
   }
-
   //반응형 아이콘 클릭 
-
   rightIconClick(e: any) {
 
     if (e === 1) {
@@ -91,8 +99,6 @@ class App extends Component<any,any> {
       })
     }
   }
-
-
   selectChange(e: any) {
 
     this.setState({
@@ -114,10 +120,6 @@ class App extends Component<any,any> {
       this.setState({
         mode: 2 
       })
-
-
-
-
     }
   }
 
@@ -172,7 +174,7 @@ class App extends Component<any,any> {
     return (
       <div className="body">
         <Routes />
-        <MemoCrud memo={this.state.memo} setMemo={this.setMemo}/>
+        <MemoCrud/>
         <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
         <div className="smallWindowRight" id="smallWindowRight">
@@ -200,7 +202,7 @@ class App extends Component<any,any> {
               </select>
             </div>
             <div className="con">
-              <BasicLayout updateTarget={this.updateMemo} saveItems={this.saveItems} mode={this.state.mode} />
+              <BasicLayout/>
             </div>
           </div>
           <div className="right" id="right">

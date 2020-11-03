@@ -50,7 +50,7 @@ class SearchRes2 extends Component<any,any> {
             this.setState({
                 hashtagName: hashtagdb,
             });
-            console.log(this.state.hashtagName);
+            // console.log(this.state.hashtagName);
         })
     }
     
