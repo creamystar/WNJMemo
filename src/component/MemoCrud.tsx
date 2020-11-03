@@ -38,15 +38,17 @@ class MemoCrud extends Component<any, any> {
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
             console.log(tag);
-            controller.createMemo(this.state.mcon,tag)
-            .then((res:any)=>{
-                alert("메모작성 완료!");
-            this.props.setModalVal(false);
-            this.props.setMemo('');
-            })
-            .catch((e:any) => {
-                alert("메모작성 오류!");
-              })
+            const axiosHead = this.props.memo!==''?
+            controller.updateMemo(this.props.memo.mno,this.state.mcon,tag):
+            controller.createMemo(this.state.mcon,tag);
+            axiosHead.then((res:any)=>{
+                        alert("메모작성 완료!");
+                        this.props.setModalVal(false);
+                        this.props.setMemo('');
+                    })
+                    .catch((e:any) => {
+                        alert("메모작성 오류!");
+                    })
         }
     }
     getMemo(memo:any,rawcon:any){
