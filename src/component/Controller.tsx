@@ -1,4 +1,6 @@
+
 import axios from 'axios';
+
 
 export function getMemo(){
     return axios.get('http://localhost:8080/select');
@@ -13,8 +15,9 @@ export function createMemo(mcon:string,tags:any){
 
 }
 
-export function saveSeq(mcord:string, mno:number){
-    return axios.put('http://localhost:8080/saveSeq',{mcord:mcord, mno:mno});
+
+export function saveSeq(info:any){
+    return axios.put('http://localhost:8080/saveSeq',{info:info});
 }
 
 

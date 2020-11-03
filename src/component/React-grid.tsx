@@ -22,7 +22,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       y: 0,
       h: 0,
       w: 0
-    }
+    },
+    mode: 1
   };
   constructor(props:any) {
     super(props);
@@ -116,25 +117,53 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     if (prevState.layout.length !== this.state.layout.length) {//이전과 현재 state 비교, 바뀌면 실행
      console.log("componentDidUpdate: "+this.state.layout);
       }
-
-    
 }
+
+propsControl(props:any){
+  this.setState({
+    mode: props.mode 
+  })
+  console.log("mode: "+this.state.mode)
+}
+
   componentDidMount() {
+
+    this.propsControl(this.props)
 
     console.log("componentDidMount 시작");
     controller.getMemoList().then(res => {
-      const memo = res.data.map(function(i:any, key:any, list:any) {
-        let chcon;
+      const memo = res.data.map((i:any, key:any, list:any) => {
+        let chcon = '';
         if(i.mhList!=null){
           // eslint-disable-next-line array-callback-return
           i.mhList.map(function(tag:any, key:any){
             chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
-            console.log("chcon 어떻게 바뀌었는지 확인 ")
-            console.log(chcon)
+            
           })
         }else{
           chcon = i.mcon;
         }
+
+        let cordList = i.mcord.split(",");
+          console.log("cordList");
+          console.log(cordList)
+          console.log(cordList.slice(0,1))
+
+        if(this.state.mode === 2){
+          return {
+            i: key.toString(),
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: cordList.slice(0,1),
+            y: cordList.slice(1,2),
+            w: cordList.slice(2,3),
+            h: cordList.slice(3,4),
+            mno: i.mno,
+            chcon: chcon,
+            mdate: i.mdate,
+            hashtag: i.mhList,
+            mcon: i.mcon,
+          };
+        }else {
           return {
             i: key.toString(),
             //메모 한줄 갯수 바꿀시 수정 필요
@@ -148,6 +177,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
             hashtag: i.mhList,
             mcon: i.mcon,
           };
+        }
+          
           
         })
          this.setState({

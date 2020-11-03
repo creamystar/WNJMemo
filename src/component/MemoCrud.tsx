@@ -118,7 +118,12 @@ class MemoCrud extends Component<any, any> {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
-            controller.createMemo(this.state.mcon,tag).catch((e:any) => {
+            controller.createMemo(this.state.mcon,tag).then((e:any) => {
+                //@ts-ignore
+                document.getElementById("memoCrudAll").style.display = "none";
+                this.props.setMemo({mno:'',mcon:''});
+                window.location.href = document.referrer;//새로고침 
+            }).catch((e:any) => {
                 console.log("오류");
                 console.log(e);
                 alert("메모작성 오류!");

@@ -20,7 +20,10 @@ class App extends Component<any,any> {
       rightIconNumber: 1,
       memo:'',
       selectedValue: '최신순',
-      items: []
+      items: [],
+      seqInfo: [],
+      seqNo: [],
+      mode: 1 
     }
     this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
@@ -91,37 +94,68 @@ class App extends Component<any,any> {
 
 
   selectChange(e: any) {
+
+    this.setState({
+      selectedValue: e.target.value
+    })
+
     if(e.target.value === "최신순"){
       alert("이건 최신순");
       //@ts-ignore
       document.getElementById("writeBtn").style.display = "inline-block";
+
+
     } else if(e.target.value === "사용자저장순") {
       alert("이건 사용자저장순");
       //@ts-ignore
       document.getElementById("writeBtn").style.display = "none";
+
+      //flag를 넘기고 
+      this.setState({
+        mode: 2 
+      })
+
+
+
+
     }
   }
 
-  seqSaveBtnClick(getItems:any){
+   seqSaveBtnClick(getItems:any){
     
     alert("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?");
-    // console.log("app.tsx의 items 확인");
-    // console.log(this.state.items);
-    this.state.items.map((item:any) => {
-      const mcord = item.x + ", " + item.y + ", " + item.w + ", " + item.h 
-      const mno = item.mno 
-      console.log("mcord 제대로 들어갔는지 ")
-      console.log(mcord)
-      controller.saveSeq(mcord,mno).then((e:any) => {
-        console.log("성공");
-      }).catch((e:any) => {
-        console.log("오류");
-        console.log(e);
-        // alert("배치저장 오류!");
-      })
+    console.log("app.tsx의 items 확인");
+    console.log(this.state.items);
+    
+    const info = this.state.items.map((item:any) => {
+      let seq = item.x + "," + item.y + "," + item.w + "," + item.h;
+      let mno = item.mno 
+      console.log(seq);
+      return {
+        mcord: seq,
+        mno: mno 
+      }
     })
-    //배치저장으로 셀렉박스 바꾸기 
 
+
+    console.log("info")
+    console.log(info)
+
+    controller.saveSeq(info).then((e:any) => {
+      alert("배치에 성공하였습니다.");
+      console.log("성공");
+      //배치저장으로 셀렉박스 바꾸기 
+      this.setState({
+        selectedValue: "사용자저장순"
+      })
+
+    }).catch((e:any) => {
+      console.log("오류");
+      console.log(e);
+      // alert("배치저장 오류!");
+    })
+
+    
   }
 
   saveItems(getItems:any){
@@ -131,6 +165,7 @@ class App extends Component<any,any> {
     console.log("움직일때마다 app.tsx에도 자동저장 ");
     console.log(this.state.items);
   }
+
 
 
   render() {
@@ -159,13 +194,13 @@ class App extends Component<any,any> {
               <input type="button" id="listSeqSaveBtn" onClick={this.seqSaveBtnClick} value="배치저장" />
             </div>
             <div className="rightselects">
-              <select id="selects" value={this.state.selectedValue} onChange={this.selectChange}>
+              <select id="selects" value={this.state.selectedValue} onChange={this.selectChange.bind(this)}>
                 <option value="최신순">최신순</option>
                 <option value="사용자저장순">사용자저장순</option>
               </select>
             </div>
             <div className="con">
-              <BasicLayout updateTarget={this.updateMemo} saveItems={this.saveItems} />
+              <BasicLayout updateTarget={this.updateMemo} saveItems={this.saveItems} mode={this.state.mode} />
             </div>
           </div>
           <div className="right" id="right">
