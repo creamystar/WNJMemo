@@ -49,6 +49,8 @@
   border-radius: 6px;
 }
 
+
+
 .rightIcon {
   width: 40px;
   height: 40px;
@@ -136,6 +138,7 @@
   float: right;
   margin-right: 20px;
 }
+
 #selects { 
   cursor: pointer;
   height: 30px;

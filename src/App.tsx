@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
-import './component/gridStyle.css';
+import './component/React-grid.css';
 import MemoCrud from './component/MemoCrud';
 import BasicLayout from './component/React-grid';
 import SearchRes from './component/SearchRes';
 import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
 import Routes from "./component/Routes";
+import * as controller from './component/Controller';
+import { ThemeConsumer } from 'styled-components';
 
 class App extends Component<any,any> {
   constructor(props: any) {
@@ -18,11 +20,14 @@ class App extends Component<any,any> {
       rightIconNumber: 1,
       memo:'',
       selectedValue: '최신순',
+      items: []
     }
     this.updateMemo = this.updateMemo.bind(this);
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
     this.setMemo = this.setMemo.bind(this);
+    this.saveItems = this.saveItems.bind(this);
+    this.seqSaveBtnClick = this.seqSaveBtnClick.bind(this);
   }
   setMemo(memoInfo:any){
     this.setState({
@@ -47,17 +52,7 @@ class App extends Component<any,any> {
     document.getElementById("editorSpace").style.display = "block";
   }
 
-  listSeqSaveBtnClick() {
-    alert("최신순에서 모양을 저장하면 저장순으로 보여집니다. \n다시 최신순으로 보고싶으면 셀렉트박스에서 최신순을 선택해주세요.");
-    //React-grid.tsx 에서 배치 함수값 가져오기 (items)
-    //그리고 백으로 넘기기 
-    //셀렉박스 배치저장으로 바꾸고 
-    this.setState({
-      selectedValue: '배치저장순',
-    })
-    //배치저장 순으로 메모 가져오기 
 
-  }
 
   setLeftTxt = (e: any) => {
     this.setState({
@@ -107,6 +102,36 @@ class App extends Component<any,any> {
     }
   }
 
+  seqSaveBtnClick(getItems:any){
+    
+    alert("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?");
+    // console.log("app.tsx의 items 확인");
+    // console.log(this.state.items);
+    this.state.items.map((item:any) => {
+      const mcord = item.x + ", " + item.y + ", " + item.w + ", " + item.h 
+      const mno = item.mno 
+      console.log("mcord 제대로 들어갔는지 ")
+      console.log(mcord)
+      controller.saveSeq(mcord,mno).then((e:any) => {
+        console.log("성공");
+      }).catch((e:any) => {
+        console.log("오류");
+        console.log(e);
+        // alert("배치저장 오류!");
+      })
+    })
+    //배치저장으로 셀렉박스 바꾸기 
+
+  }
+
+  saveItems(getItems:any){
+    this.setState({
+      items: getItems
+    })
+    console.log("움직일때마다 app.tsx에도 자동저장 ");
+    console.log(this.state.items);
+  }
+
 
   render() {
     return (
@@ -118,7 +143,7 @@ class App extends Component<any,any> {
         <div className="smallWindowRight" id="smallWindowRight">
           <SearchRes2 setLeftTxt={this.setLeftTxt} />
           <div className="hashtagTitle"># 해시태그 </div>
-          
+          {JSON.stringify(this.state.items)}
           <HashTags setLeftTxt={this.setLeftTxt} />
           
         </div>
@@ -131,7 +156,7 @@ class App extends Component<any,any> {
             </div>
             <div className="buttons">
               <input type="button" id="writeBtn" onClick={this.writeBtnClick} value="메모추가" />
-              <input type="button" id="listSeqSaveBtn" onClick={this.listSeqSaveBtnClick} value="배치저장" />
+              <input type="button" id="listSeqSaveBtn" onClick={this.seqSaveBtnClick} value="배치저장" />
             </div>
             <div className="rightselects">
               <select id="selects" value={this.state.selectedValue} onChange={this.selectChange}>
@@ -140,7 +165,7 @@ class App extends Component<any,any> {
               </select>
             </div>
             <div className="con">
-              <BasicLayout updateTarget={this.updateMemo}/>
+              <BasicLayout updateTarget={this.updateMemo} saveItems={this.saveItems} />
             </div>
           </div>
           <div className="right" id="right">

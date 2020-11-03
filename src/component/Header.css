@@ -1,8 +1,16 @@
 #howtouse {
+    width: 90px;
+    height: 30px; 
+    margin-top: 39px;
     position: absolute;
-    top: 5%;
-    left: 68%;
+    left: calc(100% - 405px);
     display: inline-block;
     cursor: pointer;
     z-index: 5;
+}
+
+@media screen and (max-width: 768px) {
+    #howtouse {
+        left: calc(100% - 105px);
+    }
 }

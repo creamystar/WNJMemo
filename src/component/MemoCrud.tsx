@@ -119,9 +119,13 @@ class MemoCrud extends Component<any, any> {
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
             controller.createMemo(this.state.mcon,tag).catch((e:any) => {
+                console.log("오류");
                 console.log(e);
                 alert("메모작성 오류!");
               })
+            console.log(this.state.mcon);
+            console.log("tag");
+            console.log(tag);
         }
     }
     getMemo(memo:any,rawcon:any){
@@ -131,7 +135,7 @@ class MemoCrud extends Component<any, any> {
         })
     }
     seperateTag(rawcon:string){
-        const reg = /(^#| #)[0-9a-zA-Z가-힣_]{1,20}\s/gm; //20자 제한
+        const reg = /(^#| #)[0-9a-zA-Z가-힣_]{1,20}/gm; //20자 제한 \s
         let rs, temp;
         temp = rawcon.match(reg);
         rs = temp?.map((temp,i)=> (

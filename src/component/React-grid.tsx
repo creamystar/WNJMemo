@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import RGL, { Layout, WidthProvider } from "react-grid-layout";
-import _ from "lodash";
+import _, { update } from "lodash";
 import * as controller from './Controller';
 import { isTemplateSpan } from 'typescript';
-import { data } from 'jquery';
+import './React-grid.css';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -58,10 +58,10 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
 
   createElement(el:any) {
     const i = el.i;
-    console.log("memo x/y/w/h/mno: "+el.x+"/"+el.y+"/"+el.w+"/"+el.h+"/"+el.mno);
+    console.log(memo);
 
     return ( 
-      <div key={i} data-grid={el}>
+      <div key={i} data-grid={el}> 
         {/* {<span className="text">{i}</span>} */}
         <span className="update" onClick={()=> this.props.updateTarget(el)}>
         </span>
@@ -80,49 +80,30 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
 
   
-  //grid 변할때마다 배치저장위해 memo에 담아놓기 
-  onLayoutChange(layout:any) {
-    //debugger;
-    //여기서 디버그를 하면 layout에 w h x y i 가 있음을 알 수 있다. 
-    // this.setState({
-    //   items: layout.map((i:any, key:any) => {
-    //     //메모 한줄 갯수 바꿀시 수정 필요
-    //     return {
-    //       i: i.i,
-    //       x: i.x,
-    //       y: i.y,
-    //       w: i.w,
-    //       h: i.h
-    //     };
-    //   })
-    // });
-    console.log("layout/items 확인");
-    console.log(layout);
-    console.log(this.state.items);
-    //debugger;
-
-    //layout에서 달라진 xywh를 items로 
-    // const item = this.state.items.map(
-    //   layout.map(
-    //     item => i === layout.i 
-    //     ? {...item, ...data
-    //   )
-    // )
-    // layout.map(() => {
-    //   this.state.items.map(() => {
-    //     if(this.state.items.i === layout.i){
-    //       this.setState({
-    //         items: {...data, layout}
-    //       })
-    //     }
-    //   })
-    // })
-
-    //바뀐 items 확인 
-    console.log("바뀐 items")
-    console.log(this.state.items)
-  }
   
+  //grid 변할때마다 배치저장위해 items에 담아놓기 
+   onLayoutChange(layout:any) {
+    console.log("변하면 들어는 오나?");
+    const changeItems = this.state.items.map(function(item:any) {
+      const i = item.i
+        return {
+          ...item,
+          i: i,
+          //메모 한줄 갯수 바꿀시 수정 필요
+          x: layout[i].x,
+          y: layout[i].y ,
+          w: layout[i].w ,
+          h: layout[i].h ,
+        };
+      })
+      this.setState({
+        items: changeItems
+      })
+      this.props.saveItems(changeItems);
+    console.log("on Layout Change 완료 ")
+    console.log(this.state.items) //items에 xywh 옮겨지고 mno,mcon 유지됨 
+  }
+
   onRemoveItem(i:number) {
     console.log("removing", i);
     this.setState({ items: _.reject(this.state.items, { i: i }) });
@@ -139,6 +120,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     
 }
   componentDidMount() {
+
     console.log("componentDidMount 시작");
     controller.getMemoList().then(res => {
       const memo = res.data.map(function(i:any, key:any, list:any) {
@@ -147,7 +129,11 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
           // eslint-disable-next-line array-callback-return
           i.mhList.map(function(tag:any, key:any){
             chcon = i.mcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+            console.log("chcon 어떻게 바뀌었는지 확인 ")
+            console.log(chcon)
           })
+        }else{
+          chcon = i.mcon;
         }
           return {
             i: key.toString(),
@@ -167,18 +153,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
          this.setState({
            items: memo, //items에 memo를 다 넣어놨고 
          });
-        //items에는 각 키 i 기준으로 다 들어있다는 것... 
-        //이거가지고 바꿔보면..? 
-
-        //최신순에서 모양 바꾸고 저장하면 - 저장순으로 셀렉박스 바뀌고
-        //alert("최신순에서 모양을 저장하면 저장순으로 보여집니다. 다시 최신순으로 보고싶으면 셀렉트박스에서 최신순을 선택해주세요.");
-        //다시 최신순 가면 일정한 모양으로 돌아가고 
-        //최신순에서 메모추가하면 - 일정한 모양으로 다시 다 돌아가고 가장 왼쪽 상단에 메모 추가되고 
-        //저장 순에서는 그 메모는 맨 밑으로 가있고 
-        //저장 순에서는 메모추가가 안되고
-        //저장 순에서 모양 바꾸고 저장하면 - 그대로 저장순 
-
-        //사용법 같은거.. 클릭해서 볼 수 있게 How to Use 같은거 우측 상단 빈공간에 넣어주기 
+         console.log("처음 controller - memo - items");
+         console.log(this.state.items);
     }).catch((e:any) => {
       console.log(e);
       alert("서버와의 통신이 원활하지 않습니다.");

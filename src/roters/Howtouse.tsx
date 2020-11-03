@@ -14,11 +14,11 @@ function Howtouse({ history }) {
     
         useEffect(() => {
             console.log(history);
-            const unblock = history.block('정말 이동합니까?');
+            const unblock = history.block('정말 창을 닫으시겠습니까?');
             return() => {
                 unblock();
                 // eslint-disable-next-line no-restricted-globals
-                location.href = document.referrer;
+                //location.href = document.referrer; //새로고침 
             };
         }, [history]);
     
