@@ -5,7 +5,7 @@ import './component/HashTags.css';
 import './component/React-grid.css';
 import MemoCrud from './containers/MemocrudContainer';
 import BasicLayout from './containers/React-gridContainer';
-import SearchRes from './component/SearchRes';
+import SearchRes from './containers/SearchResContainer';
 import HashTags from './component/HashTags';
 import * as controller from './component/Controller';
 import Routes from "./component/Routes";

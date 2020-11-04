@@ -34,6 +34,27 @@ class SearchRes extends Component<any,any> {
                 const hashtagdb = res.data.tagList.map(function(i:any){
                     return i.hname;
                 })
+                const memoList = res.data.memoList.map(function(i:any, key:any, list:any) {
+                    let chcon='';
+                    hashtagdb.map(function(tag:any, key:any){
+                        if(key===0) chcon=i.mcon;
+                        chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+                    })
+                    return {
+                        i: key.toString(),
+                        //메모 한줄 갯수 바꿀시 수정 필요
+                        x: (key * 2)%10,
+                        y: 0,
+                        w: 2,
+                        h: 2,
+                        mno: i.mno,
+                        chcon: chcon,
+                        mdate: i.mdate,
+                        hashtag: i.mhList,
+                        mcon: i.mcon,
+                      };
+                });
+                this.props.setMemoList(memoList);
                 this.setState({
                     hashtagName: hashtagdb,
                 });
