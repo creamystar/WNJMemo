@@ -24,18 +24,30 @@ class App extends Component<any,any> {
       searchModal: false,
       newWrightCheck: false,
       memoList: [],
+      memoListTemp: [],
+      mountFlag: true,
     };
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
     this.seqSaveBtnClick = this.seqSaveBtnClick.bind(this);
     this.rightIconClick = this.rightIconClick.bind(this);
+    this.getSeqList = this.getSeqList.bind(this);
+    this.getMemoList = this.getMemoList.bind(this);
+    this.getSavedSeq = this.getSavedSeq.bind(this);
   }
   componentDidUpdate(prevProps:any, prevState:any) {
+
     if(prevProps.memoList !== this.props.memoList){
       this.setState({
         memoList: this.props.memoList,
       })
     }
+    if(prevProps.memoListTemp !== this.props.memoListTemp){
+      this.setState({
+        memoListTemp: this.props.memoListTemp,
+      })
+    }
+  
 
     if(prevProps.searchModal !== this.props.searchModal){
         this.setState({
@@ -58,6 +70,7 @@ class App extends Component<any,any> {
         })
     }
   }
+
   getMemoList(){
     //메모리스트 최신순으로 가져오기
     controller.getMemoList().then(res => {
@@ -95,11 +108,13 @@ class App extends Component<any,any> {
     
   }
   getSeqList(){
+    console.log("111")
     //메모리스트 배치저장으로 가져오기
     controller.getMemoList().then(res => {
       const memoList = res.data.map((i:any, key:any, list:any) => {
         let chcon='';
         if(i.mhList.length!==0){
+          // eslint-disable-next-line array-callback-return
           i.mhList.map((tag:any, key:any) => {
             if(key===0) chcon=i.mcon;
             chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
@@ -108,12 +123,8 @@ class App extends Component<any,any> {
           chcon = i.mcon;
         }
         let cordList = i.mcord.split(",");
-        console.log(i.mcord)
-          // console.log("cordList:저장되어있는 배치좌표 ");
-          // console.log(cordList)
-          // console.log(cordList.slice(0,1))
-
           return {
+            
             i: key.toString(),
             //메모 한줄 갯수 바꿀시 수정 필요
             x: cordList.slice(0,1)*1,
@@ -129,9 +140,6 @@ class App extends Component<any,any> {
       })
       this.props.setMemoList(memoList);
 
-      console.log("getmemo fin")
-    console.log(this.state.memoList)
-
     }).catch((e:any) => {
       console.log(e);
       alert("서버와의 통신이 원활하지 않습니다.");
@@ -139,8 +147,7 @@ class App extends Component<any,any> {
     
   }
   componentDidMount(){
-    //this.getMemoList()
-    this.getSeqList()
+    this.getMemoList()
   }
   writeBtnClick(){//메모 작성창
     this.props.setModalVal(true);
@@ -182,22 +189,22 @@ class App extends Component<any,any> {
 
     }
   }
-
+  getSavedSeq(){
+    this.getSeqList();
+  }
    seqSaveBtnClick(getItems:any){
     
-    // eslint-disable-next-line no-restricted-globals
-    if(confirm("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?")){
-      console.log("app.tsx의 items 확인");
-    console.log(this.state.memoList);
-    
-    const info = this.state.memoList.map((item:any) => {
-      let seq = item.x + "," + item.y + "," + item.w + "," + item.h;
-      let mno = item.mno 
-      console.log(seq);
-      return {
-        mcord: seq,
-        mno: mno 
-      }
+    if(window.confirm("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?")){
+
+      
+      const info = this.state.memoListTemp.map((item:any) => {
+        let seq = item.x + "," + item.y + "," + item.w + "," + item.h;
+        let mno = item.mno 
+        console.log(seq);
+        return {
+          mcord: seq,
+          mno: mno 
+        }
     })
 
     console.log("info")
@@ -205,6 +212,9 @@ class App extends Component<any,any> {
 
     controller.saveSeq(info).then((e:any) => {
       alert("배치에 성공하였습니다.");
+      //배치 성공하면 이시점에 temp를 list로 넘기면 되나?
+      this.props.setMemoList(this.state.memoListTemp);
+
       //배치저장으로 셀렉박스 바꾸기 
       this.setState({
         selectedValue: "사용자저장순" 
@@ -249,6 +259,7 @@ class App extends Component<any,any> {
                 <option value="최신순">최신순</option>
                 <option value="사용자저장순">사용자저장순</option>
               </select>
+              <button onClick = {this.getSavedSeq}>사용자저장순</button>
             </div>
             <div className="con">
               <BasicLayout/>

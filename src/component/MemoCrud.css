@@ -68,6 +68,12 @@
     width: 50px;
 }
 
+#deleteMemoBtn:hover {
+  background-color: lightgray;
+  height: 25px;
+  width: 70px;
+}
+
 .quill  {
     height: 350px;
 }

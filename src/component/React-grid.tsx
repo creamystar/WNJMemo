@@ -23,9 +23,11 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       layout: [],
       memoList: [],
       items: [],
+      memoListTemp: [],
     };
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.updateMemo = this.updateMemo.bind(this);
+    this.createElement = this.createElement.bind(this);
   }
  
   updateMemo(e:any){
@@ -54,9 +56,8 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
   //grid 변할때마다 배치저장위해 items에 담아놓기 
    onLayoutChange(layout:any) {
-     console.log("onlayoutchange in")
+     console.log("onlayoutchange in(memoList보기)")
      console.log(this.state.memoList)
-    console.log("변하면 들어오나?");
     const changeItems = this.state.items.map(function(item:any) {
       const i = item.i
         return {
@@ -69,11 +70,10 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
           h: layout[i].h ,
         };
       })
-      //this.props.setMemoList(changeItems); 
+      this.props.setMemoListTemp(changeItems); 
       //memoListTemp에 xywh 옮겨지고 mno,mcon 유지됨 
-    console.log("on Layout Change 완료 ")
-    console.log(changeItems)
-    console.log(this.state.memoList) 
+    console.log("on Layout Change 완료(memoListTemp보기) ")
+    console.log(this.state.memoListTemp)
 
   }
 
@@ -81,6 +81,16 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     this.setState({
       items: this.props.memoList,
     })
+    if(prevProps.memoList !== this.props.memoList){
+      this.setState({
+        memoList: this.props.memoList,
+      })
+    }
+    if(prevProps.memoListTemp !== this.props.memoListTemp){
+      this.setState({
+        memoListTemp: this.props.memoListTemp,
+      })
+    }
   }
   render() {
     return (

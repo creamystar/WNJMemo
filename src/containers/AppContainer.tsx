@@ -8,7 +8,7 @@ export default connect(
     (state: RootState) => ({
         searchModal: state.main.searchModal,
         newWrightCheck: state.main.newWrightCheck,
-        items: state.main.items,
+        memoListTemp: state.main.memoListTemp,
         memoList: state.main.memoList,
     }),
     (dispatch) => bindActionCreators(actions, dispatch)

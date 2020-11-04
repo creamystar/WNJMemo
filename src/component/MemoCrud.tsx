@@ -79,7 +79,11 @@ class MemoCrud extends Component<any, any> {
     }
     //메모삭제
     deleteMemo(){
-
+        if(window.confirm("정말 삭제하시겠습니까?")){
+            
+        } else {
+            return;
+        }
     }
     render() {
         return (

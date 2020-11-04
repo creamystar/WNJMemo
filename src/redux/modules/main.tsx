@@ -4,7 +4,7 @@ const SETMODALVAL = 'main/SETMODALVAL' as const;
 const SETMEMO = 'main/SETMEMO' as const;
 const SETSEARCHMODALVAL = 'main/SETSEARCHMODALVAL' as const;
 const SETNEWWRITECHECK = 'main/SETNEWWRITECHECK' as const;
-const SETITEMS = 'main/SETITEMS' as const;
+const SETMEMOLISTTEMP = 'main/SETMEMOLISTTEMP' as const;
 
 //ActionCreator
 export const setMemoList = (getPayload:any) => ({
@@ -27,8 +27,8 @@ export const setNewWrightCheck = (getPayload:boolean) => ({
     type: SETNEWWRITECHECK,
     payload: getPayload 
 })
-export const setItems = (getPayload: any) => ({
-    type: SETITEMS,
+export const setMemoListTemp = (getPayload: any) => ({
+    type: SETMEMOLISTTEMP,
     payload: getPayload 
 })
 
@@ -39,7 +39,7 @@ type MainState = {
     memo: any,
     searchModal: boolean,
     newWrightCheck: boolean,
-    items: any,
+    memoListTemp: any,
 }
 type MainAction = 
     | ReturnType<typeof setMemoList>
@@ -47,7 +47,7 @@ type MainAction =
     | ReturnType<typeof setMemo>
     | ReturnType<typeof setSearchModalVal>
     | ReturnType<typeof setNewWrightCheck>
-    | ReturnType<typeof setItems>;
+    | ReturnType<typeof setMemoListTemp>;
 
 //Reducer
 const initialState: MainState = {
@@ -56,7 +56,7 @@ const initialState: MainState = {
     modal: false,
     searchModal: false,
     newWrightCheck: false,
-    items: [],
+    memoListTemp: [],
 }
 export default function main (state = initialState, action: any) {
     switch (action.type) {
@@ -70,8 +70,8 @@ export default function main (state = initialState, action: any) {
             return {...state, searchModal : action.payload}
         case SETNEWWRITECHECK :
             return {...state, newWrightCheck: action.payload}
-        case SETITEMS : 
-            return {...state, items : action.payload}  
+        case SETMEMOLISTTEMP : 
+            return {...state, memoListTemp : action.payload}  
 
         default:
             return state;
