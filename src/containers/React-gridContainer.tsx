@@ -8,6 +8,7 @@ export default connect(
     (state: RootState) => ({
         memoList: state.main.memoList,
         memoListTemp: state.main.memoListTemp,
+        selectVal: state.main.selectVal,
     }),
     (dispatch) => bindActionCreators(actions, dispatch)
 )(ReactGrid);

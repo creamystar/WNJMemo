@@ -58,19 +58,21 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
    onLayoutChange(layout:any) {
      console.log("onlayoutchange in(memoList보기)")
      console.log(this.state.memoList)
-    const changeItems = this.state.items.map(function(item:any) {
-      const i = item.i
-        return {
-          ...item,
-          i: i,
-          //메모 한줄 갯수 바꿀시 수정 필요
-          x: layout[i].x,
-          y: layout[i].y ,
-          w: layout[i].w ,
-          h: layout[i].h ,
-        };
-      })
-      this.props.setMemoListTemp(changeItems); 
+     if(this.state.memoList.length !== 0){
+      const changeItems = this.state.memoList.map(function(item:any) {
+        const i = item.i
+          return {
+            ...item,
+            i: i,
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: layout[i].x,
+            y: layout[i].y ,
+            w: layout[i].w ,
+            h: layout[i].h ,
+          };
+        })
+        this.props.setMemoListTemp(changeItems); 
+     }
       //memoListTemp에 xywh 옮겨지고 mno,mcon 유지됨 
     console.log("on Layout Change 완료(memoListTemp보기) ")
     console.log(this.state.memoListTemp)
@@ -78,9 +80,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
 
   componentDidUpdate(prevProps:any, prevState:any) {
-    this.setState({
-      items: this.props.memoList,
-    })
     if(prevProps.memoList !== this.props.memoList){
       this.setState({
         memoList: this.props.memoList,
@@ -89,6 +88,11 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     if(prevProps.memoListTemp !== this.props.memoListTemp){
       this.setState({
         memoListTemp: this.props.memoListTemp,
+      })
+    }
+    if(prevProps.selectVal!== this.props.selectVal){
+      this.setState({
+        memoList: '',
       })
     }
   }
@@ -100,7 +104,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
-          {_.map(this.state.items, el => this.createElement(el))}
+          {_.map(this.state.memoList, el => this.createElement(el))}
         </ReactGridLayout>
       </div>
     );

@@ -182,11 +182,12 @@ class App extends Component<any,any> {
     if(e.target.value === "최신순"){
       alert("이건 최신순");
       this.getMemoList()
+      this.props.setSelectVal(false);
 
     } else if(e.target.value === "사용자저장순") {
       alert("이건 사용자저장순");
       this.getSeqList();
-
+      this.props.setSelectVal(true);
     }
   }
   getSavedSeq(){
