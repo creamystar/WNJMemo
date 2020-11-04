@@ -34,7 +34,7 @@ class App extends Component<any,any> {
         this.setState({
           searchModal: this.props.searchModal,
           })
-          console.log("this state 확인" + this.state.searchModal);
+          // console.log("this state 확인" + this.state.searchModal);
     }
   }
   componentDidMount(){
@@ -50,12 +50,10 @@ class App extends Component<any,any> {
         }else{
           chcon = i.mcon;
         }
-
-        
         let cordList = i.mcord.split(",");
-          console.log("cordList");
-          console.log(cordList)
-          console.log(cordList.slice(0,1))
+          // console.log("cordList");
+          // console.log(cordList)
+          // console.log(cordList.slice(0,1))
 
         if(false){
           return {
@@ -96,8 +94,6 @@ class App extends Component<any,any> {
   writeBtnClick(){//메모 작성창
     this.props.setModalVal(true);
   }
-
-
   setLeftTxt = (e: any) => {
     this.setState({
       leftTitle: e,
@@ -107,7 +103,6 @@ class App extends Component<any,any> {
   }
   //반응형 아이콘 클릭 
   rightIconClick() {
-    
     if(this.state.searchModal === false){
       this.props.setSearchModalVal(true)
     } else {
@@ -139,7 +134,6 @@ class App extends Component<any,any> {
   }
 
    seqSaveBtnClick(getItems:any){
-    
     alert("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?");
     console.log("app.tsx의 items 확인");
     console.log(this.state.items);
@@ -171,10 +165,7 @@ class App extends Component<any,any> {
       console.log(e);
       // alert("배치저장 오류!");
     })
-
-    
   }
-
   saveItems(getItems:any){
     this.setState({
       items: getItems
@@ -182,16 +173,11 @@ class App extends Component<any,any> {
     console.log("움직일때마다 app.tsx에도 자동저장 ");
     console.log(this.state.items);
   }
-
-
   render() {
     return (
       <div className="body">
         <Routes />
         <MemoCrud/>
-        
-        {/* {(this.state.block)? () : ()} */}
-
         <div className="top">
           <div className="left" id="left">
             <div className="header">
@@ -210,8 +196,10 @@ class App extends Component<any,any> {
             <div className="con">
               <BasicLayout/>
             </div>
-            <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick()} style={{left: this.state.searchModal?"calc(100% - 340px);":""}}></div>
-            <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick()} style={{display: this.state.searchModal?"block":""}}></div>
+            <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick()} 
+            style={{left: this.state.searchModal?"calc(100% - 340px)":""}}></div>
+            <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick()} 
+            style={{display: this.state.searchModal?"block":""}}></div>
             <div className="right" id="right" style={{display: this.state.searchModal?"inline-block":""}}>
             <SearchRes setLeftTxt={this.setLeftTxt}/>
             <div className="hashtagTitle"># 해시태그 </div>
