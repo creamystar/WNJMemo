@@ -50,7 +50,6 @@
 }
 
 
-
 .rightIcon {
   width: 40px;
   height: 40px;
@@ -68,6 +67,7 @@
 .rightIcon:hover{
   background-size: 25px 27px;
 }
+
 @media screen and (min-width: 768px) {
   .right {
     display: inline-block;
@@ -76,23 +76,36 @@
     float: right;
     background-color: white;
     box-shadow: 5px 5px 5px 5px gray;
+    position: absolute;
+    top: 0;
+    left: calc(100% - 300px);
+
   }
-  .smallWindowRight {
-    display: none;
-  }
-}
+
+} 
 @media screen and (max-width: 768px) {
-  .right {
-    display: none;
+  .left {
+      width: 100%; 
   }
+  .rightIcon {
+    display: inline-block;
+    z-index: 11;
+    position: absolute;
+    top: 0;
+    left: calc(100% - 50px);
+  }
+  
   .smallWindowRightWrap {
     display: none;
     width: 100%;
     height: 100%;
     z-index: 10;
     background-color: rgb(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
   }
-  .smallWindowRight {
+  .right {
     display: none;
     width: 300px;
     height: 100%;
@@ -100,15 +113,16 @@
     background-color: white;
     box-shadow: 5px 5px 5px 5px gray;
     z-index: 11;
+    position: absolute;
+    top: 0;
+    left: calc(100% - 300px);
+
   }
-  .left {
-      width: 100%;
-  }
-  .rightIcon {
-      display: inline-block;
-      z-index: 11;
-  }
+  
 }
+
+
+
 
 .searchs {
   margin-top: 18px;

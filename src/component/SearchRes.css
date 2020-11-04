@@ -1,3 +1,4 @@
+
 .searchRes {
     height: calc(100% - 50px);
     margin-top: 10px;
@@ -17,7 +18,7 @@
     margin-bottom: 7px;
     margin-right: 7px;
     cursor: pointer;
-    
+    z-index: 13;
   }
   .searchRes  div:hover {
     font-weight: bold;

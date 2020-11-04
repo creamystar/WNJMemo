@@ -29,7 +29,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       items: '', //메모 배열들이 저장되어 있음 
       layout: []
     };
-    this.onLayoutChange = this.onLayoutChange.bind(this);
+    //this.onLayoutChange = this.onLayoutChange.bind(this);
     this.updateMemo = this.updateMemo.bind(this);
   }
   updateMemo(e:any){
@@ -56,29 +56,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       </div>
     );
   }
-  
-  //grid 변할때마다 배치저장위해 items에 담아놓기 
-   onLayoutChange(layout:any) {
-    console.log("변하면 들어는 오나?");
-    const changeItems = this.state.items.map(function(item:any) {
-      const i = item.i
-        return {
-          ...item,
-          i: i,
-          //메모 한줄 갯수 바꿀시 수정 필요
-          x: layout[i].x,
-          y: layout[i].y ,
-          w: layout[i].w ,
-          h: layout[i].h ,
-        };
-      })
-      this.setState({
-        items: changeItems
-      })
-      this.props.saveItems(changeItems);
-    console.log("on Layout Change 완료 ")
-    console.log(this.state.items) //items에 xywh 옮겨지고 mno,mcon 유지됨 
-  }
 
   onRemoveItem(i:number) {
     // console.log("removing", i);
@@ -94,8 +71,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
       <div>
         <ReactGridLayout
           layout={this.state.layout} 
-          onLayoutChange={this.onLayoutChange}
-          //onResize={this.onResize.bind(this)}
           {...this.props}
         >
           {_.map(this.state.items, el => this.createElement(el))}

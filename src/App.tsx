@@ -3,11 +3,9 @@ import './App.css';
 import './component/SearchRes.css';
 import './component/HashTags.css';
 import './component/React-grid.css';
-import './component/gridStyle.css';
 import MemoCrud from './containers/MemocrudContainer';
 import BasicLayout from './containers/React-gridContainer';
 import SearchRes from './component/SearchRes';
-import SearchRes2 from './component/SearchRes2';
 import HashTags from './component/HashTags';
 import * as controller from './component/Controller';
 import Routes from "./component/Routes";
@@ -22,12 +20,22 @@ class App extends Component<any,any> {
       items: [],
       seqInfo: [],
       seqNo: [],
-      mode: 1 
-    }
+      width: props.width,
+      searchModal: false,
+    };
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
     this.saveItems = this.saveItems.bind(this);
     this.seqSaveBtnClick = this.seqSaveBtnClick.bind(this);
+    this.rightIconClick = this.rightIconClick.bind(this);
+  }
+  componentDidUpdate(prevProps:any, prevState:any) {
+    if(prevProps.searchModal !== this.props.searchModal){
+        this.setState({
+          searchModal: this.props.searchModal,
+          })
+          console.log("this state 확인" + this.state.searchModal);
+    }
   }
   componentDidMount(){
     //메모리스트 가져오기
@@ -42,19 +50,42 @@ class App extends Component<any,any> {
         }else{
           chcon = i.mcon;
         }
-        return {
-          i: key.toString(),
-          //메모 한줄 갯수 바꿀시 수정 필요
-          x: (key * 2)%10,
-          y: 0,
-          w: 2,
-          h: 2,
-          mno: i.mno,
-          chcon: chcon,
-          mdate: i.mdate,
-          hashtag: i.mhList,
-          mcon: i.mcon,
-        };
+
+        
+        let cordList = i.mcord.split(",");
+          console.log("cordList");
+          console.log(cordList)
+          console.log(cordList.slice(0,1))
+
+        if(false){
+          return {
+            i: key.toString(),
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: cordList.slice(0,1),
+            y: cordList.slice(1,2),
+            w: cordList.slice(2,3),
+            h: cordList.slice(3,4),
+            mno: i.mno,
+            chcon: chcon,
+            mdate: i.mdate,
+            hashtag: i.mhList,
+            mcon: i.mcon,
+          };
+        }else {
+          return {
+            i: key.toString(),
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: (key * 2)%10,
+            y: 0,
+            w: 2,
+            h: 2,
+            mno: i.mno,
+            chcon: chcon,
+            mdate: i.mdate,
+            hashtag: i.mhList,
+            mcon: i.mcon,
+          };
+        }
       })
       this.props.setMemoList(memoList);
     }).catch((e:any) => {
@@ -75,28 +106,12 @@ class App extends Component<any,any> {
     alert(e);
   }
   //반응형 아이콘 클릭 
-  rightIconClick(e: any) {
-
-    if (e === 1) {
-      //@ts-ignore      
-      document.getElementById("smallWindowRightWrap").style = "display: block; position:absolute; left: 0; top: 0;";
-      //@ts-ignore      
-      document.getElementById("smallWindowRight").style = "display: block; position:absolute; left: calc(100% - 300px); top: 0;";
-      //@ts-ignore
-      document.getElementById("rightIcon").style = "left: calc(100% - 340px);"
-      this.setState({
-        rightIconNumber: 2 
-      })
+  rightIconClick() {
+    
+    if(this.state.searchModal === false){
+      this.props.setSearchModalVal(true)
     } else {
-      //@ts-ignore
-      document.getElementById("smallWindowRightWrap").style.display = "none";
-      //@ts-ignore
-      document.getElementById("smallWindowRight").style.display = "none";
-      //@ts-ignore
-      document.getElementById("rightIcon").style = "left: calc(100% - 50px);"
-      this.setState({
-        rightIconNumber: 1
-      })
+      this.props.setSearchModalVal(false)
     }
   }
   selectChange(e: any) {
@@ -169,21 +184,12 @@ class App extends Component<any,any> {
   }
 
 
-
   render() {
     return (
       <div className="body">
         <Routes />
         <MemoCrud/>
-        <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
-        <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick(this.state.rightIconNumber)}></div>
-        <div className="smallWindowRight" id="smallWindowRight">
-          <SearchRes2 setLeftTxt={this.setLeftTxt} />
-          <div className="hashtagTitle"># 해시태그 </div>
-          {JSON.stringify(this.state.items)}
-          <HashTags setLeftTxt={this.setLeftTxt} />
-          
-        </div>
+        
         {/* {(this.state.block)? () : ()} */}
 
         <div className="top">
@@ -204,12 +210,15 @@ class App extends Component<any,any> {
             <div className="con">
               <BasicLayout/>
             </div>
-          </div>
-          <div className="right" id="right">
+            <div className="rightIcon" id="rightIcon" onClick={() => this.rightIconClick()} style={{left: this.state.searchModal?"calc(100% - 340px);":""}}></div>
+            <div className="smallWindowRightWrap" id="smallWindowRightWrap" onClick={() => this.rightIconClick()} style={{display: this.state.searchModal?"block":""}}></div>
+            <div className="right" id="right" style={{display: this.state.searchModal?"inline-block":""}}>
             <SearchRes setLeftTxt={this.setLeftTxt}/>
             <div className="hashtagTitle"># 해시태그 </div>
             <HashTags setLeftTxt={this.setLeftTxt} />
           </div>
+          </div>
+          
         </div>
         <div className="footer">
           <div>
