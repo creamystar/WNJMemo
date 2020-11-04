@@ -200,7 +200,7 @@ class App extends Component<any,any> {
       const info = this.state.memoListTemp.map((item:any) => {
         let seq = item.x + "," + item.y + "," + item.w + "," + item.h;
         let mno = item.mno 
-        console.log(seq);
+        console.log(seq + ": " + mno);
         return {
           mcord: seq,
           mno: mno 
@@ -211,7 +211,7 @@ class App extends Component<any,any> {
     console.log(info)
 
     controller.saveSeq(info).then((e:any) => {
-      alert("배치에 성공하였습니다.");
+      alert("배치에 성공하였습니다." + info[0].mno + ": " + info[0].mcord) ;
       //배치 성공하면 이시점에 temp를 list로 넘기면 되나?
       this.props.setMemoList(this.state.memoListTemp);
 
