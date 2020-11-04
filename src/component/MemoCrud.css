@@ -45,7 +45,7 @@
     margin-top: 15px;
 }
 
-#writeEditorBtn, #cancleEditorBtn {
+#writeEditorBtn, #cancleEditorBtn, #deleteMemoBtn {
     vertical-align: top;
     cursor: pointer;
     height: 25px;
@@ -58,6 +58,9 @@
     font-weight: 500;
     color: gray;
     margin-right: 5px;
+}
+#deleteMemoBtn {
+  width: 70px;
 }
 #writeEditorBtn:hover, #cancleEditorBtn:hover{
     background-color: lightgray;

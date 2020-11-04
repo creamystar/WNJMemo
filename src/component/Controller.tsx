@@ -8,7 +8,6 @@ export function getMemo(){
 
 }
 export function getMemoList(){
-    console.log("몇번 도는가 ")
     return axios.get(url+'getMemo');
 
 }
@@ -22,11 +21,11 @@ export function saveSeq(info:any){
 
 }
 export function updateMemo(mno:number,mcon:string,tags:any){
-    return axios.put(url+'updateMemo/'+mno,{ mcon:mcon, tags:tags});
+    //console.log("mno 잘 나오고 있는지: "+mno)
+    return axios.put(url+'updateMemo/'+mno,{ mcon:mcon, tags:tags });
 
 }
 export function getHashtag(){
-    console.log("몇번 도는가 ")
     return axios.get(url+'htag/select');
     
 }

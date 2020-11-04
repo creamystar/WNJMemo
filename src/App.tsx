@@ -22,56 +22,56 @@ class App extends Component<any,any> {
       seqNo: [],
       width: props.width,
       searchModal: false,
+      newWrightCheck: false,
+      memoList: [],
     };
     this.setLeftTxt = this.setLeftTxt.bind(this);
     this.writeBtnClick = this.writeBtnClick.bind(this);
-    this.saveItems = this.saveItems.bind(this);
     this.seqSaveBtnClick = this.seqSaveBtnClick.bind(this);
     this.rightIconClick = this.rightIconClick.bind(this);
   }
   componentDidUpdate(prevProps:any, prevState:any) {
+    if(prevProps.memoList !== this.props.memoList){
+      this.setState({
+        memoList: this.props.memoList,
+      })
+    }
+
     if(prevProps.searchModal !== this.props.searchModal){
         this.setState({
           searchModal: this.props.searchModal,
           })
-          console.log("this state 확인" + this.state.searchModal);
+    }
+    if(prevProps.newWrightCheck !== this.props.newWrightCheck){
+        this.setState({
+          newWrightCheck: this.props.newWrightCheck,
+          })
+    }
+    if(prevState.selectedValue !== this.state.selectedValue){
+      this.setState({
+        selectedValue: this.state.selectedValue,
+        })
+    }
+    if(prevState.items !== this.state.items){
+      this.setState({
+        items: this.state.items,
+        })
     }
   }
-  componentDidMount(){
-    //메모리스트 가져오기
+  getMemoList(){
+    //메모리스트 최신순으로 가져오기
     controller.getMemoList().then(res => {
-      const memoList = res.data.map(function(i:any, key:any, list:any) {
+      const memoList = res.data.map((i:any, key:any, list:any) => {
         let chcon='';
         if(i.mhList.length!==0){
-          i.mhList.map(function(tag:any, key:any){
+          i.mhList.map((tag:any, key:any) => {
             if(key===0) chcon=i.mcon;
             chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
           })
         }else{
           chcon = i.mcon;
         }
-
-        
-        let cordList = i.mcord.split(",");
-          console.log("cordList");
-          console.log(cordList)
-          console.log(cordList.slice(0,1))
-
-        if(false){
-          return {
-            i: key.toString(),
-            //메모 한줄 갯수 바꿀시 수정 필요
-            x: cordList.slice(0,1),
-            y: cordList.slice(1,2),
-            w: cordList.slice(2,3),
-            h: cordList.slice(3,4),
-            mno: i.mno,
-            chcon: chcon,
-            mdate: i.mdate,
-            hashtag: i.mhList,
-            mcon: i.mcon,
-          };
-        }else {
+          console.log("getmemo newly")
           return {
             i: key.toString(),
             //메모 한줄 갯수 바꿀시 수정 필요
@@ -85,16 +85,66 @@ class App extends Component<any,any> {
             hashtag: i.mhList,
             mcon: i.mcon,
           };
-        }
       })
       this.props.setMemoList(memoList);
+
     }).catch((e:any) => {
       console.log(e);
       alert("서버와의 통신이 원활하지 않습니다.");
     })
+    
+  }
+  getSeqList(){
+    //메모리스트 배치저장으로 가져오기
+    controller.getMemoList().then(res => {
+      const memoList = res.data.map((i:any, key:any, list:any) => {
+        let chcon='';
+        if(i.mhList.length!==0){
+          i.mhList.map((tag:any, key:any) => {
+            if(key===0) chcon=i.mcon;
+            chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+          })
+        }else{
+          chcon = i.mcon;
+        }
+        let cordList = i.mcord.split(",");
+        console.log(i.mcord)
+          // console.log("cordList:저장되어있는 배치좌표 ");
+          // console.log(cordList)
+          // console.log(cordList.slice(0,1))
+
+          return {
+            i: key.toString(),
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: cordList.slice(0,1)*1,
+            y: cordList.slice(1,2)*1,
+            w: cordList.slice(2,3)*1,
+            h: cordList.slice(3,4)*1,
+            mno: i.mno,
+            chcon: chcon,
+            mdate: i.mdate,
+            hashtag: i.mhList,
+            mcon: i.mcon,
+          };
+      })
+      this.props.setMemoList(memoList);
+
+      console.log("getmemo fin")
+    console.log(this.state.memoList)
+
+    }).catch((e:any) => {
+      console.log(e);
+      alert("서버와의 통신이 원활하지 않습니다.");
+    })
+    
+  }
+  componentDidMount(){
+    //this.getMemoList()
+    this.getSeqList()
   }
   writeBtnClick(){//메모 작성창
     this.props.setModalVal(true);
+    this.props.setNewWrightCheck(true);
   }
 
 
@@ -114,6 +164,8 @@ class App extends Component<any,any> {
       this.props.setSearchModalVal(false)
     }
   }
+
+  
   selectChange(e: any) {
 
     this.setState({
@@ -122,29 +174,23 @@ class App extends Component<any,any> {
 
     if(e.target.value === "최신순"){
       alert("이건 최신순");
-      //@ts-ignore
-      document.getElementById("writeBtn").style.display = "inline-block";
-
+      this.getMemoList()
 
     } else if(e.target.value === "사용자저장순") {
       alert("이건 사용자저장순");
-      //@ts-ignore
-      document.getElementById("writeBtn").style.display = "none";
+      this.getSeqList();
 
-      //flag를 넘기고 
-      this.setState({
-        mode: 2 
-      })
     }
   }
 
    seqSaveBtnClick(getItems:any){
     
-    alert("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?");
-    console.log("app.tsx의 items 확인");
-    console.log(this.state.items);
+    // eslint-disable-next-line no-restricted-globals
+    if(confirm("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?")){
+      console.log("app.tsx의 items 확인");
+    console.log(this.state.memoList);
     
-    const info = this.state.items.map((item:any) => {
+    const info = this.state.memoList.map((item:any) => {
       let seq = item.x + "," + item.y + "," + item.w + "," + item.h;
       let mno = item.mno 
       console.log(seq);
@@ -154,33 +200,29 @@ class App extends Component<any,any> {
       }
     })
 
-
     console.log("info")
     console.log(info)
 
     controller.saveSeq(info).then((e:any) => {
       alert("배치에 성공하였습니다.");
-      console.log("성공");
       //배치저장으로 셀렉박스 바꾸기 
       this.setState({
-        selectedValue: "사용자저장순"
+        selectedValue: "사용자저장순" 
       })
+      this.getSeqList();
+      
 
     }).catch((e:any) => {
-      console.log("오류");
+      alert("오류");
       console.log(e);
       // alert("배치저장 오류!");
     })
+    } else {
+      return;
+    }
+    
 
     
-  }
-
-  saveItems(getItems:any){
-    this.setState({
-      items: getItems
-    })
-    console.log("움직일때마다 app.tsx에도 자동저장 ");
-    console.log(this.state.items);
   }
 
 
@@ -198,7 +240,8 @@ class App extends Component<any,any> {
               {this.state.leftTitle}
             </div>
             <div className="buttons">
-              <input type="button" id="writeBtn" onClick={this.writeBtnClick} value="메모추가" />
+              {this.state.selectedValue === "사용자저장순" ? 
+              (<></>):(<><input type="button" id="writeBtn" onClick={this.writeBtnClick} value="메모추가" /></>)}
               <input type="button" id="listSeqSaveBtn" onClick={this.seqSaveBtnClick} value="배치저장" />
             </div>
             <div className="rightselects">

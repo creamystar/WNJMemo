@@ -11,6 +11,7 @@ class MemoCrud extends Component<any, any> {
             mcon:'',
             rawcon:'',
             modal: false,
+            newWrightCheck: false,
         }
         this.getMemo = this.getMemo.bind(this);
         this.wirteClick = this.wirteClick.bind(this);
@@ -23,15 +24,22 @@ class MemoCrud extends Component<any, any> {
                 modal: this.props.modal,
               })
         }
+        if(prevProps.newWrightCheck !== this.props.newWrightCheck){
+            this.setState({
+                newWrightCheck: this.props.newWrightCheck,
+              })
+        }
       }
     exit() {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성중인 글이 저장되지 않습니다. 정말 닫으시겠습니까?")){
             this.props.setModalVal(false);
             this.props.setMemo('');
+            this.props.setNewWrightCheck(false);
         }else {
             return ;
         }
+
     }
     wirteClick() {
         // eslint-disable-next-line no-restricted-globals
@@ -50,6 +58,7 @@ class MemoCrud extends Component<any, any> {
                     .catch((e:any) => {
                         alert("메모작성 오류!");
                     })
+            this.props.setNewWrightCheck(false);
         }
     }
     getMemo(memo:any,rawcon:any){
@@ -68,6 +77,10 @@ class MemoCrud extends Component<any, any> {
         ));
         return rs;
     }
+    //메모삭제
+    deleteMemo(){
+
+    }
     render() {
         return (
             <div id="memoCrudAll" style={{display:this.state.modal?"block":"none"}}>
@@ -77,6 +90,7 @@ class MemoCrud extends Component<any, any> {
                     <div id="memoBtn">
                         <input type="button" id="writeEditorBtn" value="완료" onClick={this.wirteClick} />
                         <input type="button" id="cancleEditorBtn" value="취소" onClick={this.exit}/>
+                        {this.state.newWrightCheck?(<></>):(<><input type="button" id="deleteMemoBtn" value="메모삭제" onClick={this.deleteMemo} /></>)}
                     </div>
                     <Editor getMemo={this.getMemo} /* memo={this.state.memo} *//>
                 </div>
