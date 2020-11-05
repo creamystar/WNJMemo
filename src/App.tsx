@@ -144,6 +144,7 @@ class App extends Component<any,any> {
       this.props.ma.setSelectVal(true);
     }
     this.props.ta.setSearchMode(false);
+    this.props.ta.setTagVal('');
     this.getMemoList();
   }
    seqSaveBtnClick(getItems:any){
