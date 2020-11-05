@@ -33,7 +33,6 @@ class App extends Component<any,any> {
     this.rightIconClick = this.rightIconClick.bind(this);
     this.getSeqList = this.getSeqList.bind(this);
     this.getMemoList = this.getMemoList.bind(this);
-    this.getSavedSeq = this.getSavedSeq.bind(this);
   }
   componentDidUpdate(prevProps:any, prevState:any) {
 
@@ -190,9 +189,6 @@ class App extends Component<any,any> {
       this.props.setSelectVal(true);
     }
   }
-  getSavedSeq(){
-    this.getSeqList();
-  }
    seqSaveBtnClick(getItems:any){
     
     if(window.confirm("기존 배치저장이 사라지고 현재 배치가 새로이 저장됩니다. \n계속하시겠습니까?")){
@@ -260,7 +256,6 @@ class App extends Component<any,any> {
                 <option value="최신순">최신순</option>
                 <option value="사용자저장순">사용자저장순</option>
               </select>
-              <button onClick = {this.getSavedSeq}>사용자저장순</button>
             </div>
             <div className="con">
               <BasicLayout/>
