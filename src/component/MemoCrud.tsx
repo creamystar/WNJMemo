@@ -4,6 +4,8 @@ import Editor from '../containers/Quill-EditorContainer';
 import './MemoCrud.css';
 import 'react-quill/dist/quill.snow.css';
 
+const a = '';
+
 class MemoCrud extends Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -17,6 +19,7 @@ class MemoCrud extends Component<any, any> {
         this.wirteClick = this.wirteClick.bind(this);
         this.seperateTag = this.seperateTag.bind(this);
         this.exit = this.exit.bind(this);
+        this.deleteMemo = this.deleteMemo.bind(this);
     }
     componentDidUpdate(prevProps:any, prevState:any) {
         if(prevProps.modal !== this.props.modal){
@@ -46,6 +49,8 @@ class MemoCrud extends Component<any, any> {
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
             console.log(tag);
+            console.log("this.props.memo를 왜 못잡지?ㅠㅠ ")
+            console.log(this.props.memo)
             const axiosHead = this.props.memo!==''?
             controller.updateMemo(this.props.memo.mno,this.state.mcon,tag):
             controller.createMemo(this.state.mcon,tag);
@@ -58,7 +63,7 @@ class MemoCrud extends Component<any, any> {
                     .catch((e:any) => {
                         alert("메모작성 오류!");
                     })
-            this.props.setNewWrightCheck(false);
+            this.props.setNewWrightCheck(false);//완료 후엔 무조건 false로. (켜질때 다시 true 구분)
         }
     }
     getMemo(memo:any,rawcon:any){
@@ -80,7 +85,17 @@ class MemoCrud extends Component<any, any> {
     //메모삭제
     deleteMemo(){
         if(window.confirm("정말 삭제하시겠습니까?")){
-            
+            //해당 mno 넘겨주기 (백에서 삭제)
+            //try catch 삭제되었습니다. 삭제 오류.
+            console.log("this.props.memo를 왜 못잡지?ㅠㅠ ")
+            console.log(this.props.memo)
+            controller.deleteMemo(this.props.memo.mno).then((res:any)=>{
+                        alert("메모가 삭제되었습니다.");
+                        window.location.href = document.referrer;//새로고침 
+                    })
+                    .catch((e:any) => {
+                        alert("삭제 오류가 발생했습니다.");
+                    })
         } else {
             return;
         }
