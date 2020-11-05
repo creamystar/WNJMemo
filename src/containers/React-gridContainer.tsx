@@ -1,4 +1,4 @@
-import ReactGrid from '../component/React-grid';
+import ReactGrid from '../Component/React-grid';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as actions from '../redux/modules/main';

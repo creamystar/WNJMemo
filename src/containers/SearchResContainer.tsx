@@ -1,4 +1,4 @@
-import SearchRes from '../component/SearchRes';
+import SearchRes from '../Component/SearchRes';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Mainactions from '../redux/modules/main';

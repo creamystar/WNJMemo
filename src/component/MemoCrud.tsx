@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as controller from './Controller';
-import Editor from '../containers/Quill-EditorContainer';
+import Editor from '../Containers/Quill-EditorContainer';
 import './MemoCrud.css';
 import 'react-quill/dist/quill.snow.css';
 

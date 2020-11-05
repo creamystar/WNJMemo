@@ -1,4 +1,4 @@
-import Editor from '../component/Quill-Editor';
+import Editor from '../Component/Quill-Editor';
 import { connect } from 'react-redux';
 import { RootState } from '../redux/modules';
 

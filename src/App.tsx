@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import './component/SearchRes.css';
-import './component/HashTags.css';
-import './component/React-grid.css';
-import MemoCrud from './containers/MemocrudContainer';
-import BasicLayout from './containers/React-gridContainer';
-import SearchRes from './containers/SearchResContainer';
-import HashTags from './containers/HashTagContainer';
-import * as controller from './component/Controller';
-import Routes from "./component/Routes";
+import './Component/SearchRes.css';
+import './Component/HashTags.css';
+import './Component/React-grid.css';
+import MemoCrud from './Containers/MemocrudContainer';
+import BasicLayout from './Containers/React-gridContainer';
+import SearchRes from './Containers/SearchResContainer';
+import HashTags from './Containers/HashTagContainer';
+import * as controller from './Component/Controller';
+import Routes from "./Component/Routes";
 
 class App extends Component<any,any> {
   constructor(props: any) {

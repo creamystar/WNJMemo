@@ -1,4 +1,4 @@
-import HashTags from '../component/HashTags';
+import HashTags from '../Component/HashTags';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Mainactions from '../redux/modules/main';
