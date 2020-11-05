@@ -43,8 +43,6 @@ class HashTags extends Component<any,any> {
             alert("메모 불러오기 실패")
         })
     }
-
-
     createElement(el:any){
         const i=el.hno;
         return(
