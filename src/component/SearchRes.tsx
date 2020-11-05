@@ -38,7 +38,7 @@ class SearchRes extends Component<any,any> {
                     let chcon='';
                     hashtagdb.map(function(tag:any, key:any){
                         if(key===0) chcon=i.mcon;
-                        chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
+                        chcon = chcon.replace(tag,'<strong style="color: rgb(102, 163, 224);">'+tag+'</strong>');
                     })
                     return {
                         i: key.toString(),

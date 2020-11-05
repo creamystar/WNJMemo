@@ -43,8 +43,6 @@ class MemoCrud extends Component<any, any> {
             controller.createMemo(this.state.mcon,tag);
             axiosHead.then((res:any)=>{
                         alert("메모작성 완료!");
-                        // this.props.setModalVal(false);
-                        // this.props.setMemo('');
                         window.location.href = document.referrer;//새로고침 
                     })
                     .catch((e:any) => {
