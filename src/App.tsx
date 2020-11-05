@@ -6,7 +6,7 @@ import './component/React-grid.css';
 import MemoCrud from './containers/MemocrudContainer';
 import BasicLayout from './containers/React-gridContainer';
 import SearchRes from './containers/SearchResContainer';
-import HashTags from './component/HashTags';
+import HashTags from './containers/HashTagContainer';
 import * as controller from './component/Controller';
 import Routes from "./component/Routes";
 
@@ -180,7 +180,7 @@ class App extends Component<any,any> {
         <div className="top">
           <div className="left" id="left">
             <div className="header">
-              {this.props.tagVal}
+              {this.props.tagVal.hname}
             </div>
             <div className="buttons">
               {this.state.selectVal === true ? 

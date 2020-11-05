@@ -40,7 +40,7 @@ class SearchRes extends Component<any,any> {
                       };
                 });
                 this.props.ma.setMemoList(memoList);
-                // this.props.ta.setTagVal(e);
+                this.props.ta.setTagVal(e);
             }else{
                 alert("메모 불러오기 오류");
             }

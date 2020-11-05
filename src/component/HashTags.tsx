@@ -8,46 +8,64 @@ class HashTags extends Component<any,any> {
         super(props);
         this.state = {
             hashtagName: "",
-            hashtags: ['논태그','리액트','반복문','바나나우유','텀블러'],
-            hashtagList: []
         }
     }
-
     hashtagsClick = (e:any) => {
-        //@ts-ignore
-        this.props.setLeftTxt(e)
+        if(this.props.modeVal===false)
+            this.props.ta.setSearchMode(true);
+        controller.clickTag(e.hno)
+        .then( res => {
+            if(res.data.length !== 0){
+                const memoList =res.data.map(function(i:any, key:any, list:any) {
+                    let chcon='';
+                    chcon = i.mcon.replace(e.hname,'<strong style="color: rgb(102, 163, 224);">'+e.hname+'</strong>');
+                    return {
+                        i: key.toString(),
+                        //메모 한줄 갯수 바꿀시 수정 필요
+                        x: (key * 2)%10,
+                        y: 0,
+                        w: 2,
+                        h: 2,
+                        mno: i.mno,
+                        chcon: chcon,
+                        mdate: i.mdate,
+                        hashtag: i.mhList,
+                        mcon: i.mcon,
+                      };
+                });
+                this.props.ma.setMemoList(memoList);
+                this.props.ta.setTagVal(e);
+            }else{
+                alert("메모 불러오기 오류");
+            }
+        })
+        .catch(e =>{
+            alert("메모 불러오기 실패")
+        })
     }
 
 
     createElement(el:any){
-        const i=el;
+        const i=el.hno;
         return(
-            <div key={i} onClick={() => {this.hashtagsClick(el)}}>{el}</div>
+            <div key={i} onClick={() => {this.hashtagsClick(el)}}>{el.hname}</div>
         );
     }
 
     componentDidMount() {
         controller.getHashtag().then(res => {
-            //this.state.gashtags ==> res.data
-            const hashtagdb = res.data.map(function(i:any){
-                return i.hname;
-            })
             this.setState({
-                hashtagName: hashtagdb,
+                hashtagName: res.data,
             });
-            //console.log(this.state.hashtagName);
         }).catch((e:any) => {
             console.log(e);
             alert("서버와의 통신이 원활하지 않습니다.");
         })
     }
-
-
-
     render() {
         return (
             <div className="hashtags">
-                {_.map(this.state.hashtagName,hname => this.createElement(hname))}
+                {_.map(this.state.hashtagName,el => this.createElement(el))}
             </div>
         );
     }

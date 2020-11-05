@@ -1,4 +1,4 @@
-import SearchRes from '../component/SearchRes';
+import HashTags from '../component/HashTags';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Mainactions from '../redux/modules/main';
@@ -13,5 +13,5 @@ export default connect(
         ta: bindActionCreators(Tagactions, dispatch),
         ma: bindActionCreators(Mainactions, dispatch),
     })
-)(SearchRes);
+)(HashTags);
 
