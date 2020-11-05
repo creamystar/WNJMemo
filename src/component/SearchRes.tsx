@@ -80,6 +80,7 @@ class SearchRes extends Component<any,any> {
                     this.props.ma.setSelectVal(false);
                     this.props.ma.setMemoList(memoList);
                     this.props.ta.setSearchMode(true);
+                    this.props.ta.setTagVal('');
                     this.setState({
                         tagList: tagList,
                     });
