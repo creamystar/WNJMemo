@@ -30,5 +30,5 @@ export function getHashtag(){
     
 }
 export function deleteMemo(mno:number){
-    return axios.put(url+'delete',{ mno:mno });
+    return axios.delete(url+'delete/'+mno);
 }
