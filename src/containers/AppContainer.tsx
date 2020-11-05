@@ -7,6 +7,9 @@ import { RootState } from '../redux/modules';
 export default connect(
     (state: RootState) => ({
         searchModal: state.main.searchModal,
+        newWrightCheck: state.main.newWrightCheck,
+        memoListTemp: state.main.memoListTemp,
+        memoList: state.main.memoList,
     }),
     (dispatch) => bindActionCreators(actions, dispatch)
 )(App);

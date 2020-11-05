@@ -6,7 +6,9 @@ import { RootState } from '../redux/modules';
 
 export default connect(
     (state: RootState) => ({
-        memoList: state.main.memoList
+        memoList: state.main.memoList,
+        memoListTemp: state.main.memoListTemp,
+        selectVal: state.main.selectVal,
     }),
     (dispatch) => bindActionCreators(actions, dispatch)
 )(ReactGrid);

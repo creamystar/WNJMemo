@@ -7,7 +7,8 @@ import { RootState } from '../redux/modules';
 export default connect(
     (state: RootState) => ({
         modal: state.main.modal,
-        memo: state.main.memo
+        memo: state.main.memo,
+        newWrightCheck: state.main.newWrightCheck 
     }),
     (dispatch) => bindActionCreators(actions, dispatch)
 )(MemoCrud);

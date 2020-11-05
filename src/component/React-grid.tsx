@@ -12,24 +12,22 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     cols: 10,
     // rowHeight: 30,
     //onLayoutChange: function() {},
-    item: {
-      i: 0,
-      x: 0,
-      y: 0,
-      h: 0,
-      w: 0
-    },
-    mode: 1
+    item: [],
+    mode: 1,
   };
   constructor(props:any) {
     super(props);
     this.state = { 
-      items: '', //메모 배열들이 저장되어 있음 
-      layout: []
+      layout: [],
+      memoList: [],
+      items: [],
+      memoListTemp: [],
     };
-    //this.onLayoutChange = this.onLayoutChange.bind(this);
+    this.onLayoutChange = this.onLayoutChange.bind(this);
     this.updateMemo = this.updateMemo.bind(this);
+    this.createElement = this.createElement.bind(this);
   }
+ 
   updateMemo(e:any){
     this.props.setModalVal(true);
     this.props.setMemo(e);
@@ -41,7 +39,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         {/* {<span className="text">{i}</span>} */}
         <span className="update" onClick={()=> this.updateMemo(el)}>
         </span>
-        <span className="remove" onClick={this.onRemoveItem.bind(this, i)}>
+        <span className="remove" >
         </span>
         <span className="memoHead">
         {el.mno}
@@ -56,43 +54,55 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
   //grid 변할때마다 배치저장위해 items에 담아놓기 
    onLayoutChange(layout:any) {
-    console.log("변하면 들어는 오나?");
-    const changeItems = this.state.items.map(function(item:any) {
-      const i = item.i
-        return {
-          ...item,
-          i: i,
-          //메모 한줄 갯수 바꿀시 수정 필요
-          x: layout[i].x,
-          y: layout[i].y ,
-          w: layout[i].w ,
-          h: layout[i].h ,
-        };
-      })
-      this.setState({
-        items: changeItems
-      })
-      // this.props.saveItems(changeItems);
-    console.log("on Layout Change 완료 ")
-    console.log(this.state.items) //items에 xywh 옮겨지고 mno,mcon 유지됨 
+     console.log("onlayoutchange in(memoList보기)")
+     console.log(this.state.memoList)
+     if(this.state.memoList.length !== 0){
+      const changeItems = this.state.memoList.map(function(item:any) {
+        const i = item.i
+          return {
+            ...item,
+            i: i,
+            //메모 한줄 갯수 바꿀시 수정 필요
+            x: layout[i].x,
+            y: layout[i].y ,
+            w: layout[i].w ,
+            h: layout[i].h ,
+          };
+        })
+        this.props.setMemoListTemp(changeItems); 
+     }
+      //memoListTemp에 xywh 옮겨지고 mno,mcon 유지됨 
+    console.log("on Layout Change 완료(memoListTemp보기) ")
+    console.log(this.state.memoListTemp)
+
   }
-  onRemoveItem(i:number) {
-    // console.log("removing", i);
-    this.setState({ items: _.reject(this.state.items, { i: i }) });
-  }
+
   componentDidUpdate(prevProps:any, prevState:any) {
-    this.setState({
-      items: this.props.memoList,
-    })
+    if(prevProps.memoList !== this.props.memoList){
+      this.setState({
+        memoList: this.props.memoList,
+      })
+    }
+    if(prevProps.memoListTemp !== this.props.memoListTemp){
+      this.setState({
+        memoListTemp: this.props.memoListTemp,
+      })
+    }
+    if(prevProps.selectVal!== this.props.selectVal){
+      this.setState({
+        memoList: '',
+      })
+    }
   }
   render() {
     return (
       <div>
         <ReactGridLayout
-          layout={this.state.layout} 
+          //layout={this.state.layout} 
+          onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
-          {_.map(this.state.items, el => this.createElement(el))}
+          {_.map(this.state.memoList, el => this.createElement(el))}
         </ReactGridLayout>
       </div>
     );

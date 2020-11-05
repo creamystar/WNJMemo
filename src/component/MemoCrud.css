@@ -45,7 +45,7 @@
     margin-top: 15px;
 }
 
-#writeEditorBtn, #cancleEditorBtn {
+#writeEditorBtn, #cancleEditorBtn, #deleteMemoBtn {
     vertical-align: top;
     cursor: pointer;
     height: 25px;
@@ -59,10 +59,19 @@
     color: gray;
     margin-right: 5px;
 }
+#deleteMemoBtn {
+  width: 70px;
+}
 #writeEditorBtn:hover, #cancleEditorBtn:hover{
     background-color: lightgray;
     height: 25px;
     width: 50px;
+}
+
+#deleteMemoBtn:hover {
+  background-color: lightgray;
+  height: 25px;
+  width: 70px;
 }
 
 .quill  {
