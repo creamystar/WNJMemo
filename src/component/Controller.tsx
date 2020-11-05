@@ -31,4 +31,13 @@ export function getHashtag(){
 }
 export function deleteMemo(mno:number){
     return axios.delete(url+'delete/'+mno);
+    
+}
+export function searchTag(tag:string){
+    return axios.post(url+'searchTag',{tag:tag});
+
+}
+export function clickTag(hno:number){
+    return axios.post(url+'clickTag',{hno:hno});
+
 }

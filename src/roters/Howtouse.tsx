@@ -4,9 +4,9 @@ import React, { useEffect } from 'react';
 //@ts-ignore
 function Howtouse({ history }) {
     
-        const goBack = () => {
-            history.goBack(); //뒤로가기. 새로고침 안됨 
-        };
+        // const goBack = () => {
+        //     history.goBack(); //뒤로가기. 새로고침 안됨 
+        // };
     
         const goHome = () => {
             history.push('/'); //새로 고침 안됨 

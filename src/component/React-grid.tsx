@@ -1,7 +1,5 @@
-import React, { memo } from 'react';
-import RGL, { Layout, WidthProvider } from "react-grid-layout";
-import * as controller from './Controller';
-import { isTemplateSpan } from 'typescript';
+import React from 'react';
+import RGL, { WidthProvider } from "react-grid-layout";
 import './React-grid.css';
 import _ from "lodash";
 
@@ -100,7 +98,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     return (
       <div>
         <ReactGridLayout
-          //layout={this.state.layout} 
+          layout={this.state.layout} 
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
