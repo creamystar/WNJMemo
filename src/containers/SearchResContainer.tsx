@@ -1,13 +1,17 @@
 import ReactGrid from '../component/SearchRes';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as actions from '../redux/modules/main';
+import * as Mainactions from '../redux/modules/main';
+import * as Tagactions from '../redux/modules/hashtag';
 import { RootState } from '../redux/modules';
 
 export default connect(
     (state: RootState) => ({
-        tagList: state.hashtag.tagList
+        modeVal: state.hashtag.modeVal
     }),
-    (dispatch) => bindActionCreators(actions, dispatch)
+    (dispatch) => ({
+        ta: bindActionCreators(Tagactions, dispatch),
+        ma: bindActionCreators(Mainactions, dispatch),
+    })
 )(ReactGrid);
 

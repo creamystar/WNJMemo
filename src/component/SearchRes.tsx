@@ -7,23 +7,47 @@ class SearchRes extends Component<any,any> {
     constructor(props:any){
         super(props);
         this.state = {
-            hashtagName: "",
-            hashtagList: [],
+            tagList: [],
             text: '',
-            hashtagsId: ''
         }
         this.sendSearchTxt = this.sendSearchTxt.bind(this);
     }
     handleChange = (e:any) => {
         console.log(e.target.value)
         this.setState({
-            //@ts-ignore
             text: e.target.value 
         })
     }
     hashtagsClick = (e:any) => {
-        //@ts-ignore
-        this.props.setLeftTxt(e);
+        controller.clickTag(e.hno)
+        .then( res => {
+            if(res.data.length !== 0){
+                const memoList =res.data.map(function(i:any, key:any, list:any) {
+                    let chcon='';
+                    chcon = i.mcon.replace(e.hname,'<strong style="color: rgb(102, 163, 224);">'+e.hname+'</strong>');
+                    return {
+                        i: key.toString(),
+                        //메모 한줄 갯수 바꿀시 수정 필요
+                        x: (key * 2)%10,
+                        y: 0,
+                        w: 2,
+                        h: 2,
+                        mno: i.mno,
+                        chcon: chcon,
+                        mdate: i.mdate,
+                        hashtag: i.mhList,
+                        mcon: i.mcon,
+                      };
+                });
+                this.props.ma.setMemoList(memoList);
+                // this.props.ta.setTagVal(e);
+            }else{
+                alert("메모 불러오기 오류");
+            }
+        })
+        .catch(e =>{
+            alert("메모 불러오기 실패")
+        })
     }
     sendSearchTxt(con:string){
         const reg = /^#/gm;
@@ -31,14 +55,12 @@ class SearchRes extends Component<any,any> {
         controller.searchTag(con)
         .then( res=> {
             if(res.data.tagList.length !== 0){
-                const hashtagdb = res.data.tagList.map(function(i:any){
-                    return i.hname;
-                })
-                const memoList = res.data.memoList.map(function(i:any, key:any, list:any) {
+                const tagList = res.data.tagList;
+                const memoList =res.data.memoList.map(function(i:any, key:any, list:any) {
                     let chcon='';
-                    hashtagdb.map(function(tag:any, key:any){
+                    tagList.map(function(tag:any, key:any){
                         if(key===0) chcon=i.mcon;
-                        chcon = chcon.replace(tag,'<strong style="color: rgb(102, 163, 224);">'+tag+'</strong>');
+                        chcon = chcon.replace(tag.hname,'<strong style="color: rgb(102, 163, 224);">'+tag.hname+'</strong>');
                     })
                     return {
                         i: key.toString(),
@@ -54,9 +76,11 @@ class SearchRes extends Component<any,any> {
                         mcon: i.mcon,
                       };
                 });
-                this.props.setMemoList(memoList);
+                this.props.ma.setSelectVal(false);
+                this.props.ma.setMemoList(memoList);
+                this.props.ta.setSearchMode(true);
                 this.setState({
-                    hashtagName: hashtagdb,
+                    tagList: tagList,
                 });
             }else{
                 alert("검색 결과가 없습니다.")
@@ -67,10 +91,18 @@ class SearchRes extends Component<any,any> {
         })
     }
     createElement(el:any){
-        const i=el;
+        const i=el.hno;
         return(
-            <div key={i} onClick={() => {this.hashtagsClick(el)}}>{el}</div>
+            <div key={i} onClick={() => {this.hashtagsClick(el)}}>{el.hname}</div>
         );
+    }
+    componentDidUpdate(prevProps:any, prevState:any) {
+        if(prevProps.modeVal === true && this.props.modeVal === false){
+            this.setState({
+                hashtagName: '',
+                text: '',
+            })
+        }
     }
     render() {
         return (
@@ -80,7 +112,7 @@ class SearchRes extends Component<any,any> {
                     <input type="button" id="searchBtn" onClick={()=>this.sendSearchTxt(this.state.text)} />
                 </div>
                 <div className="searchRes">
-                    {_.map(this.state.hashtagName,el => this.createElement(el))}                
+                    {_.map(this.state.tagList,el => this.createElement(el))}                
                 </div>
             </div>
         );

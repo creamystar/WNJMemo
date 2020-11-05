@@ -1,27 +1,37 @@
 //Action
-const SETTAGLIST = 'htag/SETTAGLIST' as const;
+const SETSEARCHMODE = 'htag/SETSEARCHMODE' as const;
+const SETTAGVAL = 'htag/SETTAGVAL' as const;
 
 //ActionCreator
-export const setTagList = (getPayload:any) => ({
-    type: SETTAGLIST,
+export const setSearchMode = (getPayload:any) => ({
+    type: SETSEARCHMODE,
+    payload: getPayload
+})
+export const setTagVal = (getPayload:any) => ({
+    type: SETTAGVAL,
     payload: getPayload
 })
 
 //type 지정
-type MainState = {
-    tagList: any,  
+type TagState = {
+    modeVal: boolean, 
+    tagVal: any,
 }
-type MainAction = 
-    | ReturnType<typeof setTagList>
+type TagAction = 
+    | ReturnType<typeof setSearchMode>
+    | ReturnType<typeof setTagVal>
 
 //Reducer
-const initialState: MainState = {
-    tagList: '',
+const initialState: TagState = {
+    modeVal: false,
+    tagVal: '',
 }
 export default function hashtag (state = initialState, action: any) {
     switch (action.type) {
-        case SETTAGLIST :
-            return {...state, tagList : action.payload}
+        case SETSEARCHMODE :
+            return {...state, modeVal : action.payload}
+        case SETTAGVAL :
+            return {...state, tagVal : action.payload}
         default:
             return state;
     }

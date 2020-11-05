@@ -98,7 +98,7 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
     return (
       <div>
         <ReactGridLayout
-          //layout={this.state.layout} 
+          layout={this.state.layout} 
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
