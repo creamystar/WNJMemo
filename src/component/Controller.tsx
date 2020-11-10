@@ -21,8 +21,7 @@ export function saveSeq(info:any){
 
 }
 export function updateMemo(mno:number,mcon:string,tags:any){
-    //console.log("mno 잘 나오고 있는지: "+mno)
-    return axios.post(url+'updateMemo/'+mno,{ mcon:mcon, tags:tags });
+    return axios.put(url+'updateMemo/'+mno,{ mcon:mcon, tags:tags });
 
 }
 export function getHashtag(){

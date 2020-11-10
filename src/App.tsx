@@ -93,7 +93,6 @@ class App extends Component<any,any> {
           return {
             
             i: key.toString(),
-            //메모 한줄 갯수 바꿀시 수정 필요
             x: cordList.slice(0,1)*1,
             y: cordList.slice(1,2)*1,
             w: cordList.slice(2,3)*1,
@@ -159,7 +158,7 @@ class App extends Component<any,any> {
           }
       })
       controller.saveSeq(info).then((e:any) => {
-        alert("배치에 성공하였습니다." + info[0].mno + ": " + info[0].mcord) ;
+        alert("배치에 성공하였습니다.") ;
         //배치 성공하면 이시점에 temp를 list로 넘기면 되나?
         this.props.ma.setMemoList(this.state.memoListTemp);
 

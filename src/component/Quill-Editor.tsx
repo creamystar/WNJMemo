@@ -23,7 +23,7 @@ class Editor extends React.Component<any, any> {
         console.log(this.props)
         //@ts-ignore
         let quill = this.quillRef;
-        if (prevState.editorHtml.length !== this.state.editorHtml.length) {
+        if (prevState.editorHtml !== this.state.editorHtml) {
             this.props.getMemo(this.state.editorHtml,quill.getText())
         }
         if(prevProps.memo !== this.props.memo){

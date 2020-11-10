@@ -48,9 +48,6 @@ class MemoCrud extends Component<any, any> {
         // eslint-disable-next-line no-restricted-globals
         if(confirm("작성을 완료하시겠습니까?")){
             const tag = this.seperateTag(this.state.rawcon);
-            console.log(tag);
-            console.log("this.props.memo를 왜 못잡지?ㅠㅠ ")
-            console.log(this.props.memo)
             const axiosHead = this.props.memo!==''?
             controller.updateMemo(this.props.memo.mno,this.state.mcon,tag):
             controller.createMemo(this.state.mcon,tag);
@@ -83,10 +80,6 @@ class MemoCrud extends Component<any, any> {
     //메모삭제
     deleteMemo(){
         if(window.confirm("정말 삭제하시겠습니까?")){
-            //해당 mno 넘겨주기 (백에서 삭제)
-            //try catch 삭제되었습니다. 삭제 오류.
-            console.log("this.props.memo를 왜 못잡지?ㅠㅠ ")
-            console.log(this.props.memo)
             controller.deleteMemo(this.props.memo.mno).then((res:any)=>{
                         alert("메모가 삭제되었습니다.");
                         window.location.href = document.referrer;//새로고침 
