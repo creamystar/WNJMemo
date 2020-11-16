@@ -13,7 +13,6 @@ class SearchRes extends Component<any,any> {
         this.sendSearchTxt = this.sendSearchTxt.bind(this);
     }
     handleChange = (e:any) => {
-        console.log(e.target.value)
         this.setState({
             text: e.target.value 
         })
@@ -77,7 +76,7 @@ class SearchRes extends Component<any,any> {
                             mcon: i.mcon,
                           };
                     });
-                    this.props.ma.setSelectVal(false);
+                    this.props.ma.setSelectVal("false");
                     this.props.ma.setMemoList(memoList);
                     this.props.ta.setSearchMode(true);
                     this.props.ta.setTagVal('');

@@ -74,7 +74,7 @@ class App extends Component<any,any> {
         }else{
           chcon = i.mcon;
         }
-        if(this.state.selectVal===false){
+        if(this.state.selectVal==="false"){
           return {
             i: key.toString(),
             //메모 한줄 갯수 바꿀시 수정 필요
@@ -137,10 +137,11 @@ class App extends Component<any,any> {
   }
   
   selectChange(e: any) {
-    if(e.target.value === "최신순"){
-      this.props.ma.setSelectVal(false);
-    } else if(e.target.value === "사용자저장순") {
-      this.props.ma.setSelectVal(true);
+    const flag = e.target.value;
+    if(flag === "false"){
+      this.props.ma.setSelectVal(flag);
+    } else if(flag === "true") {
+      this.props.ma.setSelectVal(flag);
     }
     this.props.ta.setSearchMode(false);
     this.props.ta.setTagVal('');
@@ -151,7 +152,7 @@ class App extends Component<any,any> {
         const info = this.state.memoListTemp.map((item:any) => {
           let seq = item.x + "," + item.y + "," + item.w + "," + item.h;
           let mno = item.mno 
-          console.log(seq + ": " + mno);
+          // console.log(seq + ": " + mno);
           return {
             mcord: seq,
             mno: mno 
@@ -163,7 +164,7 @@ class App extends Component<any,any> {
         this.props.ma.setMemoList(this.state.memoListTemp);
 
         //배치저장으로 셀렉박스 바꾸기 
-        this.props.ma.setSelectVal(true);
+        this.props.ma.setSelectVal("true");
         this.getMemoList();
 
       }).catch((e:any) => {
@@ -183,15 +184,15 @@ class App extends Component<any,any> {
               {this.props.tagVal.hname}
             </div>
             <div className="buttons">
-              {this.state.selectVal === true ? 
+              {this.state.selectVal === "true" ? 
               (<></>):(<><input type="button" id="writeBtn" onClick={this.writeBtnClick} value="메모추가" /></>)}
               {this.state.modeVal === true ? 
               (<></>):(<><input type="button" id="listSeqSaveBtn" onClick={this.seqSaveBtnClick} value="배치저장" /></>)}
             </div>
             <div className="rightselects">
-              <select id="selects" value={this.state.selectedValue} onChange={this.selectChange.bind(this)}>
-                <option value="최신순">최신순</option>
-                <option value="사용자저장순">사용자저장순</option>
+              <select id="selects" value={this.props.selectVal} onChange={this.selectChange.bind(this)}>
+                <option value={"false"}>최신순</option>
+                <option value={"true"}>사용자저장순</option>
               </select>
             </div>
             <div className="con">

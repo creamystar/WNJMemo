@@ -9,6 +9,7 @@ export default connect(
         memoList: state.main.memoList,
         memoListTemp: state.main.memoListTemp,
         selectVal: state.main.selectVal,
+        modeVal: state.hashtag.modeVal,
     }),
     (dispatch) => bindActionCreators(actions, dispatch)
 )(ReactGrid);

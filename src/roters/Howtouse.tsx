@@ -13,7 +13,6 @@ function Howtouse({ history }) {
         };
     
         useEffect(() => {
-            console.log(history);
             const unblock = history.block('정말 창을 닫으시겠습니까?');
             return() => {
                 unblock();

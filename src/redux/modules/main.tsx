@@ -45,7 +45,7 @@ type MainState = {
     searchModal: boolean,
     newWrightCheck: boolean,
     memoListTemp: any,
-    selectVal: boolean,
+    selectVal: any,
 }
 type MainAction = 
     | ReturnType<typeof setMemoList>
@@ -64,7 +64,7 @@ const initialState: MainState = {
     searchModal: false,
     newWrightCheck: false,
     memoListTemp: [],
-    selectVal: false,
+    selectVal: 'false',
 }
 export default function main (state = initialState, action: any) {
     switch (action.type) {

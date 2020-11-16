@@ -13,6 +13,7 @@ class HashTags extends Component<any,any> {
     hashtagsClick = (e:any) => {
         if(this.props.modeVal===false)
             this.props.ta.setSearchMode(true);
+            this.props.ma.setSelectVal("false");
         controller.clickTag(e.hno)
         .then( res => {
             if(res.data.length !== 0){

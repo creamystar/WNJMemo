@@ -20,7 +20,6 @@ class Editor extends React.Component<any, any> {
         this.attachQuillRefs()
     }
     componentDidUpdate(prevProps:any, prevState:any) {
-        console.log(this.props)
         //@ts-ignore
         let quill = this.quillRef;
         if (prevState.editorHtml !== this.state.editorHtml) {
@@ -40,8 +39,6 @@ class Editor extends React.Component<any, any> {
         this.quillRef = this.reactQuillRef.getEditor();
       }
     handleChange (html:string) {
-        console.log(html);
-
         this.setState({ 
             editorHtml: html,
          }); //이게 없으면 날아감*

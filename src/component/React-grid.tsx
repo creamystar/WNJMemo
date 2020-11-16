@@ -54,8 +54,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
   }
   //grid 변할때마다 배치저장위해 items에 담아놓기 
    onLayoutChange(layout:any) {
-     console.log("onlayoutchange in(memoList보기)")
-     console.log(this.state.memoList)
      if(this.state.memoList.length !== 0){
       const changeItems = this.state.memoList.map(function(item:any) {
         const i = item.i
@@ -72,9 +70,6 @@ class BasicLayout extends React.PureComponent<any,any> { //앞, 뒤 : props, sta
         this.props.setMemoListTemp(changeItems); 
      }
       //memoListTemp에 xywh 옮겨지고 mno,mcon 유지됨 
-    console.log("on Layout Change 완료(memoListTemp보기) ")
-    console.log(this.state.memoListTemp)
-
   }
 
   componentDidUpdate(prevProps:any, prevState:any) {

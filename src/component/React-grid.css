@@ -25,6 +25,10 @@
   }
   .react-grid-item.cssTransforms {
     transition-property: transform;
+    position: absolute;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .react-grid-item.resizing {
     z-index: 1;
